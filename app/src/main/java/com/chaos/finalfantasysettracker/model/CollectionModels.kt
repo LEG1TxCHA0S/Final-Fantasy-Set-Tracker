@@ -1,11 +1,35 @@
 package com.chaos.finalfantasysettracker.model
 
-enum class OwnershipRule {
+enum class CollectionPartType {
+    FIN_MAIN,
+    FIN_ART_SIGNED,
+    FCA,
+    TOKENS,
+    PRECONS,
+    PROMOS
+}
+
+enum class ItemType {
+    CARD,
+    ART_CARD,
+    TOKEN,
+    PRECON,
+    PROMO
+}
+
+enum class FinishRequirement {
     FOIL_ONLY,
-    FOIL_OR_NONFOIL,
     SURGE_FOIL_ONLY,
-    SIGNED_OR_UNSIGNED,
+    FOIL_OR_NONFOIL,
     SIGNED_ONLY
+}
+
+enum class VariantType {
+    STANDARD,
+    SIGNED,
+    SURGE,
+    PRODUCT,
+    PROMO
 }
 
 data class CollectionPartProgress(
@@ -29,29 +53,34 @@ data class CollectibleItemStatus(
     val id: Long,
     val partId: Long,
     val name: String,
-    val details: String,
-    val ownershipRule: OwnershipRule,
-    val ownedNormal: Boolean,
-    val ownedFoil: Boolean,
-    val ownedSurgeFoil: Boolean,
-    val ownedSigned: Boolean
+    val setCode: String?,
+    val itemType: ItemType,
+    val finishRequirement: FinishRequirement,
+    val variantType: VariantType,
+    val collectorNumber: String?,
+    val promoSource: String?,
+    val owned: Boolean
 ) {
-    val isOwned: Boolean
-        get() = when (ownershipRule) {
-            OwnershipRule.FOIL_ONLY -> ownedFoil
-            OwnershipRule.FOIL_OR_NONFOIL -> ownedFoil || ownedNormal
-            OwnershipRule.SURGE_FOIL_ONLY -> ownedSurgeFoil
-            OwnershipRule.SIGNED_OR_UNSIGNED -> ownedSigned || ownedNormal
-            OwnershipRule.SIGNED_ONLY -> ownedSigned
-        }
+    val isOwned: Boolean = owned
 
     val ruleLabel: String
-        get() = when (ownershipRule) {
-            OwnershipRule.FOIL_ONLY -> "Foil required"
-            OwnershipRule.FOIL_OR_NONFOIL -> "Foil or non-foil"
-            OwnershipRule.SURGE_FOIL_ONLY -> "Surge foil required"
-            OwnershipRule.SIGNED_OR_UNSIGNED -> "Signed or regular"
-            OwnershipRule.SIGNED_ONLY -> "Signed required"
+        get() = when (finishRequirement) {
+            FinishRequirement.FOIL_ONLY -> "Foil required"
+            FinishRequirement.SURGE_FOIL_ONLY -> "Surge foil required"
+            FinishRequirement.FOIL_OR_NONFOIL -> "Foil or non-foil"
+            FinishRequirement.SIGNED_ONLY -> "Signed required"
+        }
+
+    val details: String
+        get() {
+            val tokens = buildList {
+                setCode?.let { add(it) }
+                collectorNumber?.let { add("#$it") }
+                if (itemType == ItemType.PROMO) {
+                    promoSource?.let { add(it) }
+                }
+            }
+            return tokens.joinToString(" • ")
         }
 }
 

@@ -1,6 +1,9 @@
 package com.chaos.finalfantasysettracker.database
 
-import com.chaos.finalfantasysettracker.model.OwnershipRule
+import com.chaos.finalfantasysettracker.model.CollectionPartType
+import com.chaos.finalfantasysettracker.model.FinishRequirement
+import com.chaos.finalfantasysettracker.model.ItemType
+import com.chaos.finalfantasysettracker.model.VariantType
 
 class SeedDataInitializer(private val dao: TrackerDao) {
     suspend fun seedIfEmpty() {
@@ -8,50 +11,241 @@ class SeedDataInitializer(private val dao: TrackerDao) {
 
         val partIds = dao.insertParts(
             listOf(
-                CollectionPartEntity(name = "FIN Main Set", description = "FIN base set targets in foil or surge foil-only printings", displayOrder = 0),
-                CollectionPartEntity(name = "FIN Art Cards", description = "Art cards including signed variants", displayOrder = 1),
-                CollectionPartEntity(name = "FCA Through the Ages", description = "FCA cards counted as foil or non-foil", displayOrder = 2),
-                CollectionPartEntity(name = "Tokens", description = "Set tokens tracked as foil-only", displayOrder = 3),
-                CollectionPartEntity(name = "Commander Precons", description = "Commander precon cards in surge foil", displayOrder = 4),
-                CollectionPartEntity(name = "Promos", description = "All Final Fantasy related promo targets", displayOrder = 5)
+                CollectionPartEntity(
+                    type = CollectionPartType.FIN_MAIN,
+                    name = "FIN Main Set",
+                    description = "Final Fantasy main set (FIN): foil-only + surge entries",
+                    displayOrder = 0
+                ),
+                CollectionPartEntity(
+                    type = CollectionPartType.FIN_ART_SIGNED,
+                    name = "FIN Signed Art Cards",
+                    description = "Signed art card targets only",
+                    displayOrder = 1
+                ),
+                CollectionPartEntity(
+                    type = CollectionPartType.FCA,
+                    name = "FCA Through the Ages",
+                    description = "FCA cards where foil or non-foil both count",
+                    displayOrder = 2
+                ),
+                CollectionPartEntity(
+                    type = CollectionPartType.TOKENS,
+                    name = "Tokens",
+                    description = "Foil token checklist",
+                    displayOrder = 3
+                ),
+                CollectionPartEntity(
+                    type = CollectionPartType.PRECONS,
+                    name = "Commander Precons",
+                    description = "Product-level precons in surge foil",
+                    displayOrder = 4
+                ),
+                CollectionPartEntity(
+                    type = CollectionPartType.PROMOS,
+                    name = "Promos",
+                    description = "Promo checklist with source and subtype support",
+                    displayOrder = 5
+                )
             )
         )
 
-        val items = mutableListOf<CollectibleItemEntity>()
-        items += buildItems(partIds[0], OwnershipRule.FOIL_ONLY, "Cloud, Midgar Mercenary", "Tifa, Martial Artist", "Sephiroth, Fallen Hero", "Aerith, Planet's Voice")
-        items += buildItems(partIds[0], OwnershipRule.SURGE_FOIL_ONLY, "Summon: Bahamut", "Limit Break: Omni-Slash")
+        val items = buildList {
+            // FIN Main Set
+            addAll(
+                cards(
+                    partId = partIds[0],
+                    setCode = "FIN",
+                    finishRequirement = FinishRequirement.FOIL_ONLY,
+                    variantType = VariantType.STANDARD,
+                    entries = listOf(
+                        "Cloud, Midgar Mercenary" to "001",
+                        "Tifa, Martial Artist" to "024",
+                        "Aerith, Planet's Voice" to "057"
+                    )
+                )
+            )
+            addAll(
+                cards(
+                    partId = partIds[0],
+                    setCode = "FIN",
+                    finishRequirement = FinishRequirement.SURGE_FOIL_ONLY,
+                    variantType = VariantType.SURGE,
+                    entries = listOf(
+                        "Summon: Bahamut" to "201",
+                        "Limit Break: Omni-Slash" to "222"
+                    )
+                )
+            )
 
-        items += buildItems(partIds[1], OwnershipRule.SIGNED_OR_UNSIGNED, "Art Card - Cloud", "Art Card - Tifa", "Art Card - Sephiroth", "Art Card - Terra")
+            // FIN Signed Art Cards only
+            addAll(
+                artCards(
+                    partId = partIds[1],
+                    setCode = "FIN",
+                    entries = listOf(
+                        "Signed Art - Cloud",
+                        "Signed Art - Tifa",
+                        "Signed Art - Sephiroth",
+                        "Signed Art - Terra"
+                    )
+                )
+            )
 
-        items += buildItems(partIds[2], OwnershipRule.FOIL_OR_NONFOIL, "The Crystal Awakens", "Lightning, Savior", "Buster Sword", "Cecil, Dark Knight")
+            // FCA Through the Ages
+            addAll(
+                cards(
+                    partId = partIds[2],
+                    setCode = "FCA",
+                    finishRequirement = FinishRequirement.FOIL_OR_NONFOIL,
+                    variantType = VariantType.STANDARD,
+                    entries = listOf(
+                        "The Crystal Awakens" to "007",
+                        "Lightning, Savior" to "014",
+                        "Buster Sword" to "042",
+                        "Cecil, Dark Knight" to "066"
+                    )
+                )
+            )
 
-        items += buildItems(partIds[3], OwnershipRule.FOIL_ONLY, "Hero Token 1/1", "Chocobo Token 2/2", "Esper Token 4/4")
+            // Tokens
+            addAll(
+                tokens(
+                    partId = partIds[3],
+                    setCode = "FIN",
+                    entries = listOf(
+                        "Hero Token 1/1" to "T01",
+                        "Chocobo Token 2/2" to "T06",
+                        "Esper Token 4/4" to "T12"
+                    )
+                )
+            )
 
-        items += buildItems(partIds[4], OwnershipRule.SURGE_FOIL_ONLY, "Revival Trance (Precon)", "Shinra Arsenal (Precon)", "Crystal Communion (Precon)")
+            // Precons as product-level collectibles
+            addAll(
+                precons(
+                    partId = partIds[4],
+                    entries = listOf(
+                        "Revival Trance",
+                        "Shinra Arsenal",
+                        "Crystal Communion"
+                    )
+                )
+            )
 
-        items += buildItems(partIds[5], OwnershipRule.FOIL_OR_NONFOIL, "Buy-a-Box Promo - Zidane")
-        items += buildItems(partIds[5], OwnershipRule.FOIL_ONLY, "WPN Promo - Yuna")
-        items += buildItems(partIds[5], OwnershipRule.SIGNED_ONLY, "Artist Signed Promo - Vivi")
-
-        val itemIds = dao.insertItems(items)
-        // Seed representative ownership statuses for dashboard behavior.
-        itemIds.take(6).forEachIndexed { index, id ->
-            dao.upsertOwnership(
-                when (index) {
-                    0 -> OwnershipEntity(itemId = id, ownedFoil = true)
-                    1 -> OwnershipEntity(itemId = id, ownedFoil = true)
-                    2 -> OwnershipEntity(itemId = id, ownedFoil = false)
-                    3 -> OwnershipEntity(itemId = id, ownedFoil = true)
-                    4 -> OwnershipEntity(itemId = id, ownedSurgeFoil = true)
-                    else -> OwnershipEntity(itemId = id, ownedSurgeFoil = false)
-                }
+            // Promos with source/subtype
+            addAll(
+                promos(
+                    partId = partIds[5],
+                    setCode = "FIN",
+                    entries = listOf(
+                        PromoSeed("Buy-a-Box Promo - Zidane", "P01", "Buy-a-Box", FinishRequirement.FOIL_OR_NONFOIL),
+                        PromoSeed("WPN Promo - Yuna", "P07", "WPN", FinishRequirement.FOIL_ONLY),
+                        PromoSeed("Artist Signed Promo - Vivi", "P19", "Convention", FinishRequirement.SIGNED_ONLY)
+                    )
+                )
             )
         }
+
+        dao.insertItems(
+            items.mapIndexed { index, item ->
+                item.copy(owned = index % 3 == 0)
+            }
+        )
     }
 
-    private fun buildItems(partId: Long, rule: OwnershipRule, vararg names: String): List<CollectibleItemEntity> {
-        return names.map { name ->
-            CollectibleItemEntity(partId = partId, name = name, details = "Target: ${rule.name.lowercase().replace('_', ' ')}", ownershipRule = rule)
+    private fun cards(
+        partId: Long,
+        setCode: String,
+        finishRequirement: FinishRequirement,
+        variantType: VariantType,
+        entries: List<Pair<String, String>>
+    ): List<CollectibleItemEntity> =
+        entries.map { (name, collectorNumber) ->
+            CollectibleItemEntity(
+                partId = partId,
+                name = name,
+                setCode = setCode,
+                itemType = ItemType.CARD,
+                finishRequirement = finishRequirement,
+                variantType = variantType,
+                collectorNumber = collectorNumber,
+                promoSource = null
+            )
         }
-    }
+
+    private fun artCards(
+        partId: Long,
+        setCode: String,
+        entries: List<String>
+    ): List<CollectibleItemEntity> =
+        entries.mapIndexed { index, name ->
+            CollectibleItemEntity(
+                partId = partId,
+                name = name,
+                setCode = setCode,
+                itemType = ItemType.ART_CARD,
+                finishRequirement = FinishRequirement.SIGNED_ONLY,
+                variantType = VariantType.SIGNED,
+                collectorNumber = "A${index + 1}",
+                promoSource = null
+            )
+        }
+
+    private fun tokens(
+        partId: Long,
+        setCode: String,
+        entries: List<Pair<String, String>>
+    ): List<CollectibleItemEntity> =
+        entries.map { (name, collectorNumber) ->
+            CollectibleItemEntity(
+                partId = partId,
+                name = name,
+                setCode = setCode,
+                itemType = ItemType.TOKEN,
+                finishRequirement = FinishRequirement.FOIL_ONLY,
+                variantType = VariantType.STANDARD,
+                collectorNumber = collectorNumber,
+                promoSource = null
+            )
+        }
+
+    private fun precons(partId: Long, entries: List<String>): List<CollectibleItemEntity> =
+        entries.map { name ->
+            CollectibleItemEntity(
+                partId = partId,
+                name = name,
+                setCode = null,
+                itemType = ItemType.PRECON,
+                finishRequirement = FinishRequirement.SURGE_FOIL_ONLY,
+                variantType = VariantType.PRODUCT,
+                collectorNumber = null,
+                promoSource = null
+            )
+        }
+
+    private fun promos(
+        partId: Long,
+        setCode: String,
+        entries: List<PromoSeed>
+    ): List<CollectibleItemEntity> =
+        entries.map { seed ->
+            CollectibleItemEntity(
+                partId = partId,
+                name = seed.name,
+                setCode = setCode,
+                itemType = ItemType.PROMO,
+                finishRequirement = seed.finishRequirement,
+                variantType = VariantType.PROMO,
+                collectorNumber = seed.collectorNumber,
+                promoSource = seed.promoSource
+            )
+        }
 }
+
+private data class PromoSeed(
+    val name: String,
+    val collectorNumber: String,
+    val promoSource: String,
+    val finishRequirement: FinishRequirement
+)

@@ -6,11 +6,14 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverter
 import androidx.room.TypeConverters
-import com.chaos.finalfantasysettracker.model.OwnershipRule
+import com.chaos.finalfantasysettracker.model.CollectionPartType
+import com.chaos.finalfantasysettracker.model.FinishRequirement
+import com.chaos.finalfantasysettracker.model.ItemType
+import com.chaos.finalfantasysettracker.model.VariantType
 
 @Database(
-    entities = [CollectionPartEntity::class, CollectibleItemEntity::class, OwnershipEntity::class],
-    version = 1,
+    entities = [CollectionPartEntity::class, CollectibleItemEntity::class],
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(RoomConverters::class)
@@ -27,7 +30,7 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "final_fantasy_tracker.db"
-                ).build().also { INSTANCE = it }
+                ).fallbackToDestructiveMigration().build().also { INSTANCE = it }
             }
         }
     }
@@ -35,8 +38,26 @@ abstract class AppDatabase : RoomDatabase() {
 
 class RoomConverters {
     @TypeConverter
-    fun ruleToString(rule: OwnershipRule): String = rule.name
+    fun partTypeToString(value: CollectionPartType): String = value.name
 
     @TypeConverter
-    fun stringToRule(value: String): OwnershipRule = OwnershipRule.valueOf(value)
+    fun stringToPartType(value: String): CollectionPartType = CollectionPartType.valueOf(value)
+
+    @TypeConverter
+    fun itemTypeToString(value: ItemType): String = value.name
+
+    @TypeConverter
+    fun stringToItemType(value: String): ItemType = ItemType.valueOf(value)
+
+    @TypeConverter
+    fun finishRequirementToString(value: FinishRequirement): String = value.name
+
+    @TypeConverter
+    fun stringToFinishRequirement(value: String): FinishRequirement = FinishRequirement.valueOf(value)
+
+    @TypeConverter
+    fun variantTypeToString(value: VariantType): String = value.name
+
+    @TypeConverter
+    fun stringToVariantType(value: String): VariantType = VariantType.valueOf(value)
 }

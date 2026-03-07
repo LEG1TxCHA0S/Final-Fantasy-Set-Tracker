@@ -4,11 +4,15 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.chaos.finalfantasysettracker.model.OwnershipRule
+import com.chaos.finalfantasysettracker.model.CollectionPartType
+import com.chaos.finalfantasysettracker.model.FinishRequirement
+import com.chaos.finalfantasysettracker.model.ItemType
+import com.chaos.finalfantasysettracker.model.VariantType
 
 @Entity(tableName = "collection_parts")
 data class CollectionPartEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    val type: CollectionPartType,
     val name: String,
     val description: String,
     val displayOrder: Int
@@ -30,27 +34,11 @@ data class CollectibleItemEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val partId: Long,
     val name: String,
-    val details: String,
-    val ownershipRule: OwnershipRule
-)
-
-@Entity(
-    tableName = "ownership",
-    foreignKeys = [
-        ForeignKey(
-            entity = CollectibleItemEntity::class,
-            parentColumns = ["id"],
-            childColumns = ["itemId"],
-            onDelete = ForeignKey.CASCADE
-        )
-    ],
-    indices = [Index(value = ["itemId"])]
-)
-data class OwnershipEntity(
-    @PrimaryKey val itemId: Long,
-    val ownedNormal: Boolean = false,
-    val ownedFoil: Boolean = false,
-    val ownedSurgeFoil: Boolean = false,
-    val ownedSigned: Boolean = false,
-    val updatedAtUtc: Long = System.currentTimeMillis()
+    val setCode: String?,
+    val itemType: ItemType,
+    val finishRequirement: FinishRequirement,
+    val variantType: VariantType,
+    val collectorNumber: String?,
+    val promoSource: String?,
+    val owned: Boolean = false
 )
