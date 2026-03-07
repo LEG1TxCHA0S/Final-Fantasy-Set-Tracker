@@ -11,7 +11,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.Image
+import androidx.compose.material.icons.filled.MenuBook
+import androidx.compose.material.icons.filled.Shield
+import androidx.compose.material.icons.filled.Style
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DropdownMenu
@@ -130,8 +135,11 @@ private fun ItemRow(item: CollectibleItemStatus, onOwnedToggle: (Boolean) -> Uni
 
 @Composable
 private fun ItemThumbnail(item: CollectibleItemStatus) {
-    val imageUrl = item.imageUrlSmall ?: item.imageUrlNormal
     val shape = RoundedCornerShape(6.dp)
+    val imageUrl = when {
+        item.itemType == com.chaos.finalfantasysettracker.model.ItemType.PRECON -> item.imageUrlNormal ?: item.imageUrlSmall
+        else -> item.imageUrlSmall ?: item.imageUrlNormal
+    }
 
     if (imageUrl != null) {
         AsyncImage(
@@ -142,18 +150,28 @@ private fun ItemThumbnail(item: CollectibleItemStatus) {
                 .clip(shape),
             contentScale = ContentScale.Crop
         )
-    } else {
-        Box(
-            modifier = Modifier
-                .size(width = 52.dp, height = 72.dp)
-                .clip(shape),
-            contentAlignment = Alignment.Center
-        ) {
-            androidx.compose.material3.Icon(
-                imageVector = Icons.Default.Image,
-                contentDescription = "No image",
-                tint = MaterialTheme.colorScheme.outline
-            )
-        }
+        return
+    }
+
+    val preconIcon = when (item.checklistId) {
+        "precon-revival-trance" -> Icons.Default.AutoAwesome
+        "precon-limit-break" -> Icons.Default.Bolt
+        "precon-counter-blitz" -> Icons.Default.Shield
+        "precon-scions-spellcraft" -> Icons.Default.MenuBook
+        else -> Icons.Default.Style
+    }
+
+    Box(
+        modifier = Modifier
+            .size(width = 52.dp, height = 72.dp)
+            .clip(shape),
+        contentAlignment = Alignment.Center
+    ) {
+        androidx.compose.material3.Icon(
+            imageVector = if (item.itemType == com.chaos.finalfantasysettracker.model.ItemType.PRECON) preconIcon else Icons.Default.Image,
+            contentDescription = if (item.itemType == com.chaos.finalfantasysettracker.model.ItemType.PRECON) "Precon image placeholder" else "No image",
+            tint = MaterialTheme.colorScheme.outline
+        )
     }
 }
+
