@@ -43,10 +43,14 @@ class ChecklistAssetImporter(
         val jsonString = context.assets.open(path).bufferedReader().use { it.readText() }
         val root = JSONObject(jsonString)
         val itemsArray = root.getJSONArray("items")
+        val partType = CollectionPartType.valueOf(root.getString("partType"))
+        val partName = root.getString("partName")
+        val partDescription = root.optString("partDescription", "").ifBlank { partName }
+
         return ChecklistAssetPayload(
-            partType = CollectionPartType.valueOf(root.getString("partType")),
-            partName = root.getString("partName"),
-            partDescription = root.getString("partDescription"),
+            partType = partType,
+            partName = partName,
+            partDescription = partDescription,
             displayOrder = root.getInt("displayOrder"),
             items = itemsArray.toItemPayloads()
         )
