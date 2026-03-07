@@ -14,6 +14,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -26,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.chaos.finalfantasysettracker.model.CollectibleItemStatus
 import com.chaos.finalfantasysettracker.model.ItemSortOption
+import com.chaos.finalfantasysettracker.model.OwnershipFilter
 import com.chaos.finalfantasysettracker.viewmodel.PartDetailUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -34,6 +36,7 @@ fun PartDetailScreen(
     uiState: PartDetailUiState,
     onQueryChanged: (String) -> Unit,
     onSortChanged: (ItemSortOption) -> Unit,
+    onOwnershipFilterChanged: (OwnershipFilter) -> Unit,
     onOwnedToggle: (CollectibleItemStatus, Boolean) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
@@ -46,6 +49,21 @@ fun PartDetailScreen(
             label = { Text("Search") },
             singleLine = true
         )
+
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            OwnershipFilter.entries.forEach { filter ->
+                val label = when (filter) {
+                    OwnershipFilter.ALL -> "All (${uiState.allCount})"
+                    OwnershipFilter.OWNED -> "Owned (${uiState.ownedCount})"
+                    OwnershipFilter.MISSING -> "Missing (${uiState.missingCount})"
+                }
+                FilterChip(
+                    selected = uiState.ownershipFilter == filter,
+                    onClick = { onOwnershipFilterChanged(filter) },
+                    label = { Text(label) }
+                )
+            }
+        }
 
         ExposedDropdownMenuBox(expanded = expanded, onExpandedChange = { expanded = it }) {
             OutlinedTextField(

@@ -112,6 +112,7 @@ fun FinalFantasyTrackerApp() {
                     uiState = state,
                     onQueryChanged = vm::onQueryChanged,
                     onSortChanged = vm::onSortChanged,
+                    onOwnershipFilterChanged = vm::onOwnershipFilterChanged,
                     onOwnedToggle = vm::onOwnedToggled
                 )
             }
