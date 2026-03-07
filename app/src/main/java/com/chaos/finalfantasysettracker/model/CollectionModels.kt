@@ -95,6 +95,7 @@ data class CollectibleItemStatus(
 }
 
 enum class ItemSortOption(val label: String) {
+    COLLECTOR_NUMBER("Collector number"),
     NAME_ASC("Name A-Z"),
     NAME_DESC("Name Z-A"),
     OWNED_FIRST("Owned first"),

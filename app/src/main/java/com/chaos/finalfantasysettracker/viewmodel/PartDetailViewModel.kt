@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 
 data class PartDetailUiState(
     val query: String = "",
-    val sortOption: ItemSortOption = ItemSortOption.NAME_ASC,
+    val sortOption: ItemSortOption = ItemSortOption.COLLECTOR_NUMBER,
     val items: List<CollectibleItemStatus> = emptyList()
 )
 
@@ -25,7 +25,17 @@ class PartDetailViewModel(
     private val repository: CollectionRepository
 ) : ViewModel() {
     private val query = MutableStateFlow("")
-    private val sortOption = MutableStateFlow(ItemSortOption.NAME_ASC)
+    private val sortOption = MutableStateFlow(ItemSortOption.COLLECTOR_NUMBER)
+
+    private val collectorComparator = compareBy<CollectibleItemStatus>(
+        { it.setCode.orEmpty().uppercase() },
+        { it.collectorNumberSortKey().primaryNumberGroup },
+        { it.collectorNumberSortKey().number ?: Int.MAX_VALUE },
+        { it.collectorNumberSortKey().prefix.uppercase() },
+        { it.collectorNumberSortKey().suffix.lowercase() },
+        { it.collectorNumber.orEmpty().lowercase() },
+        { it.name.lowercase() }
+    )
 
     val uiState: StateFlow<PartDetailUiState> = combine(
         repository.observeItemsForPart(partId),
@@ -34,10 +44,11 @@ class PartDetailViewModel(
     ) { items, searchQuery, sort ->
         val filtered = items.filter { it.name.contains(searchQuery, ignoreCase = true) }
         val sorted = when (sort) {
+            ItemSortOption.COLLECTOR_NUMBER -> filtered.sortedWith(collectorComparator)
             ItemSortOption.NAME_ASC -> filtered.sortedBy { it.name }
             ItemSortOption.NAME_DESC -> filtered.sortedByDescending { it.name }
-            ItemSortOption.OWNED_FIRST -> filtered.sortedWith(compareByDescending<CollectibleItemStatus> { it.isOwned }.thenBy { it.name })
-            ItemSortOption.MISSING_FIRST -> filtered.sortedWith(compareBy<CollectibleItemStatus> { it.isOwned }.thenBy { it.name })
+            ItemSortOption.OWNED_FIRST -> filtered.sortedWith(compareByDescending<CollectibleItemStatus> { it.isOwned }.then(collectorComparator))
+            ItemSortOption.MISSING_FIRST -> filtered.sortedWith(compareBy<CollectibleItemStatus> { it.isOwned }.then(collectorComparator))
         }
         PartDetailUiState(query = searchQuery, sortOption = sort, items = sorted)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), PartDetailUiState())
@@ -49,6 +60,36 @@ class PartDetailViewModel(
     fun onOwnedToggled(item: CollectibleItemStatus, owned: Boolean) {
         viewModelScope.launch { repository.setOwned(item, owned) }
     }
+}
+
+private val collectorPattern = Regex("^([A-Za-z]*)(\\d+)([A-Za-z]*)$")
+
+private data class CollectorNumberSortKey(
+    val primaryNumberGroup: Int,
+    val prefix: String,
+    val number: Int?,
+    val suffix: String
+)
+
+private fun CollectibleItemStatus.collectorNumberSortKey(): CollectorNumberSortKey {
+    val raw = collectorNumber.orEmpty().trim()
+    val match = collectorPattern.matchEntire(raw)
+    if (match != null) {
+        val (prefix, numberPart, suffix) = match.destructured
+        return CollectorNumberSortKey(
+            primaryNumberGroup = 0,
+            prefix = prefix,
+            number = numberPart.toIntOrNull(),
+            suffix = suffix
+        )
+    }
+
+    return CollectorNumberSortKey(
+        primaryNumberGroup = 1,
+        prefix = raw,
+        number = null,
+        suffix = ""
+    )
 }
 
 class PartDetailViewModelFactory(
