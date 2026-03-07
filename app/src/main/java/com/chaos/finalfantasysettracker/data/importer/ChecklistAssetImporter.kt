@@ -45,15 +45,27 @@ class ChecklistAssetImporter(
         val partType = CollectionPartType.valueOf(setCode)
         val partName = data.optString("name", partType.displayName()).ifBlank { partType.displayName() }
         val partDescription = "Imported from $setCode MTGJSON"
-        val cards = data.optJSONArray("cards") ?: JSONArray()
+        val entries = data.entryArrayFor(partType)
 
         return ChecklistAssetPayload(
             partType = partType,
             partName = partName,
             partDescription = partDescription,
             displayOrder = partType.defaultDisplayOrder(),
-            items = cards.toItemPayloads(partType)
+            items = entries.toItemPayloads(partType)
         )
+    }
+
+    private fun JSONObject.entryArrayFor(partType: CollectionPartType): JSONArray {
+        val cards = optJSONArray("cards") ?: JSONArray()
+        val tokens = optJSONArray("tokens") ?: JSONArray()
+
+        return when (partType) {
+            CollectionPartType.AFIN,
+            CollectionPartType.AFIC,
+            CollectionPartType.WFIN -> if (tokens.length() > 0) tokens else cards
+            else -> if (cards.length() > 0) cards else tokens
+        }
     }
 
     private fun JSONArray.toItemPayloads(partType: CollectionPartType): List<ChecklistItemPayload> {
@@ -65,8 +77,13 @@ class ChecklistAssetImporter(
             val owned = obj.optBoolean("owned", false)
 
             val identifiers = obj.optJSONObject("identifiers")
-            val scryfallId = identifiers?.optString("scryfallId", null)
-            val imageUrl = obj.optString("imageUrl", null)
+            val scryfallId = identifiers?.optString("scryfallId", null)?.ifBlank { null }
+
+            val rawImageUrl = obj.optString("imageUrl", "").trim().ifBlank { null }
+            val imageUrlSmall = rawImageUrl ?: scryfallId?.toScryfallImageUrl("small")
+            val imageUrlNormal = rawImageUrl ?: scryfallId?.toScryfallImageUrl("normal")
+            val imageUrlLarge = rawImageUrl ?: scryfallId?.toScryfallImageUrl("large")
+
             val rarity = obj.optString("rarity", null)
             val manaCost = obj.optString("manaCost", null)
             val typeLine = obj.optString("type", null)
@@ -84,9 +101,9 @@ class ChecklistAssetImporter(
                 promoSource = promoSource,
                 owned = owned,
                 scryfallId = scryfallId,
-                imageUrlSmall = imageUrl,
-                imageUrlNormal = imageUrl,
-                imageUrlLarge = imageUrl,
+                imageUrlSmall = imageUrlSmall,
+                imageUrlNormal = imageUrlNormal,
+                imageUrlLarge = imageUrlLarge,
                 priceUsd = null,
                 priceUsdFoil = null,
                 rarity = rarity,
@@ -95,6 +112,9 @@ class ChecklistAssetImporter(
             )
         }
     }
+
+    private fun String.toScryfallImageUrl(version: String): String =
+        "https://api.scryfall.com/cards/$this?format=image&version=$version"
 
     private fun JSONArray.joinToStringSafe(separator: String): String {
         return (0 until length())
