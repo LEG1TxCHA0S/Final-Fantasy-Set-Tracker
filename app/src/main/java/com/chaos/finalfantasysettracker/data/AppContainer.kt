@@ -17,7 +17,7 @@ class AppContainer(context: Context) {
 
     init {
         appScope.launch {
-            SeedDataInitializer(database.trackerDao()).seedIfEmpty()
+            SeedDataInitializer(context, database.trackerDao()).seedIfEmpty()
         }
     }
 }

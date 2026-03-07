@@ -51,6 +51,7 @@ data class CollectionOverview(
 
 data class CollectibleItemStatus(
     val id: Long,
+    val checklistId: String,
     val partId: Long,
     val name: String,
     val setCode: String?,
@@ -59,7 +60,16 @@ data class CollectibleItemStatus(
     val variantType: VariantType,
     val collectorNumber: String?,
     val promoSource: String?,
-    val owned: Boolean
+    val owned: Boolean,
+    val scryfallId: String?,
+    val imageUrlSmall: String?,
+    val imageUrlNormal: String?,
+    val imageUrlLarge: String?,
+    val priceUsd: String?,
+    val priceUsdFoil: String?,
+    val rarity: String?,
+    val manaCost: String?,
+    val typeLine: String?
 ) {
     val isOwned: Boolean = owned
 
