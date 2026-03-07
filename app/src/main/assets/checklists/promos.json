@@ -1,0 +1,13 @@
+{
+  "partType": "PROMOS",
+  "partName": "Promos",
+  "partDescription": "Final Fantasy promos with source metadata",
+  "displayOrder": 5,
+  "items": [
+    {"id":"promo-p01","name":"Buy-a-Box Promo - Zidane","setCode":"FIN","collectorNumber":"P01","itemType":"PROMO","finishRequirement":"FOIL_OR_NONFOIL","variantType":"PROMO","promoSource":"Buy-a-Box","owned":false},
+    {"id":"promo-p05","name":"WPN Promo - Yuna","setCode":"FIN","collectorNumber":"P05","itemType":"PROMO","finishRequirement":"FOIL_ONLY","variantType":"PROMO","promoSource":"WPN Store Promo","owned":false},
+    {"id":"promo-p09","name":"Prerelease Promo - Cloud","setCode":"FIN","collectorNumber":"P09","itemType":"PROMO","finishRequirement":"FOIL_ONLY","variantType":"PROMO","promoSource":"Prerelease","owned":false},
+    {"id":"promo-p12","name":"Bundle Promo - Noctis","setCode":"FIN","collectorNumber":"P12","itemType":"PROMO","finishRequirement":"FOIL_ONLY","variantType":"PROMO","promoSource":"Bundle","owned":false},
+    {"id":"promo-p22","name":"Artist Signed Promo - Vivi","setCode":"FIN","collectorNumber":"P22","itemType":"PROMO","finishRequirement":"SIGNED_ONLY","variantType":"PROMO","promoSource":"Artist Event","owned":false}
+  ]
+}

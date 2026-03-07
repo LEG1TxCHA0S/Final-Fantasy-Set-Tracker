@@ -28,11 +28,12 @@ data class CollectionPartEntity(
             onDelete = ForeignKey.CASCADE
         )
     ],
-    indices = [Index(value = ["partId"])]
+    indices = [Index(value = ["partId"]), Index(value = ["checklistId"], unique = true)]
 )
 data class CollectibleItemEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val partId: Long,
+    val checklistId: String,
     val name: String,
     val setCode: String?,
     val itemType: ItemType,
@@ -40,5 +41,15 @@ data class CollectibleItemEntity(
     val variantType: VariantType,
     val collectorNumber: String?,
     val promoSource: String?,
-    val owned: Boolean = false
+    val owned: Boolean = false,
+    // Scryfall-ready nullable enrichment fields
+    val scryfallId: String? = null,
+    val imageUrlSmall: String? = null,
+    val imageUrlNormal: String? = null,
+    val imageUrlLarge: String? = null,
+    val priceUsd: String? = null,
+    val priceUsdFoil: String? = null,
+    val rarity: String? = null,
+    val manaCost: String? = null,
+    val typeLine: String? = null
 )

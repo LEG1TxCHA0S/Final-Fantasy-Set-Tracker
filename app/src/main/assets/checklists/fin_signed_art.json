@@ -1,0 +1,13 @@
+{
+  "partType": "FIN_ART_SIGNED",
+  "partName": "FIN Signed Art Cards",
+  "partDescription": "Signed art cards only (no unsigned art cards)",
+  "displayOrder": 1,
+  "items": [
+    {"id":"fin-art-a01","name":"Signed Art Card - Cloud","setCode":"FIN","collectorNumber":"A01","itemType":"ART_CARD","finishRequirement":"SIGNED_ONLY","variantType":"SIGNED","owned":false},
+    {"id":"fin-art-a02","name":"Signed Art Card - Tifa","setCode":"FIN","collectorNumber":"A02","itemType":"ART_CARD","finishRequirement":"SIGNED_ONLY","variantType":"SIGNED","owned":false},
+    {"id":"fin-art-a03","name":"Signed Art Card - Aerith","setCode":"FIN","collectorNumber":"A03","itemType":"ART_CARD","finishRequirement":"SIGNED_ONLY","variantType":"SIGNED","owned":false},
+    {"id":"fin-art-a04","name":"Signed Art Card - Sephiroth","setCode":"FIN","collectorNumber":"A04","itemType":"ART_CARD","finishRequirement":"SIGNED_ONLY","variantType":"SIGNED","owned":false},
+    {"id":"fin-art-a05","name":"Signed Art Card - Yuna","setCode":"FIN","collectorNumber":"A05","itemType":"ART_CARD","finishRequirement":"SIGNED_ONLY","variantType":"SIGNED","owned":false}
+  ]
+}

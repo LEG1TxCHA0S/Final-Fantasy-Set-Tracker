@@ -20,6 +20,34 @@ interface TrackerDao {
     @Query("UPDATE collectible_items SET owned = :owned WHERE id = :itemId")
     suspend fun setOwned(itemId: Long, owned: Boolean)
 
+    @Query(
+        """
+        UPDATE collectible_items
+        SET scryfallId = :scryfallId,
+            imageUrlSmall = :imageUrlSmall,
+            imageUrlNormal = :imageUrlNormal,
+            imageUrlLarge = :imageUrlLarge,
+            priceUsd = :priceUsd,
+            priceUsdFoil = :priceUsdFoil,
+            rarity = :rarity,
+            manaCost = :manaCost,
+            typeLine = :typeLine
+        WHERE id = :itemId
+        """
+    )
+    suspend fun updateScryfallMetadata(
+        itemId: Long,
+        scryfallId: String?,
+        imageUrlSmall: String?,
+        imageUrlNormal: String?,
+        imageUrlLarge: String?,
+        priceUsd: String?,
+        priceUsdFoil: String?,
+        rarity: String?,
+        manaCost: String?,
+        typeLine: String?
+    )
+
     @Query("SELECT COUNT(*) FROM collection_parts")
     suspend fun getPartCount(): Int
 
@@ -48,8 +76,10 @@ interface TrackerDao {
 
     @Query(
         """
-        SELECT i.id, i.partId, i.name, i.setCode, i.itemType, i.finishRequirement, i.variantType,
-               i.collectorNumber, i.promoSource, i.owned
+        SELECT i.id, i.checklistId, i.partId, i.name, i.setCode, i.itemType, i.finishRequirement, i.variantType,
+               i.collectorNumber, i.promoSource, i.owned,
+               i.scryfallId, i.imageUrlSmall, i.imageUrlNormal, i.imageUrlLarge,
+               i.priceUsd, i.priceUsdFoil, i.rarity, i.manaCost, i.typeLine
         FROM collectible_items i
         WHERE i.partId = :partId
         """
@@ -72,6 +102,7 @@ data class OverviewProgressRow(
 
 data class ItemStatusRow(
     val id: Long,
+    val checklistId: String,
     val partId: Long,
     val name: String,
     val setCode: String?,
@@ -80,5 +111,14 @@ data class ItemStatusRow(
     val variantType: VariantType,
     val collectorNumber: String?,
     val promoSource: String?,
-    val owned: Boolean
+    val owned: Boolean,
+    val scryfallId: String?,
+    val imageUrlSmall: String?,
+    val imageUrlNormal: String?,
+    val imageUrlLarge: String?,
+    val priceUsd: String?,
+    val priceUsdFoil: String?,
+    val rarity: String?,
+    val manaCost: String?,
+    val typeLine: String?
 )

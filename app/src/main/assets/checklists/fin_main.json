@@ -1,0 +1,17 @@
+{
+  "partType": "FIN_MAIN",
+  "partName": "FIN Main Set",
+  "partDescription": "Final Fantasy main set (foil targets + surge-only entries)",
+  "displayOrder": 0,
+  "items": [
+    {"id":"fin-001","name":"Cloud, Ex-SOLDIER","setCode":"FIN","collectorNumber":"001","itemType":"CARD","finishRequirement":"FOIL_ONLY","variantType":"STANDARD","owned":false},
+    {"id":"fin-005","name":"Tifa Lockhart","setCode":"FIN","collectorNumber":"005","itemType":"CARD","finishRequirement":"FOIL_ONLY","variantType":"STANDARD","owned":false},
+    {"id":"fin-013","name":"Aerith Gainsborough","setCode":"FIN","collectorNumber":"013","itemType":"CARD","finishRequirement":"FOIL_ONLY","variantType":"STANDARD","owned":false},
+    {"id":"fin-036","name":"Y'shtola Rhul","setCode":"FIN","collectorNumber":"036","itemType":"CARD","finishRequirement":"FOIL_ONLY","variantType":"STANDARD","owned":false},
+    {"id":"fin-067","name":"Tidus, Zanarkand Hero","setCode":"FIN","collectorNumber":"067","itemType":"CARD","finishRequirement":"FOIL_ONLY","variantType":"STANDARD","owned":false},
+    {"id":"fin-099","name":"Sephiroth","setCode":"FIN","collectorNumber":"099","itemType":"CARD","finishRequirement":"FOIL_ONLY","variantType":"STANDARD","owned":false},
+    {"id":"fin-201","name":"Summon: Bahamut","setCode":"FIN","collectorNumber":"201","itemType":"CARD","finishRequirement":"SURGE_FOIL_ONLY","variantType":"SURGE","owned":false},
+    {"id":"fin-204","name":"Summon: Knights of the Round","setCode":"FIN","collectorNumber":"204","itemType":"CARD","finishRequirement":"SURGE_FOIL_ONLY","variantType":"SURGE","owned":false},
+    {"id":"fin-212","name":"Limit Break: Omnislash","setCode":"FIN","collectorNumber":"212","itemType":"CARD","finishRequirement":"SURGE_FOIL_ONLY","variantType":"SURGE","owned":false}
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "partType": "PRECONS",
+  "partName": "Commander Precons",
+  "partDescription": "Precon products in surge foil",
+  "displayOrder": 4,
+  "items": [
+    {"id":"precon-01","name":"Scions & Summons","itemType":"PRECON","finishRequirement":"SURGE_FOIL_ONLY","variantType":"PRODUCT","promoSource":"Commander Deck","owned":false},
+    {"id":"precon-02","name":"Shinra Soldiers","itemType":"PRECON","finishRequirement":"SURGE_FOIL_ONLY","variantType":"PRODUCT","promoSource":"Commander Deck","owned":false},
+    {"id":"precon-03","name":"Limit Break Legends","itemType":"PRECON","finishRequirement":"SURGE_FOIL_ONLY","variantType":"PRODUCT","promoSource":"Commander Deck","owned":false},
+    {"id":"precon-04","name":"Crystals & Chaos","itemType":"PRECON","finishRequirement":"SURGE_FOIL_ONLY","variantType":"PRODUCT","promoSource":"Commander Deck","owned":false}
+  ]
+}

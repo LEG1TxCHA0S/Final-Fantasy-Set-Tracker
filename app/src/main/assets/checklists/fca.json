@@ -1,0 +1,14 @@
+{
+  "partType": "FCA",
+  "partName": "FCA Through the Ages",
+  "partDescription": "Through the Ages cards (foil or non-foil)",
+  "displayOrder": 2,
+  "items": [
+    {"id":"fca-001","name":"Warrior of Light","setCode":"FCA","collectorNumber":"001","itemType":"CARD","finishRequirement":"FOIL_OR_NONFOIL","variantType":"STANDARD","owned":false},
+    {"id":"fca-006","name":"Cecil Harvey","setCode":"FCA","collectorNumber":"006","itemType":"CARD","finishRequirement":"FOIL_OR_NONFOIL","variantType":"STANDARD","owned":false},
+    {"id":"fca-017","name":"Cloud Strife","setCode":"FCA","collectorNumber":"017","itemType":"CARD","finishRequirement":"FOIL_OR_NONFOIL","variantType":"STANDARD","owned":false},
+    {"id":"fca-024","name":"Squall Leonhart","setCode":"FCA","collectorNumber":"024","itemType":"CARD","finishRequirement":"FOIL_OR_NONFOIL","variantType":"STANDARD","owned":false},
+    {"id":"fca-042","name":"Yuna","setCode":"FCA","collectorNumber":"042","itemType":"CARD","finishRequirement":"FOIL_OR_NONFOIL","variantType":"STANDARD","owned":false},
+    {"id":"fca-066","name":"Clive Rosfield","setCode":"FCA","collectorNumber":"066","itemType":"CARD","finishRequirement":"FOIL_OR_NONFOIL","variantType":"STANDARD","owned":false}
+  ]
+}
