@@ -1,0 +1,19 @@
+{
+  "data": {
+    "code": "FCA",
+    "name": "Final Fantasy Through the Ages",
+    "cards": [
+      {
+        "name": "Warrior of Light",
+        "number": "1",
+        "setCode": "FCA",
+        "rarity": "rare",
+        "manaCost": "{1}{W}",
+        "type": "Legendary Creature — Human Knight",
+        "identifiers": { "scryfallId": "fca-warrior-of-light" },
+        "imageUrl": "https://example.com/fca/wol.jpg",
+        "owned": false
+      }
+    ]
+  }
+}
