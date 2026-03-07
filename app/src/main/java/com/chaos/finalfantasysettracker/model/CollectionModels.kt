@@ -94,6 +94,13 @@ data class CollectibleItemStatus(
         }
 }
 
+
+enum class OwnershipFilter(val label: String) {
+    ALL("All"),
+    OWNED("Owned"),
+    MISSING("Missing")
+}
+
 enum class ItemSortOption(val label: String) {
     COLLECTOR_NUMBER("Collector number"),
     NAME_ASC("Name A-Z"),

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.chaos.finalfantasysettracker.model.CollectibleItemStatus
 import com.chaos.finalfantasysettracker.model.ItemSortOption
+import com.chaos.finalfantasysettracker.model.OwnershipFilter
 import com.chaos.finalfantasysettracker.repository.CollectionRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -17,6 +18,10 @@ import kotlinx.coroutines.launch
 data class PartDetailUiState(
     val query: String = "",
     val sortOption: ItemSortOption = ItemSortOption.COLLECTOR_NUMBER,
+    val ownershipFilter: OwnershipFilter = OwnershipFilter.ALL,
+    val allCount: Int = 0,
+    val ownedCount: Int = 0,
+    val missingCount: Int = 0,
     val items: List<CollectibleItemStatus> = emptyList()
 )
 
@@ -26,6 +31,7 @@ class PartDetailViewModel(
 ) : ViewModel() {
     private val query = MutableStateFlow("")
     private val sortOption = MutableStateFlow(ItemSortOption.COLLECTOR_NUMBER)
+    private val ownershipFilter = MutableStateFlow(OwnershipFilter.ALL)
 
     private val collectorComparator = compareBy<CollectibleItemStatus>(
         { it.setCode.orEmpty().uppercase() },
@@ -40,9 +46,16 @@ class PartDetailViewModel(
     val uiState: StateFlow<PartDetailUiState> = combine(
         repository.observeItemsForPart(partId),
         query,
+        ownershipFilter,
         sortOption
-    ) { items, searchQuery, sort ->
-        val filtered = items.filter { it.name.contains(searchQuery, ignoreCase = true) }
+    ) { items, searchQuery, filter, sort ->
+        val searched = items.filter { it.name.contains(searchQuery, ignoreCase = true) }
+        val filtered = when (filter) {
+            OwnershipFilter.ALL -> searched
+            OwnershipFilter.OWNED -> searched.filter { it.isOwned }
+            OwnershipFilter.MISSING -> searched.filter { !it.isOwned }
+        }
+
         val sorted = when (sort) {
             ItemSortOption.COLLECTOR_NUMBER -> filtered.sortedWith(collectorComparator)
             ItemSortOption.NAME_ASC -> filtered.sortedBy { it.name }
@@ -50,12 +63,23 @@ class PartDetailViewModel(
             ItemSortOption.OWNED_FIRST -> filtered.sortedWith(compareByDescending<CollectibleItemStatus> { it.isOwned }.then(collectorComparator))
             ItemSortOption.MISSING_FIRST -> filtered.sortedWith(compareBy<CollectibleItemStatus> { it.isOwned }.then(collectorComparator))
         }
-        PartDetailUiState(query = searchQuery, sortOption = sort, items = sorted)
+
+        PartDetailUiState(
+            query = searchQuery,
+            sortOption = sort,
+            ownershipFilter = filter,
+            allCount = items.size,
+            ownedCount = items.count { it.isOwned },
+            missingCount = items.count { !it.isOwned },
+            items = sorted
+        )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), PartDetailUiState())
 
     fun onQueryChanged(newValue: String) = query.update { newValue }
 
     fun onSortChanged(option: ItemSortOption) = sortOption.update { option }
+
+    fun onOwnershipFilterChanged(filter: OwnershipFilter) = ownershipFilter.update { filter }
 
     fun onOwnedToggled(item: CollectibleItemStatus, owned: Boolean) {
         viewModelScope.launch { repository.setOwned(item, owned) }
