@@ -53,6 +53,22 @@ interface TrackerDao {
 
     @Query(
         """
+        DELETE FROM collectible_items
+        WHERE itemType = 'PROMO'
+          AND (
+            LOWER(IFNULL(promoSource, '')) IN ('date-stamped', 'date stamped')
+            OR LOWER(name) LIKE '%date-stamped%'
+            OR LOWER(name) LIKE '%date stamped%'
+          )
+        """
+    )
+    suspend fun deleteDateStampedPromos()
+
+    @Query("UPDATE collectible_items SET imageUrlNormal = :imageUrl WHERE checklistId = :checklistId")
+    suspend fun updateImageUrlByChecklistId(checklistId: String, imageUrl: String)
+
+    @Query(
+        """
         SELECT p.id, p.name, p.description,
         SUM(CASE WHEN IFNULL(i.owned, 0) = 1 THEN 1 ELSE 0 END) as ownedCount,
         COUNT(i.id) as totalCount

@@ -154,7 +154,7 @@ class ChecklistAssetImporter(
             typeLine = obj.optNullableString("typeLine")
         )
 
-        if (isDateStampedPromo(item)) {
+        if (shouldExcludePromo(item)) {
             // Explicit exclusion rule: this tracker omits date-stamped promo variants.
             return ItemParseResult(item = item, excluded = true)
         }
@@ -162,12 +162,14 @@ class ChecklistAssetImporter(
         return ItemParseResult(item = item)
     }
 
-    private fun isDateStampedPromo(item: ChecklistItemPayload): Boolean {
+    private fun shouldExcludePromo(item: ChecklistItemPayload): Boolean {
         if (item.itemType != ItemType.PROMO) return false
-        val source = item.promoSource.orEmpty().lowercase()
+
+        val source = item.promoSource.orEmpty().trim().lowercase()
+        if (source in DATE_STAMPED_PROMO_SOURCES) return true
+
         val name = item.name.lowercase()
-        return "date-stamped" in source || "date stamped" in source ||
-            "date-stamped" in name || "date stamped" in name
+        return DATE_STAMPED_PROMO_NAME_PATTERNS.any { it.containsMatchIn(name) }
     }
 
     private fun parsePartType(value: String, path: String): CollectionPartType =
@@ -239,6 +241,16 @@ class ChecklistAssetImporter(
             ItemType.ART_CARD,
             ItemType.TOKEN,
             ItemType.PROMO
+        )
+
+        private val DATE_STAMPED_PROMO_SOURCES = setOf(
+            "date-stamped",
+            "date stamped"
+        )
+
+        private val DATE_STAMPED_PROMO_NAME_PATTERNS = listOf(
+            Regex("\\bdate-stamped\\b"),
+            Regex("\\bdate stamped\\b")
         )
     }
 }
