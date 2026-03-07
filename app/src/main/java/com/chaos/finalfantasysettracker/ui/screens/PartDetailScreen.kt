@@ -1,12 +1,17 @@
 package com.chaos.finalfantasysettracker.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Image
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DropdownMenu
@@ -23,8 +28,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.chaos.finalfantasysettracker.model.CollectibleItemStatus
 import com.chaos.finalfantasysettracker.model.ItemSortOption
 import com.chaos.finalfantasysettracker.model.OwnershipFilter
@@ -100,16 +110,50 @@ private fun ItemRow(item: CollectibleItemStatus, onOwnedToggle: (Boolean) -> Uni
     Card {
         Row(
             modifier = Modifier.fillMaxWidth().padding(12.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Column(modifier = Modifier.weight(1f)) {
-                Text(item.name, style = MaterialTheme.typography.titleSmall)
-                Text(item.ruleLabel, style = MaterialTheme.typography.bodySmall)
+            ItemThumbnail(item = item)
+
+            Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                Text(item.name, style = MaterialTheme.typography.titleSmall, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 if (item.details.isNotBlank()) {
                     Text(item.details, style = MaterialTheme.typography.bodySmall)
                 }
+                Text(item.ruleLabel, style = MaterialTheme.typography.bodySmall)
             }
+
             Checkbox(checked = item.isOwned, onCheckedChange = onOwnedToggle)
+        }
+    }
+}
+
+@Composable
+private fun ItemThumbnail(item: CollectibleItemStatus) {
+    val imageUrl = item.imageUrlSmall ?: item.imageUrlNormal
+    val shape = RoundedCornerShape(6.dp)
+
+    if (imageUrl != null) {
+        AsyncImage(
+            model = imageUrl,
+            contentDescription = "${item.name} thumbnail",
+            modifier = Modifier
+                .size(width = 52.dp, height = 72.dp)
+                .clip(shape),
+            contentScale = ContentScale.Crop
+        )
+    } else {
+        Box(
+            modifier = Modifier
+                .size(width = 52.dp, height = 72.dp)
+                .clip(shape),
+            contentAlignment = Alignment.Center
+        ) {
+            androidx.compose.material3.Icon(
+                imageVector = Icons.Default.Image,
+                contentDescription = "No image",
+                tint = MaterialTheme.colorScheme.outline
+            )
         }
     }
 }
