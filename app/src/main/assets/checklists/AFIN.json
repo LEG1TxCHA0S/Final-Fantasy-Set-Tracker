@@ -1,0 +1,17 @@
+{
+  "data": {
+    "code": "AFIN",
+    "name": "Final Fantasy Art Series",
+    "cards": [
+      {
+        "name": "Cloud Art Card",
+        "number": "A1",
+        "setCode": "AFIN",
+        "rarity": "special",
+        "type": "Art Card",
+        "identifiers": { "scryfallId": "afin-cloud-art" },
+        "owned": false
+      }
+    ]
+  }
+}

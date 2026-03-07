@@ -1,12 +1,15 @@
 package com.chaos.finalfantasysettracker.model
 
 enum class CollectionPartType {
-    FIN_MAIN,
-    FIN_ART_SIGNED,
+    FIN,
     FCA,
-    TOKENS,
-    PRECONS,
-    PROMOS
+    FIC,
+    AFIN,
+    AFIC,
+    PFIN,
+    PSS5,
+    RFIN,
+    WFIN
 }
 
 enum class ItemType {
@@ -93,7 +96,6 @@ data class CollectibleItemStatus(
             return tokens.joinToString(" • ")
         }
 }
-
 
 enum class OwnershipFilter(val label: String) {
     ALL("All"),

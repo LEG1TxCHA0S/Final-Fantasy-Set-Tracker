@@ -1,0 +1,18 @@
+{
+  "data": {
+    "code": "PFIN",
+    "name": "Final Fantasy Promos",
+    "cards": [
+      {
+        "name": "Buy-a-Box Promo - Zidane",
+        "number": "P1",
+        "setCode": "PFIN",
+        "rarity": "promo",
+        "type": "Legendary Creature",
+        "promoTypes": ["buyabox"],
+        "identifiers": { "scryfallId": "pfin-zidane" },
+        "owned": false
+      }
+    ]
+  }
+}

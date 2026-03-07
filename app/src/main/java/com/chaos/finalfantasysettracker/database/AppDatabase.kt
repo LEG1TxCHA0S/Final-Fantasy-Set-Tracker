@@ -13,7 +13,7 @@ import com.chaos.finalfantasysettracker.model.VariantType
 
 @Database(
     entities = [CollectionPartEntity::class, CollectibleItemEntity::class],
-    version = 3,
+    version = 4,
     exportSchema = false
 )
 @TypeConverters(RoomConverters::class)

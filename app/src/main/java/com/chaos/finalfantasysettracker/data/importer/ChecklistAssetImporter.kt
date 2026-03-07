@@ -18,16 +18,10 @@ class ChecklistAssetImporter(
     suspend fun importIfEmpty() {
         if (dao.getPartCount() > 0) return
 
-        val files = listOf(
-            "checklists/fin_main.json",
-            "checklists/fin_signed_art.json",
-            "checklists/fca.json",
-            "checklists/tokens.json",
-            "checklists/precons.json",
-            "checklists/promos.json"
-        )
+        val files = listOf("FIN", "FCA", "FIC", "AFIN", "AFIC", "PFIN", "PSS5", "RFIN", "WFIN")
+            .map { "checklists/$it.json" }
 
-        val payloads = files.map { parseChecklistFile(it) }.sortedBy { it.displayOrder }
+        val payloads = files.map { parseMtgJsonFile(it) }.sortedBy { it.displayOrder }
         val partIds = dao.insertParts(payloads.map { it.toPartEntity() })
 
         val items = buildList {
@@ -39,158 +33,74 @@ class ChecklistAssetImporter(
         dao.insertItems(items)
     }
 
-    private fun parseChecklistFile(path: String): ChecklistAssetPayload {
-        val jsonString = context.assets.open(path).bufferedReader().use { it.readText() }
-        val root = JSONObject(jsonString)
+    private fun parseMtgJsonFile(path: String): ChecklistAssetPayload {
+        val json = context.assets.open(path).bufferedReader().use { it.readText() }
+        val root = JSONObject(json)
+        val data = root.optJSONObject("data")
+            ?: throw IllegalArgumentException("Invalid MTGJSON file $path: missing data object")
 
-        val partTypeRaw = root.optString("partType", "").trim()
-        require(partTypeRaw.isNotBlank()) {
-            "Invalid checklist file $path: missing required field partType"
+        val setCode = data.optString("code", "").trim().ifBlank {
+            throw IllegalArgumentException("Invalid MTGJSON file $path: missing data.code")
         }
-        val partType = parsePartType(partTypeRaw, path)
-
-        val partName = root.optString("partName", "").trim()
-        require(partName.isNotBlank()) {
-            "Invalid checklist file $path: missing required field partName"
-        }
-
-        val partDescription = root.optString("partDescription", "").ifBlank { partName }
-        val displayOrder = if (root.has("displayOrder")) {
-            root.optInt("displayOrder", partType.defaultDisplayOrder())
-        } else {
-            partType.defaultDisplayOrder()
-        }
-
-        val itemsArray = root.optJSONArray("items")
-            ?: throw IllegalArgumentException("Invalid checklist file $path: missing required field items")
+        val partType = CollectionPartType.valueOf(setCode)
+        val partName = data.optString("name", partType.displayName()).ifBlank { partType.displayName() }
+        val partDescription = "Imported from $setCode MTGJSON"
+        val cards = data.optJSONArray("cards") ?: JSONArray()
 
         return ChecklistAssetPayload(
             partType = partType,
             partName = partName,
             partDescription = partDescription,
-            displayOrder = displayOrder,
-            items = itemsArray.toItemPayloads(path)
+            displayOrder = partType.defaultDisplayOrder(),
+            items = cards.toItemPayloads(partType)
         )
     }
 
-    private fun JSONArray.toItemPayloads(path: String): List<ChecklistItemPayload> {
-        val invalidEntries = mutableListOf<String>()
-        val validEntries = mutableListOf<ChecklistItemPayload>()
-
-        (0 until length()).forEach { index ->
+    private fun JSONArray.toItemPayloads(partType: CollectionPartType): List<ChecklistItemPayload> {
+        return (0 until length()).map { index ->
             val obj = getJSONObject(index)
-            val result = parseItemPayload(obj, index)
+            val name = obj.optString("name", "").trim().ifBlank { "Unknown Card" }
+            val collectorNumber = obj.optString("number", "").trim().ifBlank { null }
+            val setCode = obj.optString("setCode", partType.name).trim().ifBlank { partType.name }
+            val owned = obj.optBoolean("owned", false)
 
-            when {
-                result.error != null -> invalidEntries += result.error
-                result.item != null && !result.excluded -> validEntries += result.item
-            }
-        }
+            val identifiers = obj.optJSONObject("identifiers")
+            val scryfallId = identifiers?.optString("scryfallId", null)
+            val imageUrl = obj.optString("imageUrl", null)
+            val rarity = obj.optString("rarity", null)
+            val manaCost = obj.optString("manaCost", null)
+            val typeLine = obj.optString("type", null)
+            val promoTypes = obj.optJSONArray("promoTypes")
+            val promoSource = promoTypes?.joinToStringSafe(", ")
 
-        if (invalidEntries.isNotEmpty()) {
-            throw IllegalArgumentException(
-                buildString {
-                    append("Checklist validation failed for $path:\n")
-                    invalidEntries.forEach { append("- $it\n") }
-                }.trimEnd()
+            ChecklistItemPayload(
+                checklistId = "${setCode.lowercase()}-${collectorNumber ?: "idx$index"}-${name.lowercase().replace(' ', '-')}",
+                name = name,
+                setCode = setCode,
+                collectorNumber = collectorNumber,
+                itemType = partType.inferItemType(typeLine, name),
+                finishRequirement = partType.defaultFinishRequirement(),
+                variantType = partType.defaultVariantType(),
+                promoSource = promoSource,
+                owned = owned,
+                scryfallId = scryfallId,
+                imageUrlSmall = imageUrl,
+                imageUrlNormal = imageUrl,
+                imageUrlLarge = imageUrl,
+                priceUsd = null,
+                priceUsdFoil = null,
+                rarity = rarity,
+                manaCost = manaCost,
+                typeLine = typeLine
             )
         }
-
-        return validEntries
     }
 
-    private fun parseItemPayload(obj: JSONObject, index: Int): ItemParseResult {
-        val id = obj.optString("id", "").trim()
-        val name = obj.optString("name", "").trim()
-        val itemTypeRaw = obj.optString("itemType", "").trim()
-        val finishRequirementRaw = obj.optString("finishRequirement", "").trim()
-        val variantTypeRaw = obj.optString("variantType", "").trim()
-
-        val missingRequired = mutableListOf<String>()
-        if (id.isBlank()) missingRequired += "id"
-        if (name.isBlank()) missingRequired += "name"
-        if (itemTypeRaw.isBlank()) missingRequired += "itemType"
-        if (finishRequirementRaw.isBlank()) missingRequired += "finishRequirement"
-        if (variantTypeRaw.isBlank()) missingRequired += "variantType"
-        if (!obj.has("owned")) missingRequired += "owned"
-
-        val entryLabel = if (id.isNotBlank()) id else "index=$index"
-
-        if (missingRequired.isNotEmpty()) {
-            return ItemParseResult(error = "Invalid checklist entry $entryLabel: missing ${missingRequired.joinToString(", ")}")
-        }
-
-        val itemType = parseItemType(itemTypeRaw, entryLabel)
-        val finishRequirement = parseFinishRequirement(finishRequirementRaw, entryLabel)
-        val variantType = parseVariantType(variantTypeRaw, entryLabel)
-        val owned = obj.optBoolean("owned", false)
-
-        val setCode = obj.optNullableString("setCode")
-        val collectorNumber = obj.optNullableString("collectorNumber")
-
-        if (itemType in IDENTITY_REQUIRES_SET_AND_COLLECTOR) {
-            if (setCode.isNullOrBlank()) return ItemParseResult(error = "Invalid checklist entry $entryLabel: missing setCode")
-            if (collectorNumber.isNullOrBlank()) return ItemParseResult(error = "Invalid checklist entry $entryLabel: missing collectorNumber")
-        }
-
-        val item = ChecklistItemPayload(
-            checklistId = id,
-            name = name,
-            setCode = setCode,
-            collectorNumber = collectorNumber,
-            itemType = itemType,
-            finishRequirement = finishRequirement,
-            variantType = variantType,
-            promoSource = obj.optNullableString("promoSource"),
-            owned = owned,
-            scryfallId = obj.optNullableString("scryfallId"),
-            imageUrlSmall = obj.optNullableString("imageUrlSmall"),
-            imageUrlNormal = obj.optNullableString("imageUrlNormal"),
-            imageUrlLarge = obj.optNullableString("imageUrlLarge"),
-            priceUsd = obj.optNullableString("priceUsd"),
-            priceUsdFoil = obj.optNullableString("priceUsdFoil"),
-            rarity = obj.optNullableString("rarity"),
-            manaCost = obj.optNullableString("manaCost"),
-            typeLine = obj.optNullableString("typeLine")
-        )
-
-        if (shouldExcludePromo(item)) {
-            // Explicit exclusion rule: this tracker omits date-stamped promo variants.
-            return ItemParseResult(item = item, excluded = true)
-        }
-
-        return ItemParseResult(item = item)
+    private fun JSONArray.joinToStringSafe(separator: String): String {
+        return (0 until length())
+            .mapNotNull { idx -> optString(idx).takeIf { it.isNotBlank() } }
+            .joinToString(separator)
     }
-
-    private fun shouldExcludePromo(item: ChecklistItemPayload): Boolean {
-        if (item.itemType != ItemType.PROMO) return false
-
-        val source = item.promoSource.orEmpty().trim().lowercase()
-        if (source in DATE_STAMPED_PROMO_SOURCES) return true
-
-        val name = item.name.lowercase()
-        return DATE_STAMPED_PROMO_NAME_PATTERNS.any { it.containsMatchIn(name) }
-    }
-
-    private fun parsePartType(value: String, path: String): CollectionPartType =
-        runCatching { CollectionPartType.valueOf(value) }.getOrElse {
-            throw IllegalArgumentException("Invalid checklist file $path: unknown partType '$value'")
-        }
-
-    private fun parseItemType(value: String, entryLabel: String): ItemType =
-        runCatching { ItemType.valueOf(value) }.getOrElse {
-            throw IllegalArgumentException("Invalid checklist entry $entryLabel: unknown itemType '$value'")
-        }
-
-    private fun parseFinishRequirement(value: String, entryLabel: String): FinishRequirement =
-        runCatching { FinishRequirement.valueOf(value) }.getOrElse {
-            throw IllegalArgumentException("Invalid checklist entry $entryLabel: unknown finishRequirement '$value'")
-        }
-
-    private fun parseVariantType(value: String, entryLabel: String): VariantType =
-        runCatching { VariantType.valueOf(value) }.getOrElse {
-            throw IllegalArgumentException("Invalid checklist entry $entryLabel: unknown variantType '$value'")
-        }
 
     private fun ChecklistAssetPayload.toPartEntity() = CollectionPartEntity(
         type = partType,
@@ -221,37 +131,50 @@ class ChecklistAssetImporter(
         typeLine = typeLine
     )
 
-    private fun JSONObject.optNullableString(key: String): String? {
-        if (!has(key) || isNull(key)) return null
-        return optString(key).ifBlank { null }
-    }
-
     private fun CollectionPartType.defaultDisplayOrder(): Int = when (this) {
-        CollectionPartType.FIN_MAIN -> 1
-        CollectionPartType.FIN_ART_SIGNED -> 2
-        CollectionPartType.FCA -> 3
-        CollectionPartType.TOKENS -> 4
-        CollectionPartType.PRECONS -> 5
-        CollectionPartType.PROMOS -> 6
+        CollectionPartType.FIN -> 1
+        CollectionPartType.FCA -> 2
+        CollectionPartType.FIC -> 3
+        CollectionPartType.AFIN -> 4
+        CollectionPartType.AFIC -> 5
+        CollectionPartType.PFIN -> 6
+        CollectionPartType.PSS5 -> 7
+        CollectionPartType.RFIN -> 8
+        CollectionPartType.WFIN -> 9
     }
 
-    companion object {
-        private val IDENTITY_REQUIRES_SET_AND_COLLECTOR = setOf(
-            ItemType.CARD,
-            ItemType.ART_CARD,
-            ItemType.TOKEN,
-            ItemType.PROMO
-        )
+    private fun CollectionPartType.displayName(): String = when (this) {
+        CollectionPartType.FIN -> "Final Fantasy"
+        CollectionPartType.FCA -> "Final Fantasy Through the Ages"
+        CollectionPartType.FIC -> "Final Fantasy Commander"
+        CollectionPartType.AFIN -> "Final Fantasy Art Series"
+        CollectionPartType.AFIC -> "Final Fantasy Scene Box"
+        CollectionPartType.PFIN -> "Final Fantasy Promos"
+        CollectionPartType.PSS5 -> "Final Fantasy Standard Showdown"
+        CollectionPartType.RFIN -> "Final Fantasy Regional Promos"
+        CollectionPartType.WFIN -> "FIN Asia WPN Promo Tokens"
+    }
 
-        private val DATE_STAMPED_PROMO_SOURCES = setOf(
-            "date-stamped",
-            "date stamped"
-        )
+    private fun CollectionPartType.defaultFinishRequirement(): FinishRequirement = when (this) {
+        CollectionPartType.FIN, CollectionPartType.AFIN, CollectionPartType.AFIC, CollectionPartType.WFIN -> FinishRequirement.FOIL_ONLY
+        CollectionPartType.FIC -> FinishRequirement.SURGE_FOIL_ONLY
+        CollectionPartType.FCA, CollectionPartType.PFIN, CollectionPartType.PSS5, CollectionPartType.RFIN -> FinishRequirement.FOIL_OR_NONFOIL
+    }
 
-        private val DATE_STAMPED_PROMO_NAME_PATTERNS = listOf(
-            Regex("\\bdate-stamped\\b"),
-            Regex("\\bdate stamped\\b")
-        )
+    private fun CollectionPartType.defaultVariantType(): VariantType = when (this) {
+        CollectionPartType.AFIN -> VariantType.SIGNED
+        CollectionPartType.FIC -> VariantType.PRODUCT
+        CollectionPartType.PFIN, CollectionPartType.PSS5, CollectionPartType.RFIN -> VariantType.PROMO
+        else -> VariantType.STANDARD
+    }
+
+    private fun CollectionPartType.inferItemType(typeLine: String?, name: String): ItemType = when {
+        this == CollectionPartType.FIC -> ItemType.PRECON
+        this == CollectionPartType.AFIN -> ItemType.ART_CARD
+        this == CollectionPartType.WFIN || typeLine.orEmpty().contains("token", ignoreCase = true) -> ItemType.TOKEN
+        this == CollectionPartType.PFIN || this == CollectionPartType.PSS5 || this == CollectionPartType.RFIN -> ItemType.PROMO
+        name.contains("art", ignoreCase = true) -> ItemType.ART_CARD
+        else -> ItemType.CARD
     }
 }
 
@@ -282,10 +205,4 @@ data class ChecklistItemPayload(
     val rarity: String?,
     val manaCost: String?,
     val typeLine: String?
-)
-
-private data class ItemParseResult(
-    val item: ChecklistItemPayload? = null,
-    val excluded: Boolean = false,
-    val error: String? = null
 )

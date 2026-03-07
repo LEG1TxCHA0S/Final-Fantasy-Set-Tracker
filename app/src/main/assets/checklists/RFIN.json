@@ -1,0 +1,18 @@
+{
+  "data": {
+    "code": "RFIN",
+    "name": "Final Fantasy Regional Promos",
+    "cards": [
+      {
+        "name": "Regional Promo",
+        "number": "R1",
+        "setCode": "RFIN",
+        "rarity": "promo",
+        "type": "Creature",
+        "promoTypes": ["regional"],
+        "identifiers": { "scryfallId": "rfin-regional" },
+        "owned": false
+      }
+    ]
+  }
+}

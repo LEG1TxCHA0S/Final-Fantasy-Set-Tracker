@@ -1,0 +1,18 @@
+{
+  "data": {
+    "code": "WFIN",
+    "name": "FIN Asia WPN Promo Tokens",
+    "cards": [
+      {
+        "name": "Moogle Token",
+        "number": "T1",
+        "setCode": "WFIN",
+        "rarity": "promo",
+        "type": "Token Creature",
+        "promoTypes": ["wpn"],
+        "identifiers": { "scryfallId": "wfin-moogle-token" },
+        "owned": false
+      }
+    ]
+  }
+}

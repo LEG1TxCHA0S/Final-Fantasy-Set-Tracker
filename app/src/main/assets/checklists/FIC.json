@@ -1,0 +1,48 @@
+{
+  "data": {
+    "code": "FIC",
+    "name": "Final Fantasy Commander",
+    "cards": [
+      {
+        "name": "Revival Trance",
+        "number": "1",
+        "setCode": "FIC",
+        "rarity": "special",
+        "type": "Commander Deck",
+        "identifiers": { "scryfallId": "fic-revival-trance" },
+        "imageUrl": "https://media.wizards.com/2025/images/daily/en_cZ8SeUkVcW.webp",
+        "owned": false
+      },
+      {
+        "name": "Limit Break",
+        "number": "2",
+        "setCode": "FIC",
+        "rarity": "special",
+        "type": "Commander Deck",
+        "identifiers": { "scryfallId": "fic-limit-break" },
+        "imageUrl": "https://media.wizards.com/2025/images/daily/en_mvpDWrYJFH.webp",
+        "owned": false
+      },
+      {
+        "name": "Counter Blitz",
+        "number": "3",
+        "setCode": "FIC",
+        "rarity": "special",
+        "type": "Commander Deck",
+        "identifiers": { "scryfallId": "fic-counter-blitz" },
+        "imageUrl": "https://media.wizards.com/2025/images/daily/en_xR2tr3W5CE.webp",
+        "owned": false
+      },
+      {
+        "name": "Scions & Spellcraft",
+        "number": "4",
+        "setCode": "FIC",
+        "rarity": "special",
+        "type": "Commander Deck",
+        "identifiers": { "scryfallId": "fic-scions-spellcraft" },
+        "imageUrl": "https://media.wizards.com/2025/images/daily/en_IiHW87Fdi1.webp",
+        "owned": false
+      }
+    ]
+  }
+}

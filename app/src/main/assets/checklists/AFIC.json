@@ -1,0 +1,17 @@
+{
+  "data": {
+    "code": "AFIC",
+    "name": "Final Fantasy Scene Box",
+    "cards": [
+      {
+        "name": "Midgar Scene",
+        "number": "SB1",
+        "setCode": "AFIC",
+        "rarity": "special",
+        "type": "Scene Card",
+        "identifiers": { "scryfallId": "afic-midgar-scene" },
+        "owned": false
+      }
+    ]
+  }
+}
