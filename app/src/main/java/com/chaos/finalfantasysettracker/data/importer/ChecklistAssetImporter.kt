@@ -79,11 +79,11 @@ class ChecklistAssetImporter(
 
         (0 until length()).forEach { index ->
             val obj = getJSONObject(index)
-            val result = parseItemPayload(obj, path, index)
-            if (result.error != null) {
-                invalidEntries += result.error
-            } else {
-                validEntries += result.item!!
+            val result = parseItemPayload(obj, index)
+
+            when {
+                result.error != null -> invalidEntries += result.error
+                result.item != null && !result.excluded -> validEntries += result.item
             }
         }
 
@@ -99,7 +99,7 @@ class ChecklistAssetImporter(
         return validEntries
     }
 
-    private fun parseItemPayload(obj: JSONObject, path: String, index: Int): ItemParseResult {
+    private fun parseItemPayload(obj: JSONObject, index: Int): ItemParseResult {
         val id = obj.optString("id", "").trim()
         val name = obj.optString("name", "").trim()
         val itemTypeRaw = obj.optString("itemType", "").trim()
@@ -117,9 +117,7 @@ class ChecklistAssetImporter(
         val entryLabel = if (id.isNotBlank()) id else "index=$index"
 
         if (missingRequired.isNotEmpty()) {
-            return ItemParseResult(
-                error = "Invalid checklist entry $entryLabel: missing ${missingRequired.joinToString(", ")}"
-            )
+            return ItemParseResult(error = "Invalid checklist entry $entryLabel: missing ${missingRequired.joinToString(", ")}")
         }
 
         val itemType = parseItemType(itemTypeRaw, entryLabel)
@@ -131,38 +129,46 @@ class ChecklistAssetImporter(
         val collectorNumber = obj.optNullableString("collectorNumber")
 
         if (itemType in IDENTITY_REQUIRES_SET_AND_COLLECTOR) {
-            if (setCode.isNullOrBlank()) {
-                return ItemParseResult(error = "Invalid checklist entry $entryLabel: missing setCode")
-            }
-            if (collectorNumber.isNullOrBlank()) {
-                return ItemParseResult(error = "Invalid checklist entry $entryLabel: missing collectorNumber")
-            }
+            if (setCode.isNullOrBlank()) return ItemParseResult(error = "Invalid checklist entry $entryLabel: missing setCode")
+            if (collectorNumber.isNullOrBlank()) return ItemParseResult(error = "Invalid checklist entry $entryLabel: missing collectorNumber")
         }
 
-        return ItemParseResult(
-            item = ChecklistItemPayload(
-                checklistId = id,
-                name = name,
-                setCode = setCode,
-                collectorNumber = collectorNumber,
-                itemType = itemType,
-                finishRequirement = finishRequirement,
-                variantType = variantType,
-                promoSource = obj.optNullableString("promoSource"),
-                owned = owned,
-                scryfallId = obj.optNullableString("scryfallId"),
-                imageUrlSmall = obj.optNullableString("imageUrlSmall"),
-                imageUrlNormal = obj.optNullableString("imageUrlNormal"),
-                imageUrlLarge = obj.optNullableString("imageUrlLarge"),
-                priceUsd = obj.optNullableString("priceUsd"),
-                priceUsdFoil = obj.optNullableString("priceUsdFoil"),
-                rarity = obj.optNullableString("rarity"),
-                manaCost = obj.optNullableString("manaCost"),
-                typeLine = obj.optNullableString("typeLine")
-            )
+        val item = ChecklistItemPayload(
+            checklistId = id,
+            name = name,
+            setCode = setCode,
+            collectorNumber = collectorNumber,
+            itemType = itemType,
+            finishRequirement = finishRequirement,
+            variantType = variantType,
+            promoSource = obj.optNullableString("promoSource"),
+            owned = owned,
+            scryfallId = obj.optNullableString("scryfallId"),
+            imageUrlSmall = obj.optNullableString("imageUrlSmall"),
+            imageUrlNormal = obj.optNullableString("imageUrlNormal"),
+            imageUrlLarge = obj.optNullableString("imageUrlLarge"),
+            priceUsd = obj.optNullableString("priceUsd"),
+            priceUsdFoil = obj.optNullableString("priceUsdFoil"),
+            rarity = obj.optNullableString("rarity"),
+            manaCost = obj.optNullableString("manaCost"),
+            typeLine = obj.optNullableString("typeLine")
         )
+
+        if (isDateStampedPromo(item)) {
+            // Explicit exclusion rule: this tracker omits date-stamped promo variants.
+            return ItemParseResult(item = item, excluded = true)
+        }
+
+        return ItemParseResult(item = item)
     }
 
+    private fun isDateStampedPromo(item: ChecklistItemPayload): Boolean {
+        if (item.itemType != ItemType.PROMO) return false
+        val source = item.promoSource.orEmpty().lowercase()
+        val name = item.name.lowercase()
+        return "date-stamped" in source || "date stamped" in source ||
+            "date-stamped" in name || "date stamped" in name
+    }
 
     private fun parsePartType(value: String, path: String): CollectionPartType =
         runCatching { CollectionPartType.valueOf(value) }.getOrElse {
@@ -268,5 +274,6 @@ data class ChecklistItemPayload(
 
 private data class ItemParseResult(
     val item: ChecklistItemPayload? = null,
+    val excluded: Boolean = false,
     val error: String? = null
 )
