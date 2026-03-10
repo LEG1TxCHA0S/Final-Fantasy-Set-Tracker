@@ -98,8 +98,17 @@ data class CollectibleItemStatus(
 
     fun resolvedImageUrl(version: ScryfallImageVersion = ScryfallImageVersion.SMALL): String? {
         val id = scryfallId?.trim().orEmpty()
-        if (id.isBlank()) return null
-        return "https://api.scryfall.com/cards/$id?format=image&version=${version.value}"
+        if (id.length < 2) return null
+
+        val sizeSegment = when (version) {
+            ScryfallImageVersion.SMALL -> "small"
+            ScryfallImageVersion.NORMAL -> "normal"
+            ScryfallImageVersion.LARGE -> "large"
+        }
+
+        val a = id[0].lowercaseChar()
+        val b = id[1].lowercaseChar()
+        return "https://cards.scryfall.io/$sizeSegment/front/$a/$b/$id.jpg"
     }
 }
 
