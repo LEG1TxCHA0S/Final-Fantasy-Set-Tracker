@@ -1,5 +1,6 @@
 package com.chaos.finalfantasysettracker.repository
 
+import android.util.Log
 import com.chaos.finalfantasysettracker.database.ItemStatusRow
 import com.chaos.finalfantasysettracker.database.TrackerDao
 import com.chaos.finalfantasysettracker.model.CollectionOverview
@@ -38,6 +39,17 @@ class CollectionRepository(
     }
 
     fun observeItemsForPart(partId: Long): Flow<List<CollectibleItemStatus>> = dao.observeItemsForPart(partId).map { rows ->
+        rows.take(5).forEach { row ->
+            Log.d(TAG, "[DB_READ] name=${row.name}, storedScryfallId=${row.scryfallId}")
+        }
+        rows.firstOrNull {
+            it.name.equals("Summon: Bahamut", ignoreCase = true) &&
+                it.setCode.equals("FIN", ignoreCase = true) &&
+                it.collectorNumber == "1"
+        }?.let { bahamut ->
+            Log.d(TAG, "[DB_SANITY] Summon: Bahamut set=FIN collector=1 storedScryfallId=${bahamut.scryfallId}")
+        }
+
         rows.map { it.toModel() }
     }
 
@@ -91,3 +103,6 @@ class CollectionRepository(
         typeLine = typeLine
     )
 }
+
+
+private const val TAG = "CollectionRepository"

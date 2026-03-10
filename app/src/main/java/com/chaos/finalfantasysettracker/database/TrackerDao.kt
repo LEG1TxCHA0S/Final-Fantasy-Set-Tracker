@@ -48,6 +48,64 @@ interface TrackerDao {
         typeLine: String?
     )
 
+
+    @Query(
+        """
+        SELECT id, name, scryfallId, imageUrlSmall, imageUrlNormal, imageUrlLarge
+        FROM collectible_items
+        ORDER BY id ASC
+        LIMIT :limit
+        """
+    )
+    suspend fun getImageDebugRows(limit: Int): List<ItemImageDebugRow>
+
+    @Query(
+        """
+        UPDATE collectible_items
+        SET scryfallId = COALESCE(:scryfallId, scryfallId),
+            imageUrlSmall = COALESCE(:imageUrlSmall, imageUrlSmall),
+            imageUrlNormal = COALESCE(:imageUrlNormal, imageUrlNormal),
+            imageUrlLarge = COALESCE(:imageUrlLarge, imageUrlLarge)
+        WHERE checklistId = :checklistId
+        """
+    )
+    suspend fun updateScryfallMetadataByChecklistId(
+        checklistId: String,
+        scryfallId: String?,
+        imageUrlSmall: String?,
+        imageUrlNormal: String?,
+        imageUrlLarge: String?
+    )
+
+
+    @Query("SELECT id FROM collection_parts WHERE type = :partType LIMIT 1")
+    suspend fun getPartIdByType(partType: com.chaos.finalfantasysettracker.model.CollectionPartType): Long?
+
+    @Query("SELECT COUNT(*) FROM collectible_items WHERE partId = :partId")
+    suspend fun getItemCountForPart(partId: Long): Int
+
+    @Query("DELETE FROM collectible_items WHERE partId = :partId")
+    suspend fun deleteItemsForPart(partId: Long)
+
+    @Query(
+        """
+        SELECT setCode, collectorNumber, owned
+        FROM collectible_items
+        WHERE partId = :partId
+        """
+    )
+    suspend fun getOwnershipSnapshotsForPart(partId: Long): List<OwnershipSnapshotRow>
+
+    @Query(
+        """
+        SELECT COUNT(*)
+        FROM collectible_items i
+        INNER JOIN collection_parts p ON p.id = i.partId
+        WHERE p.type = :partType
+        """
+    )
+    suspend fun getItemCountByPartType(partType: com.chaos.finalfantasysettracker.model.CollectionPartType): Int
+
     @Query("SELECT COUNT(*) FROM collection_parts")
     suspend fun getPartCount(): Int
 
@@ -137,4 +195,21 @@ data class ItemStatusRow(
     val rarity: String?,
     val manaCost: String?,
     val typeLine: String?
+)
+
+
+data class ItemImageDebugRow(
+    val id: Long,
+    val name: String,
+    val scryfallId: String?,
+    val imageUrlSmall: String?,
+    val imageUrlNormal: String?,
+    val imageUrlLarge: String?
+)
+
+
+data class OwnershipSnapshotRow(
+    val setCode: String?,
+    val collectorNumber: String?,
+    val owned: Boolean
 )

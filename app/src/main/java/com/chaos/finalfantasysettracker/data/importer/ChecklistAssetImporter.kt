@@ -1,6 +1,7 @@
 package com.chaos.finalfantasysettracker.data.importer
 
 import android.content.Context
+import android.util.Log
 import com.chaos.finalfantasysettracker.database.CollectibleItemEntity
 import com.chaos.finalfantasysettracker.database.CollectionPartEntity
 import com.chaos.finalfantasysettracker.database.TrackerDao
@@ -15,13 +16,17 @@ class ChecklistAssetImporter(
     private val context: Context,
     private val dao: TrackerDao
 ) {
+    companion object {
+        private const val TAG = "ChecklistAssetImporter"
+    }
+
+    private val checklistFiles = listOf("FIN", "FCA", "FIC", "AFIN", "AFIC", "PFIN", "PSS5", "RFIN", "WFIN")
+        .map { "checklists/$it.json" }
+
     suspend fun importIfEmpty() {
         if (dao.getPartCount() > 0) return
 
-        val files = listOf("FIN", "FCA", "FIC", "AFIN", "AFIC", "PFIN", "PSS5", "RFIN", "WFIN")
-            .map { "checklists/$it.json" }
-
-        val payloads = files.map { parseMtgJsonFile(it) }.sortedBy { it.displayOrder }
+        val payloads = loadPayloads()
         val partIds = dao.insertParts(payloads.map { it.toPartEntity() })
 
         val items = buildList {
@@ -30,7 +35,117 @@ class ChecklistAssetImporter(
                 addAll(payload.items.map { it.toEntity(partId) })
             }
         }
+        logImportDebug(items)
         dao.insertItems(items)
+
+        val afinInserted = items.count { it.setCode.equals(CollectionPartType.AFIN.name, ignoreCase = true) }
+        val aficInserted = items.count { it.setCode.equals(CollectionPartType.AFIC.name, ignoreCase = true) }
+        val wfinInserted = items.count { it.setCode.equals(CollectionPartType.WFIN.name, ignoreCase = true) }
+        Log.d(TAG, "[DB_INSERT] importIfEmpty inserted AFIN=$afinInserted AFIC=$aficInserted WFIN=$wfinInserted")
+    }
+
+    suspend fun repairAfinAficIfNeeded() {
+        val payloads = loadPayloads()
+            .filter { it.partType == CollectionPartType.AFIN || it.partType == CollectionPartType.AFIC }
+
+        payloads.forEach { payload ->
+            val partId = dao.getPartIdByType(payload.partType) ?: return@forEach
+            val expectedItems = payload.items
+            val currentCount = dao.getItemCountForPart(partId)
+
+            if (currentCount == expectedItems.size) {
+                Log.d(TAG, "[AF_FIX] ${payload.partType.name} already aligned count=$currentCount")
+                return@forEach
+            }
+
+            val ownershipByKey = dao.getOwnershipSnapshotsForPart(partId)
+                .groupBy { "${it.setCode.orEmpty().uppercase()}::${it.collectorNumber.orEmpty()}" }
+                .mapValues { (_, rows) -> rows.any { it.owned } }
+
+            dao.deleteItemsForPart(partId)
+
+            val repairedItems = expectedItems.map { item ->
+                val key = "${item.setCode.orEmpty().uppercase()}::${item.collectorNumber.orEmpty()}"
+                item.copy(owned = ownershipByKey[key] == true).toEntity(partId)
+            }
+            dao.insertItems(repairedItems)
+
+            Log.d(
+                TAG,
+                "[AF_FIX] rebuilt ${payload.partType.name}: oldCount=$currentCount expected=${expectedItems.size} inserted=${repairedItems.size}"
+            )
+        }
+    }
+
+
+    suspend fun repairWfinIfNeeded() {
+        val payload = loadPayloads().firstOrNull { it.partType == CollectionPartType.WFIN } ?: return
+        val partId = dao.getPartIdByType(CollectionPartType.WFIN) ?: return
+        val expectedItems = payload.items
+        val currentCount = dao.getItemCountForPart(partId)
+
+        if (currentCount == expectedItems.size) {
+            Log.d(TAG, "[WF_FIX] WFIN already aligned count=$currentCount")
+            return
+        }
+
+        val ownershipByKey = dao.getOwnershipSnapshotsForPart(partId)
+            .groupBy { "${it.setCode.orEmpty().uppercase()}::${it.collectorNumber.orEmpty()}" }
+            .mapValues { (_, rows) -> rows.any { it.owned } }
+
+        dao.deleteItemsForPart(partId)
+
+        val repairedItems = expectedItems.map { item ->
+            val key = "${item.setCode.orEmpty().uppercase()}::${item.collectorNumber.orEmpty()}"
+            item.copy(owned = ownershipByKey[key] == true).toEntity(partId)
+        }
+        dao.insertItems(repairedItems)
+
+        Log.d(TAG, "[WF_FIX] rebuilt WFIN: oldCount=$currentCount expected=${expectedItems.size} inserted=${repairedItems.size}")
+    }
+
+    suspend fun backfillImageMetadata() {
+        val payloads = loadPayloads()
+        val entries = payloads.flatMap { it.items }
+        entries.forEach { item ->
+            dao.updateScryfallMetadataByChecklistId(
+                checklistId = item.checklistId,
+                scryfallId = item.scryfallId,
+                imageUrlSmall = item.imageUrlSmall,
+                imageUrlNormal = item.imageUrlNormal,
+                imageUrlLarge = item.imageUrlLarge
+            )
+        }
+        Log.d(TAG, "Backfilled image metadata from assets for ${entries.size} checklist entries")
+    }
+
+    private fun loadPayloads(): List<ChecklistAssetPayload> =
+        checklistFiles.map { parseMtgJsonFile(it) }.sortedBy { it.displayOrder }
+
+    private fun logImportDebug(items: List<CollectibleItemEntity>) {
+        items.groupBy { it.setCode ?: "UNKNOWN" }
+            .toSortedMap()
+            .forEach { (setCode, setItems) ->
+                setItems.take(3).forEach { item ->
+                    Log.d(
+                        TAG,
+                        "[IMPORT] set=$setCode name=${item.name}, collector=${item.collectorNumber}, scryfallId=${item.scryfallId}"
+                    )
+                }
+            }
+
+        val bahamut = items.firstOrNull {
+            it.name.equals("Summon: Bahamut", ignoreCase = true) &&
+                it.setCode.equals("FIN", ignoreCase = true) &&
+                it.collectorNumber == "1"
+        }
+        Log.d(
+            TAG,
+            "[IMPORT_SANITY] Summon: Bahamut set=FIN collector=1 scryfallId=${bahamut?.scryfallId}"
+        )
+
+        val withScryfall = items.count { !it.scryfallId.isNullOrBlank() }
+        Log.d(TAG, "[IMPORT] totals items=${items.size}, withScryfallId=$withScryfall")
     }
 
     private fun parseMtgJsonFile(path: String): ChecklistAssetPayload {
@@ -45,6 +160,11 @@ class ChecklistAssetImporter(
         val partType = CollectionPartType.valueOf(setCode)
         val partName = data.optString("name", partType.displayName()).ifBlank { partType.displayName() }
         val partDescription = "Imported from $setCode MTGJSON"
+        val cardsCount = (data.optJSONArray("cards") ?: JSONArray()).length()
+        val tokensCount = (data.optJSONArray("tokens") ?: JSONArray()).length()
+        if (partType == CollectionPartType.AFIN || partType == CollectionPartType.AFIC || partType == CollectionPartType.WFIN) {
+            Log.d(TAG, "[PARSE_FILE] path=$path set=$setCode cards=$cardsCount tokens=$tokensCount")
+        }
         val entries = data.entryArrayFor(partType)
 
         return ChecklistAssetPayload(
@@ -69,8 +189,14 @@ class ChecklistAssetImporter(
     }
 
     private fun JSONArray.toItemPayloads(partType: CollectionPartType): List<ChecklistItemPayload> {
-        return (0 until length()).map { index ->
+        if (partType == CollectionPartType.AFIN || partType == CollectionPartType.AFIC || partType == CollectionPartType.WFIN) {
+            Log.d(TAG, "[IMPORT_SELECT] ${partType.name} selectedBeforeDedupe=${length()}")
+        }
+
+        val mapped = (0 until length()).mapNotNull { index ->
             val obj = getJSONObject(index)
+            if (!partType.shouldImportEntry(obj)) return@mapNotNull null
+
             val name = obj.optString("name", "").trim().ifBlank { "Unknown Card" }
             val collectorNumber = obj.optString("number", "").trim().ifBlank { null }
             val setCode = obj.optString("setCode", partType.name).trim().ifBlank { partType.name }
@@ -79,10 +205,9 @@ class ChecklistAssetImporter(
             val identifiers = obj.optJSONObject("identifiers")
             val scryfallId = identifiers?.optString("scryfallId", null)?.ifBlank { null }
 
-            val rawImageUrl = obj.optString("imageUrl", "").trim().ifBlank { null }
-            val imageUrlSmall = rawImageUrl ?: scryfallId?.toScryfallImageUrl("small")
-            val imageUrlNormal = rawImageUrl ?: scryfallId?.toScryfallImageUrl("normal")
-            val imageUrlLarge = rawImageUrl ?: scryfallId?.toScryfallImageUrl("large")
+            val imageUrlSmall = scryfallId?.toScryfallImageUrl("small")
+            val imageUrlNormal = scryfallId?.toScryfallImageUrl("normal")
+            val imageUrlLarge = scryfallId?.toScryfallImageUrl("large")
 
             val rarity = obj.optString("rarity", null)
             val manaCost = obj.optString("manaCost", null)
@@ -111,6 +236,15 @@ class ChecklistAssetImporter(
                 typeLine = typeLine
             )
         }
+
+        if (partType == CollectionPartType.AFIN || partType == CollectionPartType.AFIC) {
+            Log.d(TAG, "[DEDUPE] ${partType.name} afterDedupe=${mapped.size}")
+        }
+        if (partType == CollectionPartType.WFIN) {
+            Log.d(TAG, "[WF_SELECT] WFIN selectedForImport=${mapped.size}")
+        }
+
+        return mapped
     }
 
     private fun String.toScryfallImageUrl(version: String): String =
@@ -186,6 +320,17 @@ class ChecklistAssetImporter(
         CollectionPartType.FIC -> VariantType.PRODUCT
         CollectionPartType.PFIN, CollectionPartType.PSS5, CollectionPartType.RFIN -> VariantType.PROMO
         else -> VariantType.STANDARD
+    }
+
+    private fun CollectionPartType.shouldImportEntry(obj: JSONObject): Boolean {
+        if (this == CollectionPartType.WFIN) return true
+        if (this != CollectionPartType.AFIN && this != CollectionPartType.AFIC) return true
+
+        val layout = obj.optString("layout", "")
+        if (!layout.equals("art_series", ignoreCase = true)) return true
+
+        val side = obj.optString("side", "a")
+        return side.equals("a", ignoreCase = true)
     }
 
     private fun CollectionPartType.inferItemType(typeLine: String?, name: String): ItemType = when {

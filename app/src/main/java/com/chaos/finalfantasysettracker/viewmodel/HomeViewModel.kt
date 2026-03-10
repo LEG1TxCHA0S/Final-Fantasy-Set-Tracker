@@ -1,5 +1,6 @@
 package com.chaos.finalfantasysettracker.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -23,6 +24,15 @@ class HomeViewModel(repository: CollectionRepository) : ViewModel() {
         repository.observeOverview(),
         repository.observePartProgress()
     ) { overview, parts ->
+        parts.filter {
+            it.name.contains("Art Series", ignoreCase = true) ||
+                it.name.contains("Scene Box", ignoreCase = true) ||
+                it.name.contains("WPN Promo Tokens", ignoreCase = true)
+        }
+            .forEach { part ->
+                Log.d(TAG, "[UI_CATEGORY] part=${part.name} owned=${part.ownedCount} total=${part.totalCount}")
+            }
+
         HomeUiState(overview = overview, parts = parts)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), HomeUiState())
 
@@ -32,3 +42,6 @@ class HomeViewModel(repository: CollectionRepository) : ViewModel() {
         }
     }
 }
+
+
+private const val TAG = "HomeViewModel"
