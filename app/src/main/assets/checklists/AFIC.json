@@ -1,1 +1,1957 @@
-{"meta":{"date":"2026-03-07","version":"5.3.0+20260307"},"data":{"baseSetSize":24,"cards":[],"code":"AFIC","isFoilOnly":false,"isOnlineOnly":false,"keyruneCode":"FIC","languages":["English"],"name":"Final Fantasy Scene Box","parentCode":"FIC","releaseDate":"2025-12-05","tokenSetCode":"AFIC","tokens":[{"artist":"David Rapoza","artistIds":["c5a2318d-5d04-499f-b121-57dee5a9dfe6"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Garland, Royal Kidnapper","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"b9230643-2806-5589-abff-a720d4932a27","scryfallId":"9a9780d1-05ac-4c72-8b0e-db6af4609efb","scryfallIllustrationId":"9fca0a39-02dd-4133-9e8b-c79165a29099","scryfallOracleId":"0f925a1d-e0ce-48d4-8f0a-4177729810dd"},"language":"English","layout":"art_series","name":"Garland, Royal Kidnapper // Garland, Royal Kidnapper","number":"1","otherFaceIds":["f1e5ad23-c1aa-5eda-bd1d-3efb401845d5"],"setCode":"AFIC","side":"a","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"efdba9e8-ad1c-54f1-9c0d-72093ba62c00"},{"artist":"David Rapoza","artistIds":["c5a2318d-5d04-499f-b121-57dee5a9dfe6"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Garland, Royal Kidnapper","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"dc72ca15-71ec-5be3-8bf5-1482795ed5bf","scryfallId":"9a9780d1-05ac-4c72-8b0e-db6af4609efb","scryfallIllustrationId":"9fca0a39-02dd-4133-9e8b-c79165a29099","scryfallOracleId":"0f925a1d-e0ce-48d4-8f0a-4177729810dd"},"language":"English","layout":"art_series","name":"Garland, Royal Kidnapper // Garland, Royal Kidnapper","number":"1","otherFaceIds":["efdba9e8-ad1c-54f1-9c0d-72093ba62c00"],"setCode":"AFIC","side":"b","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"f1e5ad23-c1aa-5eda-bd1d-3efb401845d5"},{"artist":"David Rapoza","artistIds":["c5a2318d-5d04-499f-b121-57dee5a9dfe6"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"The Destined Warrior","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"dca78f52-2d8b-58db-a6cf-367410feda84","scryfallId":"f7e44a42-ac64-49e2-875c-355f932467e1","scryfallIllustrationId":"4675723c-885c-423f-b7b2-f243153b4975","scryfallOracleId":"cb81ca7e-f087-4899-b527-14c7e841cd43"},"language":"English","layout":"art_series","name":"The Destined Warrior // The Destined Warrior","number":"2","otherFaceIds":["7b0ec769-ee34-52df-ad51-a5a7b884ea48"],"setCode":"AFIC","side":"a","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"648cb505-aad0-5246-b4b8-b66ff265c443"},{"artist":"David Rapoza","artistIds":["c5a2318d-5d04-499f-b121-57dee5a9dfe6"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"The Destined Warrior","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"ac5f68d5-7b1b-542e-8960-501e17f6182f","scryfallId":"f7e44a42-ac64-49e2-875c-355f932467e1","scryfallIllustrationId":"4675723c-885c-423f-b7b2-f243153b4975","scryfallOracleId":"cb81ca7e-f087-4899-b527-14c7e841cd43"},"language":"English","layout":"art_series","name":"The Destined Warrior // The Destined Warrior","number":"2","otherFaceIds":["648cb505-aad0-5246-b4b8-b66ff265c443"],"setCode":"AFIC","side":"b","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"7b0ec769-ee34-52df-ad51-a5a7b884ea48"},{"artist":"David Rapoza","artistIds":["c5a2318d-5d04-499f-b121-57dee5a9dfe6"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"The Destined White Mage","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"82016269-5007-5b3b-9f35-6c99ee241b42","scryfallId":"0aa1e74b-7fd7-4c48-a0a3-56eb1a6f877a","scryfallIllustrationId":"f0b44d76-2ee6-4d03-af44-429588978025","scryfallOracleId":"a08a1fe6-5c2b-4a13-9039-9c0438885a1a"},"language":"English","layout":"art_series","name":"The Destined White Mage // The Destined White Mage","number":"3","otherFaceIds":["78d57241-6456-5354-8885-1e14f6861ddb"],"setCode":"AFIC","side":"a","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"c93ea749-0fa9-57e2-ad24-8394ac497816"},{"artist":"David Rapoza","artistIds":["c5a2318d-5d04-499f-b121-57dee5a9dfe6"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"The Destined White Mage","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"d7ac8d9e-9440-5686-b85e-386653605251","scryfallId":"0aa1e74b-7fd7-4c48-a0a3-56eb1a6f877a","scryfallIllustrationId":"f0b44d76-2ee6-4d03-af44-429588978025","scryfallOracleId":"a08a1fe6-5c2b-4a13-9039-9c0438885a1a"},"language":"English","layout":"art_series","name":"The Destined White Mage // The Destined White Mage","number":"3","otherFaceIds":["c93ea749-0fa9-57e2-ad24-8394ac497816"],"setCode":"AFIC","side":"b","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"78d57241-6456-5354-8885-1e14f6861ddb"},{"artist":"David Rapoza","artistIds":["c5a2318d-5d04-499f-b121-57dee5a9dfe6"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Chaos Shrine's Black Crystal","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"dae439cb-377f-53ce-920f-58cdc0ef05e3","scryfallId":"bf18dca9-de07-47f5-be86-fbea8b527411","scryfallIllustrationId":"fdd0e17e-1307-40fb-83fd-1b8a666b6fb8","scryfallOracleId":"9590ce4c-09f8-4faf-abcd-c599b61aebf0"},"language":"English","layout":"art_series","name":"Chaos Shrine's Black Crystal // Chaos Shrine's Black Crystal","number":"4","otherFaceIds":["0fa310b7-73e1-52e6-8815-f9684d4dfcbc"],"setCode":"AFIC","side":"a","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"3a7de48f-ddce-52a2-b393-c9dcf611b179"},{"artist":"David Rapoza","artistIds":["c5a2318d-5d04-499f-b121-57dee5a9dfe6"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Chaos Shrine's Black Crystal","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"5a96cd9c-58fe-536e-9170-a49f104309d3","scryfallId":"bf18dca9-de07-47f5-be86-fbea8b527411","scryfallIllustrationId":"16ea5879-1efe-45bf-bae7-933cf0d573ff","scryfallOracleId":"9590ce4c-09f8-4faf-abcd-c599b61aebf0"},"language":"English","layout":"art_series","name":"Chaos Shrine's Black Crystal // Chaos Shrine's Black Crystal","number":"4","otherFaceIds":["3a7de48f-ddce-52a2-b393-c9dcf611b179"],"setCode":"AFIC","side":"b","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"0fa310b7-73e1-52e6-8815-f9684d4dfcbc"},{"artist":"David Rapoza","artistIds":["c5a2318d-5d04-499f-b121-57dee5a9dfe6"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"The Destined Thief","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"46f8601b-10a2-5407-a5ae-c5897f4ed4f3","scryfallId":"40a495d6-cd48-45a5-9afd-d9ec3a21ec3a","scryfallIllustrationId":"bd2654e8-af1e-4c92-9816-1427cb0d67b7","scryfallOracleId":"0361b51f-316f-46b9-91d7-ef366794a490"},"language":"English","layout":"art_series","name":"The Destined Thief // The Destined Thief","number":"5","otherFaceIds":["41201018-14a7-5f2d-8e72-f7be7fc4a347"],"setCode":"AFIC","side":"a","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"41ce4196-b4e0-527d-aae0-9ab33c55b4a5"},{"artist":"David Rapoza","artistIds":["c5a2318d-5d04-499f-b121-57dee5a9dfe6"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"The Destined Thief","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"209c11bc-9e5b-5773-9a35-260a8f561038","scryfallId":"40a495d6-cd48-45a5-9afd-d9ec3a21ec3a","scryfallIllustrationId":"bd2654e8-af1e-4c92-9816-1427cb0d67b7","scryfallOracleId":"0361b51f-316f-46b9-91d7-ef366794a490"},"language":"English","layout":"art_series","name":"The Destined Thief // The Destined Thief","number":"5","otherFaceIds":["41ce4196-b4e0-527d-aae0-9ab33c55b4a5"],"setCode":"AFIC","side":"b","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"41201018-14a7-5f2d-8e72-f7be7fc4a347"},{"artist":"David Rapoza","artistIds":["c5a2318d-5d04-499f-b121-57dee5a9dfe6"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"The Destined Black Mage","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"84c9f21b-e68e-5cd6-ba63-b5e47b879a3a","scryfallId":"76ed17e5-4adb-4b75-99a4-62c1b107cfdd","scryfallIllustrationId":"8ea29780-b002-467b-81c5-5c4d4459e728","scryfallOracleId":"93aa5b59-720b-4e99-b03e-277e950bf95d"},"language":"English","layout":"art_series","name":"The Destined Black Mage // The Destined Black Mage","number":"6","otherFaceIds":["adc6ca7b-23e9-548f-9d02-c46b9933afff"],"setCode":"AFIC","side":"a","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"f356992c-30a7-5c49-8d16-e259dbd82e54"},{"artist":"David Rapoza","artistIds":["c5a2318d-5d04-499f-b121-57dee5a9dfe6"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"The Destined Black Mage","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"0305f24c-6a02-5468-acd0-3e5a7b50a5c7","scryfallId":"76ed17e5-4adb-4b75-99a4-62c1b107cfdd","scryfallIllustrationId":"8ea29780-b002-467b-81c5-5c4d4459e728","scryfallOracleId":"93aa5b59-720b-4e99-b03e-277e950bf95d"},"language":"English","layout":"art_series","name":"The Destined Black Mage // The Destined Black Mage","number":"6","otherFaceIds":["f356992c-30a7-5c49-8d16-e259dbd82e54"],"setCode":"AFIC","side":"b","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"adc6ca7b-23e9-548f-9d02-c46b9933afff"},{"artist":"Lius Lasahido","artistIds":["0a0e9093-ce44-4a69-93a7-09b63e7c330d"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Edea, Possessed Sorceress","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"299961d7-8fdc-5f28-b77a-854874bfcf4f","scryfallId":"f8cbf62a-ab28-4c7b-84a5-ce1ee8bb3bf1","scryfallIllustrationId":"2d3b2751-9f53-4734-ad6f-5163a0d341a4","scryfallOracleId":"e7c3d8d3-c8ab-48c4-92b0-841ef58e42f6"},"language":"English","layout":"art_series","name":"Edea, Possessed Sorceress // Edea, Possessed Sorceress","number":"7","otherFaceIds":["752ef234-ab80-53cf-98cb-5fab7c06fa71"],"setCode":"AFIC","side":"a","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"667562f7-c7da-5804-bd8d-c3b8551edb04"},{"artist":"Lius Lasahido","artistIds":["0a0e9093-ce44-4a69-93a7-09b63e7c330d"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Edea, Possessed Sorceress","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"64fdec6e-66ba-58d0-93ad-c4866a47de28","scryfallId":"f8cbf62a-ab28-4c7b-84a5-ce1ee8bb3bf1","scryfallIllustrationId":"2d3b2751-9f53-4734-ad6f-5163a0d341a4","scryfallOracleId":"e7c3d8d3-c8ab-48c4-92b0-841ef58e42f6"},"language":"English","layout":"art_series","name":"Edea, Possessed Sorceress // Edea, Possessed Sorceress","number":"7","otherFaceIds":["667562f7-c7da-5804-bd8d-c3b8551edb04"],"setCode":"AFIC","side":"b","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"752ef234-ab80-53cf-98cb-5fab7c06fa71"},{"artist":"Lius Lasahido","artistIds":["0a0e9093-ce44-4a69-93a7-09b63e7c330d"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Fated Clash","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"1f1ed24e-86cb-5daf-95e5-2719f9f3bebf","scryfallId":"1370d8b5-bd31-4943-885e-ae6211990561","scryfallIllustrationId":"77a8e3d9-025a-4027-b9a5-38eb91acf68c","scryfallOracleId":"ecffaf93-241d-4739-84d1-71daf31332fa"},"language":"English","layout":"art_series","name":"Fated Clash // Fated Clash","number":"8","otherFaceIds":["072d11f8-4a2a-586f-8545-13f72a3cbad3"],"setCode":"AFIC","side":"a","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"92a2f6d6-6a69-535c-91df-97825d4b90c2"},{"artist":"Lius Lasahido","artistIds":["0a0e9093-ce44-4a69-93a7-09b63e7c330d"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Fated Clash","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"7c9e4ccb-810b-58d4-a075-329c732806da","scryfallId":"1370d8b5-bd31-4943-885e-ae6211990561","scryfallIllustrationId":"77a8e3d9-025a-4027-b9a5-38eb91acf68c","scryfallOracleId":"ecffaf93-241d-4739-84d1-71daf31332fa"},"language":"English","layout":"art_series","name":"Fated Clash // Fated Clash","number":"8","otherFaceIds":["92a2f6d6-6a69-535c-91df-97825d4b90c2"],"setCode":"AFIC","side":"b","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"072d11f8-4a2a-586f-8545-13f72a3cbad3"},{"artist":"Lius Lasahido","artistIds":["0a0e9093-ce44-4a69-93a7-09b63e7c330d"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Rinoa, Angel Wing","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"d59de123-f396-5bc0-9fd3-b0f97a602587","scryfallId":"6d3909f0-1bd4-476c-af64-cf346eeaab0c","scryfallIllustrationId":"022b5857-ddf2-4b12-bc19-651d1b29f9fc","scryfallOracleId":"74fe1163-5be6-468d-83fb-5f1a7d6fac01"},"language":"English","layout":"art_series","name":"Rinoa, Angel Wing // Rinoa, Angel Wing","number":"9","otherFaceIds":["8c060143-f860-5c28-ad8b-af9c0a1bda96"],"setCode":"AFIC","side":"a","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"cc1cffc0-9779-54a6-8f22-129c00a11f8c"},{"artist":"Lius Lasahido","artistIds":["0a0e9093-ce44-4a69-93a7-09b63e7c330d"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Rinoa, Angel Wing","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"b1f13260-a6c2-5056-9972-273af34637e8","scryfallId":"6d3909f0-1bd4-476c-af64-cf346eeaab0c","scryfallIllustrationId":"022b5857-ddf2-4b12-bc19-651d1b29f9fc","scryfallOracleId":"74fe1163-5be6-468d-83fb-5f1a7d6fac01"},"language":"English","layout":"art_series","name":"Rinoa, Angel Wing // Rinoa, Angel Wing","number":"9","otherFaceIds":["cc1cffc0-9779-54a6-8f22-129c00a11f8c"],"setCode":"AFIC","side":"b","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"8c060143-f860-5c28-ad8b-af9c0a1bda96"},{"artist":"Lius Lasahido","artistIds":["0a0e9093-ce44-4a69-93a7-09b63e7c330d"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Seifer, Balamb Rival","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"2abca65a-8e78-5f93-a03f-82ac6489cbcf","scryfallId":"837a0a26-e32f-42ff-889b-50f7064c4793","scryfallIllustrationId":"c7a806ac-d4cc-49da-9a64-ec76210f4178","scryfallOracleId":"a4bf6f0b-e3f2-48a4-b4cc-02fece9a0465"},"language":"English","layout":"art_series","name":"Seifer, Balamb Rival // Seifer, Balamb Rival","number":"10","otherFaceIds":["99535d65-6615-531b-8081-4d61c2e7c6b9"],"setCode":"AFIC","side":"a","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"9a16fe8a-8297-5e20-83ea-bbb16070f4b6"},{"artist":"Lius Lasahido","artistIds":["0a0e9093-ce44-4a69-93a7-09b63e7c330d"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Seifer, Balamb Rival","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"76f98571-3d87-5815-9316-c0045e2415de","scryfallId":"837a0a26-e32f-42ff-889b-50f7064c4793","scryfallIllustrationId":"c7a806ac-d4cc-49da-9a64-ec76210f4178","scryfallOracleId":"a4bf6f0b-e3f2-48a4-b4cc-02fece9a0465"},"language":"English","layout":"art_series","name":"Seifer, Balamb Rival // Seifer, Balamb Rival","number":"10","otherFaceIds":["9a16fe8a-8297-5e20-83ea-bbb16070f4b6"],"setCode":"AFIC","side":"b","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"99535d65-6615-531b-8081-4d61c2e7c6b9"},{"artist":"Lius Lasahido","artistIds":["0a0e9093-ce44-4a69-93a7-09b63e7c330d"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Duelist's Flame","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"6e22f481-2ba4-55cb-85d8-249819bf756a","scryfallId":"822db9a8-4549-4892-ba3c-a082f0ed6a74","scryfallIllustrationId":"f7ed78c5-6bb3-47ea-a39f-9677fb5f7a0f","scryfallOracleId":"7860d999-1668-40a8-b751-b354f2609eb0"},"language":"English","layout":"art_series","name":"Duelist's Flame // Duelist's Flame","number":"11","otherFaceIds":["41d14efc-7f4b-55b5-9841-fd42d0012854"],"setCode":"AFIC","side":"a","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"431cf90d-c6fc-50a8-94f2-31561da8fc64"},{"artist":"Lius Lasahido","artistIds":["0a0e9093-ce44-4a69-93a7-09b63e7c330d"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Duelist's Flame","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"f1ae6983-6f89-5b87-885c-588a5440832b","scryfallId":"822db9a8-4549-4892-ba3c-a082f0ed6a74","scryfallIllustrationId":"f7ed78c5-6bb3-47ea-a39f-9677fb5f7a0f","scryfallOracleId":"7860d999-1668-40a8-b751-b354f2609eb0"},"language":"English","layout":"art_series","name":"Duelist's Flame // Duelist's Flame","number":"11","otherFaceIds":["431cf90d-c6fc-50a8-94f2-31561da8fc64"],"setCode":"AFIC","side":"b","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"41d14efc-7f4b-55b5-9841-fd42d0012854"},{"artist":"Lius Lasahido","artistIds":["0a0e9093-ce44-4a69-93a7-09b63e7c330d"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Squall, Gunblade Duelist","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"b540e41c-5a68-5bc3-8087-969e2d7cb587","scryfallId":"df08fc22-2158-442a-96ac-60e7275bb9dd","scryfallIllustrationId":"499a1635-c874-42c7-8ec3-23e402b5b64c","scryfallOracleId":"f533e95d-ab4b-45d1-940d-c363454980a7"},"language":"English","layout":"art_series","name":"Squall, Gunblade Duelist // Squall, Gunblade Duelist","number":"12","otherFaceIds":["99623bc5-dddb-5523-9ac7-63cdeaefafaf"],"setCode":"AFIC","side":"a","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"2c75eb82-3a10-56b0-a990-19c26366c638"},{"artist":"Lius Lasahido","artistIds":["0a0e9093-ce44-4a69-93a7-09b63e7c330d"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Squall, Gunblade Duelist","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"f20ef224-bd71-512c-951c-6b1c66d0de4e","scryfallId":"df08fc22-2158-442a-96ac-60e7275bb9dd","scryfallIllustrationId":"499a1635-c874-42c7-8ec3-23e402b5b64c","scryfallOracleId":"f533e95d-ab4b-45d1-940d-c363454980a7"},"language":"English","layout":"art_series","name":"Squall, Gunblade Duelist // Squall, Gunblade Duelist","number":"12","otherFaceIds":["2c75eb82-3a10-56b0-a990-19c26366c638"],"setCode":"AFIC","side":"b","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"99623bc5-dddb-5523-9ac7-63cdeaefafaf"},{"artist":"Erion Makuo","artistIds":["cda61623-4ecc-4f5c-974b-b00d0dbbe6bb"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Brilliant Wings","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"9082e962-a57c-598e-b4e9-1bd9bb9d69da","scryfallId":"c87ae25b-ae0b-4dd6-a6b9-726a2c38beba","scryfallIllustrationId":"293254a5-c532-42d6-b1d6-4681054be1e1","scryfallOracleId":"7c668ccb-5267-41f4-a4fe-841e21d2dbcc"},"language":"English","layout":"art_series","name":"Brilliant Wings // Brilliant Wings","number":"13","otherFaceIds":["52285e49-291a-55c3-a039-0d59fd9d80c8"],"setCode":"AFIC","side":"a","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"63cd9ac7-9cfb-5f89-8a95-df36a1a48f0b"},{"artist":"Erion Makuo","artistIds":["cda61623-4ecc-4f5c-974b-b00d0dbbe6bb"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Brilliant Wings","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"a7b54cf9-3b1a-5e89-8c81-648cd7672ef2","scryfallId":"c87ae25b-ae0b-4dd6-a6b9-726a2c38beba","scryfallIllustrationId":"d97cc986-7633-4bca-879d-b6d9a39b8abc","scryfallOracleId":"7c668ccb-5267-41f4-a4fe-841e21d2dbcc"},"language":"English","layout":"art_series","name":"Brilliant Wings // Brilliant Wings","number":"13","otherFaceIds":["63cd9ac7-9cfb-5f89-8a95-df36a1a48f0b"],"setCode":"AFIC","side":"b","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"52285e49-291a-55c3-a039-0d59fd9d80c8"},{"artist":"Erion Makuo","artistIds":["cda61623-4ecc-4f5c-974b-b00d0dbbe6bb"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Judgment of Alexander","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"d493e1e1-45f7-5ba8-a1df-ddd3704fffc9","scryfallId":"4be163a6-563c-4bd9-a957-dd44707c4e29","scryfallIllustrationId":"3e09b872-2a97-4aa2-8703-68517a36832a","scryfallOracleId":"aa6c4288-b368-423c-8491-3169e07efa02"},"language":"English","layout":"art_series","name":"Judgment of Alexander // Judgment of Alexander","number":"14","otherFaceIds":["4d9b11f7-c821-52fa-9022-d23a880032e8"],"setCode":"AFIC","side":"a","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"5535ab39-53e3-5e2a-b0b4-e48f27234a39"},{"artist":"Erion Makuo","artistIds":["cda61623-4ecc-4f5c-974b-b00d0dbbe6bb"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Judgment of Alexander","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"d32ec79a-3417-5c7a-a0a3-0f61e4c8a01c","scryfallId":"4be163a6-563c-4bd9-a957-dd44707c4e29","scryfallIllustrationId":"3e09b872-2a97-4aa2-8703-68517a36832a","scryfallOracleId":"aa6c4288-b368-423c-8491-3169e07efa02"},"language":"English","layout":"art_series","name":"Judgment of Alexander // Judgment of Alexander","number":"14","otherFaceIds":["5535ab39-53e3-5e2a-b0b4-e48f27234a39"],"setCode":"AFIC","side":"b","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"4d9b11f7-c821-52fa-9022-d23a880032e8"},{"artist":"Erion Makuo","artistIds":["cda61623-4ecc-4f5c-974b-b00d0dbbe6bb"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Mega Flare","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"b782a282-730b-5ade-93e5-7ccd68a0154f","scryfallId":"e51442af-ecc5-4972-9ed4-f8621142b46c","scryfallIllustrationId":"06bdbf24-98fe-4e73-aa8b-8f7ae6f75d39","scryfallOracleId":"b5c59b64-86a2-4e8a-bda7-23cb8b9ce57f"},"language":"English","layout":"art_series","name":"Mega Flare // Mega Flare","number":"15","otherFaceIds":["d8bc405a-857f-517f-b0d2-c382b312fd4b"],"setCode":"AFIC","side":"a","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"0d2cd0ac-e731-5b18-aaa7-b12723ed87ce"},{"artist":"Erion Makuo","artistIds":["cda61623-4ecc-4f5c-974b-b00d0dbbe6bb"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Mega Flare","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"9052ae47-6fbb-5cbb-bbbb-1efb53e8a89a","scryfallId":"e51442af-ecc5-4972-9ed4-f8621142b46c","scryfallIllustrationId":"06bdbf24-98fe-4e73-aa8b-8f7ae6f75d39","scryfallOracleId":"b5c59b64-86a2-4e8a-bda7-23cb8b9ce57f"},"language":"English","layout":"art_series","name":"Mega Flare // Mega Flare","number":"15","otherFaceIds":["0d2cd0ac-e731-5b18-aaa7-b12723ed87ce"],"setCode":"AFIC","side":"b","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"d8bc405a-857f-517f-b0d2-c382b312fd4b"},{"artist":"Erion Makuo","artistIds":["cda61623-4ecc-4f5c-974b-b00d0dbbe6bb"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Amarant Coral","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"25a7d138-990c-5d99-ac37-28b47fb3a4a3","scryfallId":"8e0f0337-e8ad-4ac0-ad1c-97ce6a36adb1","scryfallIllustrationId":"92abe39a-b013-4039-8275-82db7af2ecfd","scryfallOracleId":"2a3cda7a-88e1-4622-b567-b39813aa4a58"},"language":"English","layout":"art_series","name":"Amarant Coral // Amarant Coral","number":"16","otherFaceIds":["82c41d23-48de-5064-bc4f-cf7888a1b92d"],"setCode":"AFIC","side":"a","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"e6742b12-3aaf-5363-bcca-788a5f3fdbdc"},{"artist":"Erion Makuo","artistIds":["cda61623-4ecc-4f5c-974b-b00d0dbbe6bb"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Amarant Coral","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"0611115b-2d99-50ab-a12d-ab87eddc612f","scryfallId":"8e0f0337-e8ad-4ac0-ad1c-97ce6a36adb1","scryfallIllustrationId":"901e9a46-84de-4dd1-9ae7-b3de3528345a","scryfallOracleId":"2a3cda7a-88e1-4622-b567-b39813aa4a58"},"language":"English","layout":"art_series","name":"Amarant Coral // Amarant Coral","number":"16","otherFaceIds":["e6742b12-3aaf-5363-bcca-788a5f3fdbdc"],"setCode":"AFIC","side":"b","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"82c41d23-48de-5064-bc4f-cf7888a1b92d"},{"artist":"Erion Makuo","artistIds":["cda61623-4ecc-4f5c-974b-b00d0dbbe6bb"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Vivi's Persistence","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"4ded68d3-b140-5130-89d3-cfca433d64d6","scryfallId":"82bfac4e-fb59-4463-832d-585e5d915564","scryfallIllustrationId":"d7ab1d52-cf5d-4534-8eaa-a6c666ad63ee","scryfallOracleId":"a9d6df86-0adf-4307-b3c9-7816b2a8fb77"},"language":"English","layout":"art_series","name":"Vivi's Persistence // Vivi's Persistence","number":"17","otherFaceIds":["3110a7da-67be-5d4c-a827-9feb973beaa3"],"setCode":"AFIC","side":"a","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"b62e2dab-7aa5-5b1a-950e-634f17eaad6c"},{"artist":"Erion Makuo","artistIds":["cda61623-4ecc-4f5c-974b-b00d0dbbe6bb"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Vivi's Persistence","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"25508acd-6889-51fe-86ad-2761e882f321","scryfallId":"82bfac4e-fb59-4463-832d-585e5d915564","scryfallIllustrationId":"d7ab1d52-cf5d-4534-8eaa-a6c666ad63ee","scryfallOracleId":"a9d6df86-0adf-4307-b3c9-7816b2a8fb77"},"language":"English","layout":"art_series","name":"Vivi's Persistence // Vivi's Persistence","number":"17","otherFaceIds":["b62e2dab-7aa5-5b1a-950e-634f17eaad6c"],"setCode":"AFIC","side":"b","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"3110a7da-67be-5d4c-a827-9feb973beaa3"},{"artist":"Erion Makuo","artistIds":["cda61623-4ecc-4f5c-974b-b00d0dbbe6bb"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Search for Dagger","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"c13ae151-b388-5390-9dcb-7e996b14eb63","scryfallId":"c53779b1-f96d-4f99-9d71-b1d706fd13a5","scryfallIllustrationId":"5f8654af-85c2-4205-b5c1-aac6c157c635","scryfallOracleId":"2d9ff27d-42a8-4a1f-b929-45fb73b7cfe3"},"language":"English","layout":"art_series","name":"Search for Dagger // Search for Dagger","number":"18","otherFaceIds":["b40e8d4a-e0ff-52e1-8907-f7133e357fc2"],"setCode":"AFIC","side":"a","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"dc00ce87-1acf-5fd9-86ed-facf60450e08"},{"artist":"Erion Makuo","artistIds":["cda61623-4ecc-4f5c-974b-b00d0dbbe6bb"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Search for Dagger","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"049c073d-824c-52da-b71b-70043fd73b1e","scryfallId":"c53779b1-f96d-4f99-9d71-b1d706fd13a5","scryfallIllustrationId":"5f8654af-85c2-4205-b5c1-aac6c157c635","scryfallOracleId":"2d9ff27d-42a8-4a1f-b929-45fb73b7cfe3"},"language":"English","layout":"art_series","name":"Search for Dagger // Search for Dagger","number":"18","otherFaceIds":["dc00ce87-1acf-5fd9-86ed-facf60450e08"],"setCode":"AFIC","side":"b","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"b40e8d4a-e0ff-52e1-8907-f7133e357fc2"},{"artist":"Winona Nelson","artistIds":["e45fe8d3-75d6-42c9-a2df-e945ad81ea27"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Noctis, Heir Apparent","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"d2fe74e2-f1f2-50a4-b1ff-af8fbc5f7975","scryfallId":"c028cb1b-cd10-4a30-91fd-3216a86aa966","scryfallIllustrationId":"e539e07c-cf37-436e-a8a5-f3178c425268","scryfallOracleId":"4aef914b-64cd-4505-8519-89dbf57f4c87"},"language":"English","layout":"art_series","name":"Noctis, Heir Apparent // Noctis, Heir Apparent","number":"19","otherFaceIds":["9e2cb0db-b71f-5dda-8be6-b3dcfd62c54c"],"setCode":"AFIC","side":"a","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"2a2ecfb5-f642-578b-995f-1275e0235511"},{"artist":"Winona Nelson","artistIds":["e45fe8d3-75d6-42c9-a2df-e945ad81ea27"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Noctis, Heir Apparent","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"3d28e40c-f1de-5b9d-b87f-c9123ca7f403","scryfallId":"c028cb1b-cd10-4a30-91fd-3216a86aa966","scryfallIllustrationId":"e539e07c-cf37-436e-a8a5-f3178c425268","scryfallOracleId":"4aef914b-64cd-4505-8519-89dbf57f4c87"},"language":"English","layout":"art_series","name":"Noctis, Heir Apparent // Noctis, Heir Apparent","number":"19","otherFaceIds":["2a2ecfb5-f642-578b-995f-1275e0235511"],"setCode":"AFIC","side":"b","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"9e2cb0db-b71f-5dda-8be6-b3dcfd62c54c"},{"artist":"Winona Nelson","artistIds":["e45fe8d3-75d6-42c9-a2df-e945ad81ea27"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Fishing Gear","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"1a0e81eb-edc1-5c88-b5a2-ec4e1b496e0e","scryfallId":"59811a52-0db6-4f88-b24c-d16fe73b1937","scryfallIllustrationId":"e89d0ed4-6129-42bb-b4e0-306cd7a8808d","scryfallOracleId":"a575ad9d-6222-4d5a-9bc0-47480e5644f2"},"language":"English","layout":"art_series","name":"Fishing Gear // Fishing Gear","number":"20","otherFaceIds":["a2120a2c-b385-5ae9-a4f7-927e87440818"],"setCode":"AFIC","side":"a","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"8355c577-3e2f-58d3-93ad-003a870433c3"},{"artist":"Winona Nelson","artistIds":["e45fe8d3-75d6-42c9-a2df-e945ad81ea27"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Fishing Gear","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"3c49ba0e-e7ee-56a8-b3f6-f6c1ccbf8e45","scryfallId":"59811a52-0db6-4f88-b24c-d16fe73b1937","scryfallIllustrationId":"e89d0ed4-6129-42bb-b4e0-306cd7a8808d","scryfallOracleId":"a575ad9d-6222-4d5a-9bc0-47480e5644f2"},"language":"English","layout":"art_series","name":"Fishing Gear // Fishing Gear","number":"20","otherFaceIds":["8355c577-3e2f-58d3-93ad-003a870433c3"],"setCode":"AFIC","side":"b","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"a2120a2c-b385-5ae9-a4f7-927e87440818"},{"artist":"Winona Nelson","artistIds":["e45fe8d3-75d6-42c9-a2df-e945ad81ea27"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Chocobo Camp","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"d52b58ed-9fb9-5fc6-b559-164f96d2b88b","scryfallId":"4ebf9196-ac3c-4b74-a5c6-af55f728b9fd","scryfallIllustrationId":"71502806-4821-4bb8-ab94-33df3225b40a","scryfallOracleId":"84c22e96-9625-440f-b1dd-a200da9ba6c2"},"language":"English","layout":"art_series","name":"Chocobo Camp // Chocobo Camp","number":"21","otherFaceIds":["415eba20-6d55-56dd-bf3a-3514f4b21f1d"],"setCode":"AFIC","side":"a","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"3524871c-0238-5264-bffd-999a8f2e293b"},{"artist":"Winona Nelson","artistIds":["e45fe8d3-75d6-42c9-a2df-e945ad81ea27"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Chocobo Camp","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"3553f257-4945-5c6d-890d-4ac6d6262592","scryfallId":"4ebf9196-ac3c-4b74-a5c6-af55f728b9fd","scryfallIllustrationId":"71502806-4821-4bb8-ab94-33df3225b40a","scryfallOracleId":"84c22e96-9625-440f-b1dd-a200da9ba6c2"},"language":"English","layout":"art_series","name":"Chocobo Camp // Chocobo Camp","number":"21","otherFaceIds":["3524871c-0238-5264-bffd-999a8f2e293b"],"setCode":"AFIC","side":"b","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"415eba20-6d55-56dd-bf3a-3514f4b21f1d"},{"artist":"Winona Nelson","artistIds":["e45fe8d3-75d6-42c9-a2df-e945ad81ea27"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Flash Photography","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"068da126-014f-5bd7-b947-393d9978fba6","scryfallId":"138d2fa9-0b31-4eed-820e-9933c733c3c7","scryfallIllustrationId":"225d2faa-c19a-4210-aa3c-fa1d1106cde8","scryfallOracleId":"382d370f-77f6-4a69-808d-64506b107e6f"},"language":"English","layout":"art_series","name":"Flash Photography // Flash Photography","number":"22","otherFaceIds":["6004a5d5-0dc3-5ff9-9cc2-6c47f1690827"],"setCode":"AFIC","side":"a","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"e5838a9e-9452-5d1d-8475-5de61a11b581"},{"artist":"Winona Nelson","artistIds":["e45fe8d3-75d6-42c9-a2df-e945ad81ea27"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Flash Photography","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"1c8eeb3d-fae9-5f1d-a72d-3bd1fcc7e55c","scryfallId":"138d2fa9-0b31-4eed-820e-9933c733c3c7","scryfallIllustrationId":"225d2faa-c19a-4210-aa3c-fa1d1106cde8","scryfallOracleId":"382d370f-77f6-4a69-808d-64506b107e6f"},"language":"English","layout":"art_series","name":"Flash Photography // Flash Photography","number":"22","otherFaceIds":["e5838a9e-9452-5d1d-8475-5de61a11b581"],"setCode":"AFIC","side":"b","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"6004a5d5-0dc3-5ff9-9cc2-6c47f1690827"},{"artist":"Winona Nelson","artistIds":["e45fe8d3-75d6-42c9-a2df-e945ad81ea27"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Campsite Cuisine","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"dd5c8f2a-ef12-5471-a532-49e44e3648c3","scryfallId":"aa688d0e-4dd1-4d7e-a987-17b61496ad62","scryfallIllustrationId":"b4558039-f251-42e6-92e7-08521ad895ee","scryfallOracleId":"c038668c-e5b5-4ad7-9c8e-64637e7bd991"},"language":"English","layout":"art_series","name":"Campsite Cuisine // Campsite Cuisine","number":"23","otherFaceIds":["7e288a4e-9dff-545b-881d-b0dbf6a42dfa"],"setCode":"AFIC","side":"a","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"2c6dfa2e-2390-591a-8b51-19d3d559cbc9"},{"artist":"Winona Nelson","artistIds":["e45fe8d3-75d6-42c9-a2df-e945ad81ea27"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Campsite Cuisine","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"477e4a35-4a2f-5f1f-b31d-2fc6cc6b7fb8","scryfallId":"aa688d0e-4dd1-4d7e-a987-17b61496ad62","scryfallIllustrationId":"7b511346-d1f6-48d3-89fb-e2631e002c5b","scryfallOracleId":"c038668c-e5b5-4ad7-9c8e-64637e7bd991"},"language":"English","layout":"art_series","name":"Campsite Cuisine // Campsite Cuisine","number":"23","otherFaceIds":["2c6dfa2e-2390-591a-8b51-19d3d559cbc9"],"setCode":"AFIC","side":"b","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"7e288a4e-9dff-545b-881d-b0dbf6a42dfa"},{"artist":"Winona Nelson","artistIds":["e45fe8d3-75d6-42c9-a2df-e945ad81ea27"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Warrior's Resolve","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"ccae268e-359d-5aae-96a8-4164b38e679e","scryfallId":"54e12165-f09b-49b1-b834-9cb4ee096a48","scryfallIllustrationId":"760c16a1-47ca-4051-8def-bb25553589c9","scryfallOracleId":"60e517bd-43b8-49e8-8ff1-7df408491abe"},"language":"English","layout":"art_series","name":"Warrior's Resolve // Warrior's Resolve","number":"24","otherFaceIds":["7d539a0b-e6e7-5cde-ac8c-f3866ca5c269"],"setCode":"AFIC","side":"a","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"debda8ba-d198-51e3-8a59-f7514b542128"},{"artist":"Winona Nelson","artistIds":["e45fe8d3-75d6-42c9-a2df-e945ad81ea27"],"availability":["paper"],"borderColor":"borderless","colorIdentity":[],"colors":[],"faceName":"Warrior's Resolve","finishes":["foil","nonfoil"],"frameVersion":"2015","identifiers":{"mtgjsonV4Id":"12148a49-675a-51e7-811d-437f25f80f0a","scryfallId":"54e12165-f09b-49b1-b834-9cb4ee096a48","scryfallIllustrationId":"760c16a1-47ca-4051-8def-bb25553589c9","scryfallOracleId":"60e517bd-43b8-49e8-8ff1-7df408491abe"},"language":"English","layout":"art_series","name":"Warrior's Resolve // Warrior's Resolve","number":"24","otherFaceIds":["debda8ba-d198-51e3-8a59-f7514b542128"],"setCode":"AFIC","side":"b","subtypes":[],"supertypes":[],"type":"Card","types":["Card"],"uuid":"7d539a0b-e6e7-5cde-ac8c-f3866ca5c269"}],"totalSetSize":24,"translations":{"Chinese Simplified":null,"Chinese Traditional":null,"French":null,"German":null,"Italian":null,"Japanese":null,"Korean":null,"Portuguese (Brazil)":null,"Russian":null,"Spanish":null},"type":"memorabilia"}}
+{
+  "meta": {
+    "date": "2026-03-07",
+    "version": "5.3.0+20260307"
+  },
+  "data": {
+    "baseSetSize": 24,
+    "cards": [],
+    "code": "AFIC",
+    "isFoilOnly": false,
+    "isOnlineOnly": false,
+    "keyruneCode": "FIC",
+    "languages": [
+      "English"
+    ],
+    "name": "Final Fantasy Scene Box",
+    "parentCode": "FIC",
+    "releaseDate": "2025-12-05",
+    "tokenSetCode": "AFIC",
+    "tokens": [
+      {
+        "artist": "David Rapoza",
+        "artistIds": [
+          "c5a2318d-5d04-499f-b121-57dee5a9dfe6"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Garland, Royal Kidnapper",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "b9230643-2806-5589-abff-a720d4932a27",
+          "scryfallId": "9a9780d1-05ac-4c72-8b0e-db6af4609efb",
+          "scryfallIllustrationId": "9fca0a39-02dd-4133-9e8b-c79165a29099",
+          "scryfallOracleId": "0f925a1d-e0ce-48d4-8f0a-4177729810dd"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Garland, Royal Kidnapper // Garland, Royal Kidnapper",
+        "number": "1",
+        "otherFaceIds": [
+          "f1e5ad23-c1aa-5eda-bd1d-3efb401845d5"
+        ],
+        "setCode": "AFIC",
+        "side": "a",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "efdba9e8-ad1c-54f1-9c0d-72093ba62c00"
+      },
+      {
+        "artist": "David Rapoza",
+        "artistIds": [
+          "c5a2318d-5d04-499f-b121-57dee5a9dfe6"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Garland, Royal Kidnapper",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "dc72ca15-71ec-5be3-8bf5-1482795ed5bf",
+          "scryfallId": "9a9780d1-05ac-4c72-8b0e-db6af4609efb",
+          "scryfallIllustrationId": "9fca0a39-02dd-4133-9e8b-c79165a29099",
+          "scryfallOracleId": "0f925a1d-e0ce-48d4-8f0a-4177729810dd"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Garland, Royal Kidnapper // Garland, Royal Kidnapper",
+        "number": "1",
+        "otherFaceIds": [
+          "efdba9e8-ad1c-54f1-9c0d-72093ba62c00"
+        ],
+        "setCode": "AFIC",
+        "side": "b",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "f1e5ad23-c1aa-5eda-bd1d-3efb401845d5"
+      },
+      {
+        "artist": "David Rapoza",
+        "artistIds": [
+          "c5a2318d-5d04-499f-b121-57dee5a9dfe6"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "The Destined Warrior",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "dca78f52-2d8b-58db-a6cf-367410feda84",
+          "scryfallId": "f7e44a42-ac64-49e2-875c-355f932467e1",
+          "scryfallIllustrationId": "4675723c-885c-423f-b7b2-f243153b4975",
+          "scryfallOracleId": "cb81ca7e-f087-4899-b527-14c7e841cd43"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "The Destined Warrior // The Destined Warrior",
+        "number": "2",
+        "otherFaceIds": [
+          "7b0ec769-ee34-52df-ad51-a5a7b884ea48"
+        ],
+        "setCode": "AFIC",
+        "side": "a",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "648cb505-aad0-5246-b4b8-b66ff265c443"
+      },
+      {
+        "artist": "David Rapoza",
+        "artistIds": [
+          "c5a2318d-5d04-499f-b121-57dee5a9dfe6"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "The Destined Warrior",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "ac5f68d5-7b1b-542e-8960-501e17f6182f",
+          "scryfallId": "f7e44a42-ac64-49e2-875c-355f932467e1",
+          "scryfallIllustrationId": "4675723c-885c-423f-b7b2-f243153b4975",
+          "scryfallOracleId": "cb81ca7e-f087-4899-b527-14c7e841cd43"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "The Destined Warrior // The Destined Warrior",
+        "number": "2",
+        "otherFaceIds": [
+          "648cb505-aad0-5246-b4b8-b66ff265c443"
+        ],
+        "setCode": "AFIC",
+        "side": "b",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "7b0ec769-ee34-52df-ad51-a5a7b884ea48"
+      },
+      {
+        "artist": "David Rapoza",
+        "artistIds": [
+          "c5a2318d-5d04-499f-b121-57dee5a9dfe6"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "The Destined White Mage",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "82016269-5007-5b3b-9f35-6c99ee241b42",
+          "scryfallId": "0aa1e74b-7fd7-4c48-a0a3-56eb1a6f877a",
+          "scryfallIllustrationId": "f0b44d76-2ee6-4d03-af44-429588978025",
+          "scryfallOracleId": "a08a1fe6-5c2b-4a13-9039-9c0438885a1a"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "The Destined White Mage // The Destined White Mage",
+        "number": "3",
+        "otherFaceIds": [
+          "78d57241-6456-5354-8885-1e14f6861ddb"
+        ],
+        "setCode": "AFIC",
+        "side": "a",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "c93ea749-0fa9-57e2-ad24-8394ac497816"
+      },
+      {
+        "artist": "David Rapoza",
+        "artistIds": [
+          "c5a2318d-5d04-499f-b121-57dee5a9dfe6"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "The Destined White Mage",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "d7ac8d9e-9440-5686-b85e-386653605251",
+          "scryfallId": "0aa1e74b-7fd7-4c48-a0a3-56eb1a6f877a",
+          "scryfallIllustrationId": "f0b44d76-2ee6-4d03-af44-429588978025",
+          "scryfallOracleId": "a08a1fe6-5c2b-4a13-9039-9c0438885a1a"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "The Destined White Mage // The Destined White Mage",
+        "number": "3",
+        "otherFaceIds": [
+          "c93ea749-0fa9-57e2-ad24-8394ac497816"
+        ],
+        "setCode": "AFIC",
+        "side": "b",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "78d57241-6456-5354-8885-1e14f6861ddb"
+      },
+      {
+        "artist": "David Rapoza",
+        "artistIds": [
+          "c5a2318d-5d04-499f-b121-57dee5a9dfe6"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Chaos Shrine's Black Crystal",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "dae439cb-377f-53ce-920f-58cdc0ef05e3",
+          "scryfallId": "bf18dca9-de07-47f5-be86-fbea8b527411",
+          "scryfallIllustrationId": "fdd0e17e-1307-40fb-83fd-1b8a666b6fb8",
+          "scryfallOracleId": "9590ce4c-09f8-4faf-abcd-c599b61aebf0"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Chaos Shrine's Black Crystal // Chaos Shrine's Black Crystal",
+        "number": "4",
+        "otherFaceIds": [
+          "0fa310b7-73e1-52e6-8815-f9684d4dfcbc"
+        ],
+        "setCode": "AFIC",
+        "side": "a",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "3a7de48f-ddce-52a2-b393-c9dcf611b179"
+      },
+      {
+        "artist": "David Rapoza",
+        "artistIds": [
+          "c5a2318d-5d04-499f-b121-57dee5a9dfe6"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Chaos Shrine's Black Crystal",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "5a96cd9c-58fe-536e-9170-a49f104309d3",
+          "scryfallId": "bf18dca9-de07-47f5-be86-fbea8b527411",
+          "scryfallIllustrationId": "16ea5879-1efe-45bf-bae7-933cf0d573ff",
+          "scryfallOracleId": "9590ce4c-09f8-4faf-abcd-c599b61aebf0"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Chaos Shrine's Black Crystal // Chaos Shrine's Black Crystal",
+        "number": "4",
+        "otherFaceIds": [
+          "3a7de48f-ddce-52a2-b393-c9dcf611b179"
+        ],
+        "setCode": "AFIC",
+        "side": "b",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "0fa310b7-73e1-52e6-8815-f9684d4dfcbc"
+      },
+      {
+        "artist": "David Rapoza",
+        "artistIds": [
+          "c5a2318d-5d04-499f-b121-57dee5a9dfe6"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "The Destined Thief",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "46f8601b-10a2-5407-a5ae-c5897f4ed4f3",
+          "scryfallId": "40a495d6-cd48-45a5-9afd-d9ec3a21ec3a",
+          "scryfallIllustrationId": "bd2654e8-af1e-4c92-9816-1427cb0d67b7",
+          "scryfallOracleId": "0361b51f-316f-46b9-91d7-ef366794a490"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "The Destined Thief // The Destined Thief",
+        "number": "5",
+        "otherFaceIds": [
+          "41201018-14a7-5f2d-8e72-f7be7fc4a347"
+        ],
+        "setCode": "AFIC",
+        "side": "a",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "41ce4196-b4e0-527d-aae0-9ab33c55b4a5"
+      },
+      {
+        "artist": "David Rapoza",
+        "artistIds": [
+          "c5a2318d-5d04-499f-b121-57dee5a9dfe6"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "The Destined Thief",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "209c11bc-9e5b-5773-9a35-260a8f561038",
+          "scryfallId": "40a495d6-cd48-45a5-9afd-d9ec3a21ec3a",
+          "scryfallIllustrationId": "bd2654e8-af1e-4c92-9816-1427cb0d67b7",
+          "scryfallOracleId": "0361b51f-316f-46b9-91d7-ef366794a490"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "The Destined Thief // The Destined Thief",
+        "number": "5",
+        "otherFaceIds": [
+          "41ce4196-b4e0-527d-aae0-9ab33c55b4a5"
+        ],
+        "setCode": "AFIC",
+        "side": "b",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "41201018-14a7-5f2d-8e72-f7be7fc4a347"
+      },
+      {
+        "artist": "David Rapoza",
+        "artistIds": [
+          "c5a2318d-5d04-499f-b121-57dee5a9dfe6"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "The Destined Black Mage",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "84c9f21b-e68e-5cd6-ba63-b5e47b879a3a",
+          "scryfallId": "76ed17e5-4adb-4b75-99a4-62c1b107cfdd",
+          "scryfallIllustrationId": "8ea29780-b002-467b-81c5-5c4d4459e728",
+          "scryfallOracleId": "93aa5b59-720b-4e99-b03e-277e950bf95d"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "The Destined Black Mage // The Destined Black Mage",
+        "number": "6",
+        "otherFaceIds": [
+          "adc6ca7b-23e9-548f-9d02-c46b9933afff"
+        ],
+        "setCode": "AFIC",
+        "side": "a",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "f356992c-30a7-5c49-8d16-e259dbd82e54"
+      },
+      {
+        "artist": "David Rapoza",
+        "artistIds": [
+          "c5a2318d-5d04-499f-b121-57dee5a9dfe6"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "The Destined Black Mage",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "0305f24c-6a02-5468-acd0-3e5a7b50a5c7",
+          "scryfallId": "76ed17e5-4adb-4b75-99a4-62c1b107cfdd",
+          "scryfallIllustrationId": "8ea29780-b002-467b-81c5-5c4d4459e728",
+          "scryfallOracleId": "93aa5b59-720b-4e99-b03e-277e950bf95d"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "The Destined Black Mage // The Destined Black Mage",
+        "number": "6",
+        "otherFaceIds": [
+          "f356992c-30a7-5c49-8d16-e259dbd82e54"
+        ],
+        "setCode": "AFIC",
+        "side": "b",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "adc6ca7b-23e9-548f-9d02-c46b9933afff"
+      },
+      {
+        "artist": "Lius Lasahido",
+        "artistIds": [
+          "0a0e9093-ce44-4a69-93a7-09b63e7c330d"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Edea, Possessed Sorceress",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "299961d7-8fdc-5f28-b77a-854874bfcf4f",
+          "scryfallId": "f8cbf62a-ab28-4c7b-84a5-ce1ee8bb3bf1",
+          "scryfallIllustrationId": "2d3b2751-9f53-4734-ad6f-5163a0d341a4",
+          "scryfallOracleId": "e7c3d8d3-c8ab-48c4-92b0-841ef58e42f6"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Edea, Possessed Sorceress // Edea, Possessed Sorceress",
+        "number": "7",
+        "otherFaceIds": [
+          "752ef234-ab80-53cf-98cb-5fab7c06fa71"
+        ],
+        "setCode": "AFIC",
+        "side": "a",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "667562f7-c7da-5804-bd8d-c3b8551edb04"
+      },
+      {
+        "artist": "Lius Lasahido",
+        "artistIds": [
+          "0a0e9093-ce44-4a69-93a7-09b63e7c330d"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Edea, Possessed Sorceress",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "64fdec6e-66ba-58d0-93ad-c4866a47de28",
+          "scryfallId": "f8cbf62a-ab28-4c7b-84a5-ce1ee8bb3bf1",
+          "scryfallIllustrationId": "2d3b2751-9f53-4734-ad6f-5163a0d341a4",
+          "scryfallOracleId": "e7c3d8d3-c8ab-48c4-92b0-841ef58e42f6"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Edea, Possessed Sorceress // Edea, Possessed Sorceress",
+        "number": "7",
+        "otherFaceIds": [
+          "667562f7-c7da-5804-bd8d-c3b8551edb04"
+        ],
+        "setCode": "AFIC",
+        "side": "b",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "752ef234-ab80-53cf-98cb-5fab7c06fa71"
+      },
+      {
+        "artist": "Lius Lasahido",
+        "artistIds": [
+          "0a0e9093-ce44-4a69-93a7-09b63e7c330d"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Fated Clash",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "1f1ed24e-86cb-5daf-95e5-2719f9f3bebf",
+          "scryfallId": "1370d8b5-bd31-4943-885e-ae6211990561",
+          "scryfallIllustrationId": "77a8e3d9-025a-4027-b9a5-38eb91acf68c",
+          "scryfallOracleId": "ecffaf93-241d-4739-84d1-71daf31332fa"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Fated Clash // Fated Clash",
+        "number": "8",
+        "otherFaceIds": [
+          "072d11f8-4a2a-586f-8545-13f72a3cbad3"
+        ],
+        "setCode": "AFIC",
+        "side": "a",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "92a2f6d6-6a69-535c-91df-97825d4b90c2"
+      },
+      {
+        "artist": "Lius Lasahido",
+        "artistIds": [
+          "0a0e9093-ce44-4a69-93a7-09b63e7c330d"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Fated Clash",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "7c9e4ccb-810b-58d4-a075-329c732806da",
+          "scryfallId": "1370d8b5-bd31-4943-885e-ae6211990561",
+          "scryfallIllustrationId": "77a8e3d9-025a-4027-b9a5-38eb91acf68c",
+          "scryfallOracleId": "ecffaf93-241d-4739-84d1-71daf31332fa"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Fated Clash // Fated Clash",
+        "number": "8",
+        "otherFaceIds": [
+          "92a2f6d6-6a69-535c-91df-97825d4b90c2"
+        ],
+        "setCode": "AFIC",
+        "side": "b",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "072d11f8-4a2a-586f-8545-13f72a3cbad3"
+      },
+      {
+        "artist": "Lius Lasahido",
+        "artistIds": [
+          "0a0e9093-ce44-4a69-93a7-09b63e7c330d"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Rinoa, Angel Wing",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "d59de123-f396-5bc0-9fd3-b0f97a602587",
+          "scryfallId": "6d3909f0-1bd4-476c-af64-cf346eeaab0c",
+          "scryfallIllustrationId": "022b5857-ddf2-4b12-bc19-651d1b29f9fc",
+          "scryfallOracleId": "74fe1163-5be6-468d-83fb-5f1a7d6fac01"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Rinoa, Angel Wing // Rinoa, Angel Wing",
+        "number": "9",
+        "otherFaceIds": [
+          "8c060143-f860-5c28-ad8b-af9c0a1bda96"
+        ],
+        "setCode": "AFIC",
+        "side": "a",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "cc1cffc0-9779-54a6-8f22-129c00a11f8c"
+      },
+      {
+        "artist": "Lius Lasahido",
+        "artistIds": [
+          "0a0e9093-ce44-4a69-93a7-09b63e7c330d"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Rinoa, Angel Wing",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "b1f13260-a6c2-5056-9972-273af34637e8",
+          "scryfallId": "6d3909f0-1bd4-476c-af64-cf346eeaab0c",
+          "scryfallIllustrationId": "022b5857-ddf2-4b12-bc19-651d1b29f9fc",
+          "scryfallOracleId": "74fe1163-5be6-468d-83fb-5f1a7d6fac01"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Rinoa, Angel Wing // Rinoa, Angel Wing",
+        "number": "9",
+        "otherFaceIds": [
+          "cc1cffc0-9779-54a6-8f22-129c00a11f8c"
+        ],
+        "setCode": "AFIC",
+        "side": "b",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "8c060143-f860-5c28-ad8b-af9c0a1bda96"
+      },
+      {
+        "artist": "Lius Lasahido",
+        "artistIds": [
+          "0a0e9093-ce44-4a69-93a7-09b63e7c330d"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Seifer, Balamb Rival",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "2abca65a-8e78-5f93-a03f-82ac6489cbcf",
+          "scryfallId": "837a0a26-e32f-42ff-889b-50f7064c4793",
+          "scryfallIllustrationId": "c7a806ac-d4cc-49da-9a64-ec76210f4178",
+          "scryfallOracleId": "a4bf6f0b-e3f2-48a4-b4cc-02fece9a0465"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Seifer, Balamb Rival // Seifer, Balamb Rival",
+        "number": "10",
+        "otherFaceIds": [
+          "99535d65-6615-531b-8081-4d61c2e7c6b9"
+        ],
+        "setCode": "AFIC",
+        "side": "a",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "9a16fe8a-8297-5e20-83ea-bbb16070f4b6"
+      },
+      {
+        "artist": "Lius Lasahido",
+        "artistIds": [
+          "0a0e9093-ce44-4a69-93a7-09b63e7c330d"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Seifer, Balamb Rival",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "76f98571-3d87-5815-9316-c0045e2415de",
+          "scryfallId": "837a0a26-e32f-42ff-889b-50f7064c4793",
+          "scryfallIllustrationId": "c7a806ac-d4cc-49da-9a64-ec76210f4178",
+          "scryfallOracleId": "a4bf6f0b-e3f2-48a4-b4cc-02fece9a0465"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Seifer, Balamb Rival // Seifer, Balamb Rival",
+        "number": "10",
+        "otherFaceIds": [
+          "9a16fe8a-8297-5e20-83ea-bbb16070f4b6"
+        ],
+        "setCode": "AFIC",
+        "side": "b",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "99535d65-6615-531b-8081-4d61c2e7c6b9"
+      },
+      {
+        "artist": "Lius Lasahido",
+        "artistIds": [
+          "0a0e9093-ce44-4a69-93a7-09b63e7c330d"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Duelist's Flame",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "6e22f481-2ba4-55cb-85d8-249819bf756a",
+          "scryfallId": "822db9a8-4549-4892-ba3c-a082f0ed6a74",
+          "scryfallIllustrationId": "f7ed78c5-6bb3-47ea-a39f-9677fb5f7a0f",
+          "scryfallOracleId": "7860d999-1668-40a8-b751-b354f2609eb0"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Duelist's Flame // Duelist's Flame",
+        "number": "11",
+        "otherFaceIds": [
+          "41d14efc-7f4b-55b5-9841-fd42d0012854"
+        ],
+        "setCode": "AFIC",
+        "side": "a",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "431cf90d-c6fc-50a8-94f2-31561da8fc64"
+      },
+      {
+        "artist": "Lius Lasahido",
+        "artistIds": [
+          "0a0e9093-ce44-4a69-93a7-09b63e7c330d"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Duelist's Flame",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "f1ae6983-6f89-5b87-885c-588a5440832b",
+          "scryfallId": "822db9a8-4549-4892-ba3c-a082f0ed6a74",
+          "scryfallIllustrationId": "f7ed78c5-6bb3-47ea-a39f-9677fb5f7a0f",
+          "scryfallOracleId": "7860d999-1668-40a8-b751-b354f2609eb0"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Duelist's Flame // Duelist's Flame",
+        "number": "11",
+        "otherFaceIds": [
+          "431cf90d-c6fc-50a8-94f2-31561da8fc64"
+        ],
+        "setCode": "AFIC",
+        "side": "b",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "41d14efc-7f4b-55b5-9841-fd42d0012854"
+      },
+      {
+        "artist": "Lius Lasahido",
+        "artistIds": [
+          "0a0e9093-ce44-4a69-93a7-09b63e7c330d"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Squall, Gunblade Duelist",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "b540e41c-5a68-5bc3-8087-969e2d7cb587",
+          "scryfallId": "df08fc22-2158-442a-96ac-60e7275bb9dd",
+          "scryfallIllustrationId": "499a1635-c874-42c7-8ec3-23e402b5b64c",
+          "scryfallOracleId": "f533e95d-ab4b-45d1-940d-c363454980a7"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Squall, Gunblade Duelist // Squall, Gunblade Duelist",
+        "number": "12",
+        "otherFaceIds": [
+          "99623bc5-dddb-5523-9ac7-63cdeaefafaf"
+        ],
+        "setCode": "AFIC",
+        "side": "a",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "2c75eb82-3a10-56b0-a990-19c26366c638"
+      },
+      {
+        "artist": "Lius Lasahido",
+        "artistIds": [
+          "0a0e9093-ce44-4a69-93a7-09b63e7c330d"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Squall, Gunblade Duelist",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "f20ef224-bd71-512c-951c-6b1c66d0de4e",
+          "scryfallId": "df08fc22-2158-442a-96ac-60e7275bb9dd",
+          "scryfallIllustrationId": "499a1635-c874-42c7-8ec3-23e402b5b64c",
+          "scryfallOracleId": "f533e95d-ab4b-45d1-940d-c363454980a7"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Squall, Gunblade Duelist // Squall, Gunblade Duelist",
+        "number": "12",
+        "otherFaceIds": [
+          "2c75eb82-3a10-56b0-a990-19c26366c638"
+        ],
+        "setCode": "AFIC",
+        "side": "b",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "99623bc5-dddb-5523-9ac7-63cdeaefafaf"
+      },
+      {
+        "artist": "Erion Makuo",
+        "artistIds": [
+          "cda61623-4ecc-4f5c-974b-b00d0dbbe6bb"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Brilliant Wings",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "9082e962-a57c-598e-b4e9-1bd9bb9d69da",
+          "scryfallId": "c87ae25b-ae0b-4dd6-a6b9-726a2c38beba",
+          "scryfallIllustrationId": "293254a5-c532-42d6-b1d6-4681054be1e1",
+          "scryfallOracleId": "7c668ccb-5267-41f4-a4fe-841e21d2dbcc"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Brilliant Wings // Brilliant Wings",
+        "number": "13",
+        "otherFaceIds": [
+          "52285e49-291a-55c3-a039-0d59fd9d80c8"
+        ],
+        "setCode": "AFIC",
+        "side": "a",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "63cd9ac7-9cfb-5f89-8a95-df36a1a48f0b"
+      },
+      {
+        "artist": "Erion Makuo",
+        "artistIds": [
+          "cda61623-4ecc-4f5c-974b-b00d0dbbe6bb"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Brilliant Wings",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "a7b54cf9-3b1a-5e89-8c81-648cd7672ef2",
+          "scryfallId": "c87ae25b-ae0b-4dd6-a6b9-726a2c38beba",
+          "scryfallIllustrationId": "d97cc986-7633-4bca-879d-b6d9a39b8abc",
+          "scryfallOracleId": "7c668ccb-5267-41f4-a4fe-841e21d2dbcc"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Brilliant Wings // Brilliant Wings",
+        "number": "13",
+        "otherFaceIds": [
+          "63cd9ac7-9cfb-5f89-8a95-df36a1a48f0b"
+        ],
+        "setCode": "AFIC",
+        "side": "b",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "52285e49-291a-55c3-a039-0d59fd9d80c8"
+      },
+      {
+        "artist": "Erion Makuo",
+        "artistIds": [
+          "cda61623-4ecc-4f5c-974b-b00d0dbbe6bb"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Judgment of Alexander",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "d493e1e1-45f7-5ba8-a1df-ddd3704fffc9",
+          "scryfallId": "4be163a6-563c-4bd9-a957-dd44707c4e29",
+          "scryfallIllustrationId": "3e09b872-2a97-4aa2-8703-68517a36832a",
+          "scryfallOracleId": "aa6c4288-b368-423c-8491-3169e07efa02"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Judgment of Alexander // Judgment of Alexander",
+        "number": "14",
+        "otherFaceIds": [
+          "4d9b11f7-c821-52fa-9022-d23a880032e8"
+        ],
+        "setCode": "AFIC",
+        "side": "a",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "5535ab39-53e3-5e2a-b0b4-e48f27234a39"
+      },
+      {
+        "artist": "Erion Makuo",
+        "artistIds": [
+          "cda61623-4ecc-4f5c-974b-b00d0dbbe6bb"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Judgment of Alexander",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "d32ec79a-3417-5c7a-a0a3-0f61e4c8a01c",
+          "scryfallId": "4be163a6-563c-4bd9-a957-dd44707c4e29",
+          "scryfallIllustrationId": "3e09b872-2a97-4aa2-8703-68517a36832a",
+          "scryfallOracleId": "aa6c4288-b368-423c-8491-3169e07efa02"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Judgment of Alexander // Judgment of Alexander",
+        "number": "14",
+        "otherFaceIds": [
+          "5535ab39-53e3-5e2a-b0b4-e48f27234a39"
+        ],
+        "setCode": "AFIC",
+        "side": "b",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "4d9b11f7-c821-52fa-9022-d23a880032e8"
+      },
+      {
+        "artist": "Erion Makuo",
+        "artistIds": [
+          "cda61623-4ecc-4f5c-974b-b00d0dbbe6bb"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Mega Flare",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "b782a282-730b-5ade-93e5-7ccd68a0154f",
+          "scryfallId": "e51442af-ecc5-4972-9ed4-f8621142b46c",
+          "scryfallIllustrationId": "06bdbf24-98fe-4e73-aa8b-8f7ae6f75d39",
+          "scryfallOracleId": "b5c59b64-86a2-4e8a-bda7-23cb8b9ce57f"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Mega Flare // Mega Flare",
+        "number": "15",
+        "otherFaceIds": [
+          "d8bc405a-857f-517f-b0d2-c382b312fd4b"
+        ],
+        "setCode": "AFIC",
+        "side": "a",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "0d2cd0ac-e731-5b18-aaa7-b12723ed87ce"
+      },
+      {
+        "artist": "Erion Makuo",
+        "artistIds": [
+          "cda61623-4ecc-4f5c-974b-b00d0dbbe6bb"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Mega Flare",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "9052ae47-6fbb-5cbb-bbbb-1efb53e8a89a",
+          "scryfallId": "e51442af-ecc5-4972-9ed4-f8621142b46c",
+          "scryfallIllustrationId": "06bdbf24-98fe-4e73-aa8b-8f7ae6f75d39",
+          "scryfallOracleId": "b5c59b64-86a2-4e8a-bda7-23cb8b9ce57f"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Mega Flare // Mega Flare",
+        "number": "15",
+        "otherFaceIds": [
+          "0d2cd0ac-e731-5b18-aaa7-b12723ed87ce"
+        ],
+        "setCode": "AFIC",
+        "side": "b",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "d8bc405a-857f-517f-b0d2-c382b312fd4b"
+      },
+      {
+        "artist": "Erion Makuo",
+        "artistIds": [
+          "cda61623-4ecc-4f5c-974b-b00d0dbbe6bb"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Amarant Coral",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "25a7d138-990c-5d99-ac37-28b47fb3a4a3",
+          "scryfallId": "8e0f0337-e8ad-4ac0-ad1c-97ce6a36adb1",
+          "scryfallIllustrationId": "92abe39a-b013-4039-8275-82db7af2ecfd",
+          "scryfallOracleId": "2a3cda7a-88e1-4622-b567-b39813aa4a58"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Amarant Coral // Amarant Coral",
+        "number": "16",
+        "otherFaceIds": [
+          "82c41d23-48de-5064-bc4f-cf7888a1b92d"
+        ],
+        "setCode": "AFIC",
+        "side": "a",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "e6742b12-3aaf-5363-bcca-788a5f3fdbdc"
+      },
+      {
+        "artist": "Erion Makuo",
+        "artistIds": [
+          "cda61623-4ecc-4f5c-974b-b00d0dbbe6bb"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Amarant Coral",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "0611115b-2d99-50ab-a12d-ab87eddc612f",
+          "scryfallId": "8e0f0337-e8ad-4ac0-ad1c-97ce6a36adb1",
+          "scryfallIllustrationId": "901e9a46-84de-4dd1-9ae7-b3de3528345a",
+          "scryfallOracleId": "2a3cda7a-88e1-4622-b567-b39813aa4a58"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Amarant Coral // Amarant Coral",
+        "number": "16",
+        "otherFaceIds": [
+          "e6742b12-3aaf-5363-bcca-788a5f3fdbdc"
+        ],
+        "setCode": "AFIC",
+        "side": "b",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "82c41d23-48de-5064-bc4f-cf7888a1b92d"
+      },
+      {
+        "artist": "Erion Makuo",
+        "artistIds": [
+          "cda61623-4ecc-4f5c-974b-b00d0dbbe6bb"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Vivi's Persistence",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "4ded68d3-b140-5130-89d3-cfca433d64d6",
+          "scryfallId": "82bfac4e-fb59-4463-832d-585e5d915564",
+          "scryfallIllustrationId": "d7ab1d52-cf5d-4534-8eaa-a6c666ad63ee",
+          "scryfallOracleId": "a9d6df86-0adf-4307-b3c9-7816b2a8fb77"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Vivi's Persistence // Vivi's Persistence",
+        "number": "17",
+        "otherFaceIds": [
+          "3110a7da-67be-5d4c-a827-9feb973beaa3"
+        ],
+        "setCode": "AFIC",
+        "side": "a",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "b62e2dab-7aa5-5b1a-950e-634f17eaad6c"
+      },
+      {
+        "artist": "Erion Makuo",
+        "artistIds": [
+          "cda61623-4ecc-4f5c-974b-b00d0dbbe6bb"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Vivi's Persistence",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "25508acd-6889-51fe-86ad-2761e882f321",
+          "scryfallId": "82bfac4e-fb59-4463-832d-585e5d915564",
+          "scryfallIllustrationId": "d7ab1d52-cf5d-4534-8eaa-a6c666ad63ee",
+          "scryfallOracleId": "a9d6df86-0adf-4307-b3c9-7816b2a8fb77"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Vivi's Persistence // Vivi's Persistence",
+        "number": "17",
+        "otherFaceIds": [
+          "b62e2dab-7aa5-5b1a-950e-634f17eaad6c"
+        ],
+        "setCode": "AFIC",
+        "side": "b",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "3110a7da-67be-5d4c-a827-9feb973beaa3"
+      },
+      {
+        "artist": "Erion Makuo",
+        "artistIds": [
+          "cda61623-4ecc-4f5c-974b-b00d0dbbe6bb"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Search for Dagger",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "c13ae151-b388-5390-9dcb-7e996b14eb63",
+          "scryfallId": "c53779b1-f96d-4f99-9d71-b1d706fd13a5",
+          "scryfallIllustrationId": "5f8654af-85c2-4205-b5c1-aac6c157c635",
+          "scryfallOracleId": "2d9ff27d-42a8-4a1f-b929-45fb73b7cfe3"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Search for Dagger // Search for Dagger",
+        "number": "18",
+        "otherFaceIds": [
+          "b40e8d4a-e0ff-52e1-8907-f7133e357fc2"
+        ],
+        "setCode": "AFIC",
+        "side": "a",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "dc00ce87-1acf-5fd9-86ed-facf60450e08"
+      },
+      {
+        "artist": "Erion Makuo",
+        "artistIds": [
+          "cda61623-4ecc-4f5c-974b-b00d0dbbe6bb"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Search for Dagger",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "049c073d-824c-52da-b71b-70043fd73b1e",
+          "scryfallId": "c53779b1-f96d-4f99-9d71-b1d706fd13a5",
+          "scryfallIllustrationId": "5f8654af-85c2-4205-b5c1-aac6c157c635",
+          "scryfallOracleId": "2d9ff27d-42a8-4a1f-b929-45fb73b7cfe3"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Search for Dagger // Search for Dagger",
+        "number": "18",
+        "otherFaceIds": [
+          "dc00ce87-1acf-5fd9-86ed-facf60450e08"
+        ],
+        "setCode": "AFIC",
+        "side": "b",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "b40e8d4a-e0ff-52e1-8907-f7133e357fc2"
+      },
+      {
+        "artist": "Winona Nelson",
+        "artistIds": [
+          "e45fe8d3-75d6-42c9-a2df-e945ad81ea27"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Noctis, Heir Apparent",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "d2fe74e2-f1f2-50a4-b1ff-af8fbc5f7975",
+          "scryfallId": "c028cb1b-cd10-4a30-91fd-3216a86aa966",
+          "scryfallIllustrationId": "e539e07c-cf37-436e-a8a5-f3178c425268",
+          "scryfallOracleId": "4aef914b-64cd-4505-8519-89dbf57f4c87"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Noctis, Heir Apparent // Noctis, Heir Apparent",
+        "number": "19",
+        "otherFaceIds": [
+          "9e2cb0db-b71f-5dda-8be6-b3dcfd62c54c"
+        ],
+        "setCode": "AFIC",
+        "side": "a",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "2a2ecfb5-f642-578b-995f-1275e0235511"
+      },
+      {
+        "artist": "Winona Nelson",
+        "artistIds": [
+          "e45fe8d3-75d6-42c9-a2df-e945ad81ea27"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Noctis, Heir Apparent",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "3d28e40c-f1de-5b9d-b87f-c9123ca7f403",
+          "scryfallId": "c028cb1b-cd10-4a30-91fd-3216a86aa966",
+          "scryfallIllustrationId": "e539e07c-cf37-436e-a8a5-f3178c425268",
+          "scryfallOracleId": "4aef914b-64cd-4505-8519-89dbf57f4c87"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Noctis, Heir Apparent // Noctis, Heir Apparent",
+        "number": "19",
+        "otherFaceIds": [
+          "2a2ecfb5-f642-578b-995f-1275e0235511"
+        ],
+        "setCode": "AFIC",
+        "side": "b",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "9e2cb0db-b71f-5dda-8be6-b3dcfd62c54c"
+      },
+      {
+        "artist": "Winona Nelson",
+        "artistIds": [
+          "e45fe8d3-75d6-42c9-a2df-e945ad81ea27"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Fishing Gear",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "1a0e81eb-edc1-5c88-b5a2-ec4e1b496e0e",
+          "scryfallId": "59811a52-0db6-4f88-b24c-d16fe73b1937",
+          "scryfallIllustrationId": "e89d0ed4-6129-42bb-b4e0-306cd7a8808d",
+          "scryfallOracleId": "a575ad9d-6222-4d5a-9bc0-47480e5644f2"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Fishing Gear // Fishing Gear",
+        "number": "20",
+        "otherFaceIds": [
+          "a2120a2c-b385-5ae9-a4f7-927e87440818"
+        ],
+        "setCode": "AFIC",
+        "side": "a",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "8355c577-3e2f-58d3-93ad-003a870433c3"
+      },
+      {
+        "artist": "Winona Nelson",
+        "artistIds": [
+          "e45fe8d3-75d6-42c9-a2df-e945ad81ea27"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Fishing Gear",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "3c49ba0e-e7ee-56a8-b3f6-f6c1ccbf8e45",
+          "scryfallId": "59811a52-0db6-4f88-b24c-d16fe73b1937",
+          "scryfallIllustrationId": "e89d0ed4-6129-42bb-b4e0-306cd7a8808d",
+          "scryfallOracleId": "a575ad9d-6222-4d5a-9bc0-47480e5644f2"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Fishing Gear // Fishing Gear",
+        "number": "20",
+        "otherFaceIds": [
+          "8355c577-3e2f-58d3-93ad-003a870433c3"
+        ],
+        "setCode": "AFIC",
+        "side": "b",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "a2120a2c-b385-5ae9-a4f7-927e87440818"
+      },
+      {
+        "artist": "Winona Nelson",
+        "artistIds": [
+          "e45fe8d3-75d6-42c9-a2df-e945ad81ea27"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Chocobo Camp",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "d52b58ed-9fb9-5fc6-b559-164f96d2b88b",
+          "scryfallId": "4ebf9196-ac3c-4b74-a5c6-af55f728b9fd",
+          "scryfallIllustrationId": "71502806-4821-4bb8-ab94-33df3225b40a",
+          "scryfallOracleId": "84c22e96-9625-440f-b1dd-a200da9ba6c2"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Chocobo Camp // Chocobo Camp",
+        "number": "21",
+        "otherFaceIds": [
+          "415eba20-6d55-56dd-bf3a-3514f4b21f1d"
+        ],
+        "setCode": "AFIC",
+        "side": "a",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "3524871c-0238-5264-bffd-999a8f2e293b"
+      },
+      {
+        "artist": "Winona Nelson",
+        "artistIds": [
+          "e45fe8d3-75d6-42c9-a2df-e945ad81ea27"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Chocobo Camp",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "3553f257-4945-5c6d-890d-4ac6d6262592",
+          "scryfallId": "4ebf9196-ac3c-4b74-a5c6-af55f728b9fd",
+          "scryfallIllustrationId": "71502806-4821-4bb8-ab94-33df3225b40a",
+          "scryfallOracleId": "84c22e96-9625-440f-b1dd-a200da9ba6c2"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Chocobo Camp // Chocobo Camp",
+        "number": "21",
+        "otherFaceIds": [
+          "3524871c-0238-5264-bffd-999a8f2e293b"
+        ],
+        "setCode": "AFIC",
+        "side": "b",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "415eba20-6d55-56dd-bf3a-3514f4b21f1d"
+      },
+      {
+        "artist": "Winona Nelson",
+        "artistIds": [
+          "e45fe8d3-75d6-42c9-a2df-e945ad81ea27"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Flash Photography",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "068da126-014f-5bd7-b947-393d9978fba6",
+          "scryfallId": "138d2fa9-0b31-4eed-820e-9933c733c3c7",
+          "scryfallIllustrationId": "225d2faa-c19a-4210-aa3c-fa1d1106cde8",
+          "scryfallOracleId": "382d370f-77f6-4a69-808d-64506b107e6f"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Flash Photography // Flash Photography",
+        "number": "22",
+        "otherFaceIds": [
+          "6004a5d5-0dc3-5ff9-9cc2-6c47f1690827"
+        ],
+        "setCode": "AFIC",
+        "side": "a",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "e5838a9e-9452-5d1d-8475-5de61a11b581"
+      },
+      {
+        "artist": "Winona Nelson",
+        "artistIds": [
+          "e45fe8d3-75d6-42c9-a2df-e945ad81ea27"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Flash Photography",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "1c8eeb3d-fae9-5f1d-a72d-3bd1fcc7e55c",
+          "scryfallId": "138d2fa9-0b31-4eed-820e-9933c733c3c7",
+          "scryfallIllustrationId": "225d2faa-c19a-4210-aa3c-fa1d1106cde8",
+          "scryfallOracleId": "382d370f-77f6-4a69-808d-64506b107e6f"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Flash Photography // Flash Photography",
+        "number": "22",
+        "otherFaceIds": [
+          "e5838a9e-9452-5d1d-8475-5de61a11b581"
+        ],
+        "setCode": "AFIC",
+        "side": "b",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "6004a5d5-0dc3-5ff9-9cc2-6c47f1690827"
+      },
+      {
+        "artist": "Winona Nelson",
+        "artistIds": [
+          "e45fe8d3-75d6-42c9-a2df-e945ad81ea27"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Campsite Cuisine",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "dd5c8f2a-ef12-5471-a532-49e44e3648c3",
+          "scryfallId": "aa688d0e-4dd1-4d7e-a987-17b61496ad62",
+          "scryfallIllustrationId": "b4558039-f251-42e6-92e7-08521ad895ee",
+          "scryfallOracleId": "c038668c-e5b5-4ad7-9c8e-64637e7bd991"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Campsite Cuisine // Campsite Cuisine",
+        "number": "23",
+        "otherFaceIds": [
+          "7e288a4e-9dff-545b-881d-b0dbf6a42dfa"
+        ],
+        "setCode": "AFIC",
+        "side": "a",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "2c6dfa2e-2390-591a-8b51-19d3d559cbc9"
+      },
+      {
+        "artist": "Winona Nelson",
+        "artistIds": [
+          "e45fe8d3-75d6-42c9-a2df-e945ad81ea27"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Campsite Cuisine",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "477e4a35-4a2f-5f1f-b31d-2fc6cc6b7fb8",
+          "scryfallId": "aa688d0e-4dd1-4d7e-a987-17b61496ad62",
+          "scryfallIllustrationId": "7b511346-d1f6-48d3-89fb-e2631e002c5b",
+          "scryfallOracleId": "c038668c-e5b5-4ad7-9c8e-64637e7bd991"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Campsite Cuisine // Campsite Cuisine",
+        "number": "23",
+        "otherFaceIds": [
+          "2c6dfa2e-2390-591a-8b51-19d3d559cbc9"
+        ],
+        "setCode": "AFIC",
+        "side": "b",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "7e288a4e-9dff-545b-881d-b0dbf6a42dfa"
+      },
+      {
+        "artist": "Winona Nelson",
+        "artistIds": [
+          "e45fe8d3-75d6-42c9-a2df-e945ad81ea27"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Warrior's Resolve",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "ccae268e-359d-5aae-96a8-4164b38e679e",
+          "scryfallId": "54e12165-f09b-49b1-b834-9cb4ee096a48",
+          "scryfallIllustrationId": "760c16a1-47ca-4051-8def-bb25553589c9",
+          "scryfallOracleId": "60e517bd-43b8-49e8-8ff1-7df408491abe"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Warrior's Resolve // Warrior's Resolve",
+        "number": "24",
+        "otherFaceIds": [
+          "7d539a0b-e6e7-5cde-ac8c-f3866ca5c269"
+        ],
+        "setCode": "AFIC",
+        "side": "a",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "debda8ba-d198-51e3-8a59-f7514b542128"
+      },
+      {
+        "artist": "Winona Nelson",
+        "artistIds": [
+          "e45fe8d3-75d6-42c9-a2df-e945ad81ea27"
+        ],
+        "availability": [
+          "paper"
+        ],
+        "borderColor": "borderless",
+        "colorIdentity": [],
+        "colors": [],
+        "faceName": "Warrior's Resolve",
+        "finishes": [
+          "foil",
+          "nonfoil"
+        ],
+        "frameVersion": "2015",
+        "identifiers": {
+          "mtgjsonV4Id": "12148a49-675a-51e7-811d-437f25f80f0a",
+          "scryfallId": "54e12165-f09b-49b1-b834-9cb4ee096a48",
+          "scryfallIllustrationId": "760c16a1-47ca-4051-8def-bb25553589c9",
+          "scryfallOracleId": "60e517bd-43b8-49e8-8ff1-7df408491abe"
+        },
+        "language": "English",
+        "layout": "art_series",
+        "name": "Warrior's Resolve // Warrior's Resolve",
+        "number": "24",
+        "otherFaceIds": [
+          "debda8ba-d198-51e3-8a59-f7514b542128"
+        ],
+        "setCode": "AFIC",
+        "side": "b",
+        "subtypes": [],
+        "supertypes": [],
+        "type": "Card",
+        "types": [
+          "Card"
+        ],
+        "uuid": "7d539a0b-e6e7-5cde-ac8c-f3866ca5c269"
+      }
+    ],
+    "totalSetSize": 24,
+    "translations": {
+      "Chinese Simplified": null,
+      "Chinese Traditional": null,
+      "French": null,
+      "German": null,
+      "Italian": null,
+      "Japanese": null,
+      "Korean": null,
+      "Portuguese (Brazil)": null,
+      "Russian": null,
+      "Spanish": null
+    },
+    "type": "memorabilia"
+  }
+}
