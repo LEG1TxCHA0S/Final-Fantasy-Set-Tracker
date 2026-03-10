@@ -24,7 +24,11 @@ class HomeViewModel(repository: CollectionRepository) : ViewModel() {
         repository.observeOverview(),
         repository.observePartProgress()
     ) { overview, parts ->
-        parts.filter { it.name.contains("Art Series", ignoreCase = true) || it.name.contains("Scene Box", ignoreCase = true) }
+        parts.filter {
+            it.name.contains("Art Series", ignoreCase = true) ||
+                it.name.contains("Scene Box", ignoreCase = true) ||
+                it.name.contains("WPN Promo Tokens", ignoreCase = true)
+        }
             .forEach { part ->
                 Log.d(TAG, "[UI_CATEGORY] part=${part.name} owned=${part.ownedCount} total=${part.totalCount}")
             }

@@ -40,7 +40,8 @@ class ChecklistAssetImporter(
 
         val afinInserted = items.count { it.setCode.equals(CollectionPartType.AFIN.name, ignoreCase = true) }
         val aficInserted = items.count { it.setCode.equals(CollectionPartType.AFIC.name, ignoreCase = true) }
-        Log.d(TAG, "[DB_INSERT] importIfEmpty inserted AFIN=$afinInserted AFIC=$aficInserted")
+        val wfinInserted = items.count { it.setCode.equals(CollectionPartType.WFIN.name, ignoreCase = true) }
+        Log.d(TAG, "[DB_INSERT] importIfEmpty inserted AFIN=$afinInserted AFIC=$aficInserted WFIN=$wfinInserted")
     }
 
     suspend fun repairAfinAficIfNeeded() {
@@ -74,6 +75,33 @@ class ChecklistAssetImporter(
                 "[AF_FIX] rebuilt ${payload.partType.name}: oldCount=$currentCount expected=${expectedItems.size} inserted=${repairedItems.size}"
             )
         }
+    }
+
+
+    suspend fun repairWfinIfNeeded() {
+        val payload = loadPayloads().firstOrNull { it.partType == CollectionPartType.WFIN } ?: return
+        val partId = dao.getPartIdByType(CollectionPartType.WFIN) ?: return
+        val expectedItems = payload.items
+        val currentCount = dao.getItemCountForPart(partId)
+
+        if (currentCount == expectedItems.size) {
+            Log.d(TAG, "[WF_FIX] WFIN already aligned count=$currentCount")
+            return
+        }
+
+        val ownershipByKey = dao.getOwnershipSnapshotsForPart(partId)
+            .groupBy { "${it.setCode.orEmpty().uppercase()}::${it.collectorNumber.orEmpty()}" }
+            .mapValues { (_, rows) -> rows.any { it.owned } }
+
+        dao.deleteItemsForPart(partId)
+
+        val repairedItems = expectedItems.map { item ->
+            val key = "${item.setCode.orEmpty().uppercase()}::${item.collectorNumber.orEmpty()}"
+            item.copy(owned = ownershipByKey[key] == true).toEntity(partId)
+        }
+        dao.insertItems(repairedItems)
+
+        Log.d(TAG, "[WF_FIX] rebuilt WFIN: oldCount=$currentCount expected=${expectedItems.size} inserted=${repairedItems.size}")
     }
 
     suspend fun backfillImageMetadata() {
@@ -134,7 +162,7 @@ class ChecklistAssetImporter(
         val partDescription = "Imported from $setCode MTGJSON"
         val cardsCount = (data.optJSONArray("cards") ?: JSONArray()).length()
         val tokensCount = (data.optJSONArray("tokens") ?: JSONArray()).length()
-        if (partType == CollectionPartType.AFIN || partType == CollectionPartType.AFIC) {
+        if (partType == CollectionPartType.AFIN || partType == CollectionPartType.AFIC || partType == CollectionPartType.WFIN) {
             Log.d(TAG, "[PARSE_FILE] path=$path set=$setCode cards=$cardsCount tokens=$tokensCount")
         }
         val entries = data.entryArrayFor(partType)
@@ -161,7 +189,7 @@ class ChecklistAssetImporter(
     }
 
     private fun JSONArray.toItemPayloads(partType: CollectionPartType): List<ChecklistItemPayload> {
-        if (partType == CollectionPartType.AFIN || partType == CollectionPartType.AFIC) {
+        if (partType == CollectionPartType.AFIN || partType == CollectionPartType.AFIC || partType == CollectionPartType.WFIN) {
             Log.d(TAG, "[IMPORT_SELECT] ${partType.name} selectedBeforeDedupe=${length()}")
         }
 
@@ -211,6 +239,9 @@ class ChecklistAssetImporter(
 
         if (partType == CollectionPartType.AFIN || partType == CollectionPartType.AFIC) {
             Log.d(TAG, "[DEDUPE] ${partType.name} afterDedupe=${mapped.size}")
+        }
+        if (partType == CollectionPartType.WFIN) {
+            Log.d(TAG, "[WF_SELECT] WFIN selectedForImport=${mapped.size}")
         }
 
         return mapped
@@ -292,6 +323,7 @@ class ChecklistAssetImporter(
     }
 
     private fun CollectionPartType.shouldImportEntry(obj: JSONObject): Boolean {
+        if (this == CollectionPartType.WFIN) return true
         if (this != CollectionPartType.AFIN && this != CollectionPartType.AFIC) return true
 
         val layout = obj.optString("layout", "")

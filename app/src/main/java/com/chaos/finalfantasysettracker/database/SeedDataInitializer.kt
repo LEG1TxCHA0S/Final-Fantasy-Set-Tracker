@@ -12,11 +12,13 @@ class SeedDataInitializer(
         val importer = ChecklistAssetImporter(context, dao)
         importer.importIfEmpty()
         importer.repairAfinAficIfNeeded()
+        importer.repairWfinIfNeeded()
         importer.backfillImageMetadata()
 
         val afinCount = dao.getItemCountByPartType(com.chaos.finalfantasysettracker.model.CollectionPartType.AFIN)
         val aficCount = dao.getItemCountByPartType(com.chaos.finalfantasysettracker.model.CollectionPartType.AFIC)
-        Log.d(TAG, "[DB_READBACK] Room counts AFIN=$afinCount AFIC=$aficCount")
+        val wfinCount = dao.getItemCountByPartType(com.chaos.finalfantasysettracker.model.CollectionPartType.WFIN)
+        Log.d(TAG, "[DB_READBACK] Room counts AFIN=$afinCount AFIC=$aficCount WFIN=$wfinCount")
 
         val rows = dao.getImageDebugRows(limit = 8)
         rows.forEach { row ->
