@@ -120,8 +120,10 @@ class ChecklistAssetImporter(
     }
 
     private fun JSONArray.toItemPayloads(partType: CollectionPartType): List<ChecklistItemPayload> {
-        return (0 until length()).map { index ->
+        return (0 until length()).mapNotNull { index ->
             val obj = getJSONObject(index)
+            if (!partType.shouldImportEntry(obj)) return@mapNotNull null
+
             val name = obj.optString("name", "").trim().ifBlank { "Unknown Card" }
             val collectorNumber = obj.optString("number", "").trim().ifBlank { null }
             val setCode = obj.optString("setCode", partType.name).trim().ifBlank { partType.name }
@@ -236,6 +238,16 @@ class ChecklistAssetImporter(
         CollectionPartType.FIC -> VariantType.PRODUCT
         CollectionPartType.PFIN, CollectionPartType.PSS5, CollectionPartType.RFIN -> VariantType.PROMO
         else -> VariantType.STANDARD
+    }
+
+    private fun CollectionPartType.shouldImportEntry(obj: JSONObject): Boolean {
+        if (this != CollectionPartType.AFIN && this != CollectionPartType.AFIC) return true
+
+        val layout = obj.optString("layout", "")
+        if (!layout.equals("art_series", ignoreCase = true)) return true
+
+        val side = obj.optString("side", "a")
+        return side.equals("a", ignoreCase = true)
     }
 
     private fun CollectionPartType.inferItemType(typeLine: String?, name: String): ItemType = when {
