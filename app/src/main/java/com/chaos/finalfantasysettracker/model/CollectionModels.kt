@@ -97,16 +97,9 @@ data class CollectibleItemStatus(
         }
 
     fun resolvedImageUrl(version: ScryfallImageVersion = ScryfallImageVersion.SMALL): String? {
-        val explicit = when (version) {
-            ScryfallImageVersion.SMALL -> imageUrlSmall ?: imageUrlNormal ?: imageUrlLarge
-            ScryfallImageVersion.NORMAL -> imageUrlNormal ?: imageUrlSmall ?: imageUrlLarge
-            ScryfallImageVersion.LARGE -> imageUrlLarge ?: imageUrlNormal ?: imageUrlSmall
-        }
-
-        return explicit?.takeIf { it.isNotBlank() }
-            ?: scryfallId?.takeIf { it.isNotBlank() }?.let { id ->
-                "https://api.scryfall.com/cards/$id?format=image&version=${version.value}"
-            }
+        val id = scryfallId?.trim().orEmpty()
+        if (id.isBlank()) return null
+        return "https://api.scryfall.com/cards/$id?format=image&version=${version.value}"
     }
 }
 

@@ -63,7 +63,7 @@ class ChecklistAssetImporter(
         sample.forEach { item ->
             Log.d(
                 TAG,
-                "Imported item name=${item.name}, checklistId=${item.checklistId}, scryfallId=${item.scryfallId}, imageSmall=${item.imageUrlSmall}"
+                "Imported item name=${item.name}, checklistId=${item.checklistId}, scryfallId=${item.scryfallId}, generatedImageUrl=${item.imageUrlSmall}"
             )
         }
         val withScryfall = items.count { !it.scryfallId.isNullOrBlank() }
@@ -117,10 +117,9 @@ class ChecklistAssetImporter(
             val identifiers = obj.optJSONObject("identifiers")
             val scryfallId = identifiers?.optString("scryfallId", null)?.ifBlank { null }
 
-            val rawImageUrl = obj.optString("imageUrl", "").trim().ifBlank { null }
-            val imageUrlSmall = rawImageUrl ?: scryfallId?.toScryfallImageUrl("small")
-            val imageUrlNormal = rawImageUrl ?: scryfallId?.toScryfallImageUrl("normal")
-            val imageUrlLarge = rawImageUrl ?: scryfallId?.toScryfallImageUrl("large")
+            val imageUrlSmall = scryfallId?.toScryfallImageUrl("small")
+            val imageUrlNormal = scryfallId?.toScryfallImageUrl("normal")
+            val imageUrlLarge = scryfallId?.toScryfallImageUrl("large")
 
             val rarity = obj.optString("rarity", null)
             val manaCost = obj.optString("manaCost", null)

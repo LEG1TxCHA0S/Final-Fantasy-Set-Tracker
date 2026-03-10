@@ -66,7 +66,7 @@ class PartDetailViewModel(
         }
 
         sorted.take(5).forEach { item ->
-            Log.d(TAG, "UI item mapped name=${item.name}, scryfallId=${item.scryfallId}, imageUrl=${item.resolvedImageUrl()}")
+            Log.d(TAG, "UI item name=${item.name}, scryfallId=${item.scryfallId}, generatedImageUrl=${item.resolvedImageUrl()}")
         }
 
         PartDetailUiState(

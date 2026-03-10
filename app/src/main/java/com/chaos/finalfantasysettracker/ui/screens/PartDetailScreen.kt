@@ -164,7 +164,7 @@ private fun ItemThumbnail(item: CollectibleItemStatus) {
         return
     }
 
-    Log.d(TAG, "No image URL for ${item.name}. scryfallId=${item.scryfallId}")
+    Log.d(TAG, "No image URL for ${item.name}. scryfallId=${item.scryfallId}, generatedImageUrl=${item.resolvedImageUrl()}")
 
     val preconIcon = when (item.checklistId) {
         "precon-revival-trance" -> Icons.Default.AutoAwesome
