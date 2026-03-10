@@ -1,8 +1,10 @@
 package com.chaos.finalfantasysettracker.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Bolt
+import androidx.compose.material.icons.filled.BrokenImage
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.MenuBook
 import androidx.compose.material.icons.filled.Shield
@@ -38,6 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.graphics.painter.ColorPainter
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -137,26 +141,30 @@ private fun ItemRow(item: CollectibleItemStatus, onOwnedToggle: (Boolean) -> Uni
 @Composable
 private fun ItemThumbnail(item: CollectibleItemStatus) {
     val shape = RoundedCornerShape(6.dp)
-    val imageUrl = when {
-        item.itemType == com.chaos.finalfantasysettracker.model.ItemType.PRECON -> item.imageUrlNormal ?: item.imageUrlSmall ?: item.imageUrlLarge
-        else -> item.imageUrlSmall ?: item.imageUrlNormal ?: item.imageUrlLarge
-    }
+    val imageUrl = item.resolvedImageUrl()
     val placeholderPainter = ColorPainter(MaterialTheme.colorScheme.surfaceVariant)
+    val errorPainter = rememberVectorPainter(Icons.Default.BrokenImage)
 
-    if (imageUrl != null) {
+    if (!imageUrl.isNullOrBlank()) {
         AsyncImage(
             model = imageUrl,
             contentDescription = "${item.name} thumbnail",
             placeholder = placeholderPainter,
-            error = placeholderPainter,
-            fallback = placeholderPainter,
+            error = errorPainter,
+            fallback = errorPainter,
             modifier = Modifier
                 .size(width = 52.dp, height = 72.dp)
-                .clip(shape),
-            contentScale = ContentScale.Crop
+                .clip(shape)
+                .background(MaterialTheme.colorScheme.surfaceVariant),
+            contentScale = ContentScale.Crop,
+            onError = {
+                Log.w(TAG, "Image load failed for ${item.name}. url=$imageUrl scryfallId=${item.scryfallId}")
+            }
         )
         return
     }
+
+    Log.d(TAG, "No image URL for ${item.name}. scryfallId=${item.scryfallId}")
 
     val preconIcon = when (item.checklistId) {
         "precon-revival-trance" -> Icons.Default.AutoAwesome
@@ -169,13 +177,17 @@ private fun ItemThumbnail(item: CollectibleItemStatus) {
     Box(
         modifier = Modifier
             .size(width = 52.dp, height = 72.dp)
-            .clip(shape),
+            .clip(shape)
+            .background(MaterialTheme.colorScheme.surfaceVariant),
         contentAlignment = Alignment.Center
     ) {
         androidx.compose.material3.Icon(
             imageVector = if (item.itemType == com.chaos.finalfantasysettracker.model.ItemType.PRECON) preconIcon else Icons.Default.Image,
-            contentDescription = if (item.itemType == com.chaos.finalfantasysettracker.model.ItemType.PRECON) "Precon image placeholder" else "No image",
+            contentDescription = if (item.itemType == com.chaos.finalfantasysettracker.model.ItemType.PRECON) "Precon image placeholder" else "No image URL",
             tint = MaterialTheme.colorScheme.outline
         )
     }
 }
+
+
+private const val TAG = "PartDetailScreen"

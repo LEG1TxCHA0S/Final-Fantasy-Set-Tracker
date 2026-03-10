@@ -1,5 +1,6 @@
 package com.chaos.finalfantasysettracker.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -62,6 +63,10 @@ class PartDetailViewModel(
             ItemSortOption.NAME_DESC -> filtered.sortedByDescending { it.name }
             ItemSortOption.OWNED_FIRST -> filtered.sortedWith(compareByDescending<CollectibleItemStatus> { it.isOwned }.then(collectorComparator))
             ItemSortOption.MISSING_FIRST -> filtered.sortedWith(compareBy<CollectibleItemStatus> { it.isOwned }.then(collectorComparator))
+        }
+
+        sorted.take(5).forEach { item ->
+            Log.d(TAG, "UI item mapped name=${item.name}, scryfallId=${item.scryfallId}, imageUrl=${item.resolvedImageUrl()}")
         }
 
         PartDetailUiState(
@@ -128,3 +133,6 @@ class PartDetailViewModelFactory(
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
+
+
+private const val TAG = "PartDetailViewModel"

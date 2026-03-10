@@ -95,6 +95,25 @@ data class CollectibleItemStatus(
             }
             return tokens.joinToString(" • ")
         }
+
+    fun resolvedImageUrl(version: ScryfallImageVersion = ScryfallImageVersion.SMALL): String? {
+        val explicit = when (version) {
+            ScryfallImageVersion.SMALL -> imageUrlSmall ?: imageUrlNormal ?: imageUrlLarge
+            ScryfallImageVersion.NORMAL -> imageUrlNormal ?: imageUrlSmall ?: imageUrlLarge
+            ScryfallImageVersion.LARGE -> imageUrlLarge ?: imageUrlNormal ?: imageUrlSmall
+        }
+
+        return explicit?.takeIf { it.isNotBlank() }
+            ?: scryfallId?.takeIf { it.isNotBlank() }?.let { id ->
+                "https://api.scryfall.com/cards/$id?format=image&version=${version.value}"
+            }
+    }
+}
+
+enum class ScryfallImageVersion(val value: String) {
+    SMALL("small"),
+    NORMAL("normal"),
+    LARGE("large")
 }
 
 enum class OwnershipFilter(val label: String) {

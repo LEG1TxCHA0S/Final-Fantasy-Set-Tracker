@@ -1,6 +1,7 @@
 package com.chaos.finalfantasysettracker.data.importer
 
 import android.content.Context
+import android.util.Log
 import com.chaos.finalfantasysettracker.database.CollectibleItemEntity
 import com.chaos.finalfantasysettracker.database.CollectionPartEntity
 import com.chaos.finalfantasysettracker.database.TrackerDao
@@ -15,13 +16,17 @@ class ChecklistAssetImporter(
     private val context: Context,
     private val dao: TrackerDao
 ) {
+    companion object {
+        private const val TAG = "ChecklistAssetImporter"
+    }
+
+    private val checklistFiles = listOf("FIN", "FCA", "FIC", "AFIN", "AFIC", "PFIN", "PSS5", "RFIN", "WFIN")
+        .map { "checklists/$it.json" }
+
     suspend fun importIfEmpty() {
         if (dao.getPartCount() > 0) return
 
-        val files = listOf("FIN", "FCA", "FIC", "AFIN", "AFIC", "PFIN", "PSS5", "RFIN", "WFIN")
-            .map { "checklists/$it.json" }
-
-        val payloads = files.map { parseMtgJsonFile(it) }.sortedBy { it.displayOrder }
+        val payloads = loadPayloads()
         val partIds = dao.insertParts(payloads.map { it.toPartEntity() })
 
         val items = buildList {
@@ -30,7 +35,40 @@ class ChecklistAssetImporter(
                 addAll(payload.items.map { it.toEntity(partId) })
             }
         }
+        logImportDebug(items)
         dao.insertItems(items)
+    }
+
+
+    suspend fun backfillImageMetadata() {
+        val payloads = loadPayloads()
+        val entries = payloads.flatMap { it.items }
+        entries.forEach { item ->
+            dao.updateScryfallMetadataByChecklistId(
+                checklistId = item.checklistId,
+                scryfallId = item.scryfallId,
+                imageUrlSmall = item.imageUrlSmall,
+                imageUrlNormal = item.imageUrlNormal,
+                imageUrlLarge = item.imageUrlLarge
+            )
+        }
+        Log.d(TAG, "Backfilled image metadata from assets for ${entries.size} checklist entries")
+    }
+
+    private fun loadPayloads(): List<ChecklistAssetPayload> =
+        checklistFiles.map { parseMtgJsonFile(it) }.sortedBy { it.displayOrder }
+
+    private fun logImportDebug(items: List<CollectibleItemEntity>) {
+        val sample = items.take(8)
+        sample.forEach { item ->
+            Log.d(
+                TAG,
+                "Imported item name=${item.name}, checklistId=${item.checklistId}, scryfallId=${item.scryfallId}, imageSmall=${item.imageUrlSmall}"
+            )
+        }
+        val withScryfall = items.count { !it.scryfallId.isNullOrBlank() }
+        val withSmallImage = items.count { !it.imageUrlSmall.isNullOrBlank() }
+        Log.d(TAG, "Import totals: items=${items.size}, withScryfallId=$withScryfall, withSmallImageUrl=$withSmallImage")
     }
 
     private fun parseMtgJsonFile(path: String): ChecklistAssetPayload {
