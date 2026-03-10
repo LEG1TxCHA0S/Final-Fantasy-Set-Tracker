@@ -68,6 +68,13 @@ class PartDetailViewModel(
         sorted.take(5).forEach { item ->
             Log.d(TAG, "UI item name=${item.name}, scryfallId=${item.scryfallId}, generatedImageUrl=${item.resolvedImageUrl()}")
         }
+        sorted.firstOrNull {
+            it.name.equals("Summon: Bahamut", ignoreCase = true) &&
+                it.setCode.equals("FIN", ignoreCase = true) &&
+                it.collectorNumber == "1"
+        }?.let { bahamut ->
+            Log.d(TAG, "[UI_SANITY] Summon: Bahamut uiScryfallId=${bahamut.scryfallId}, generatedImageUrl=${bahamut.resolvedImageUrl()}")
+        }
 
         PartDetailUiState(
             query = searchQuery,

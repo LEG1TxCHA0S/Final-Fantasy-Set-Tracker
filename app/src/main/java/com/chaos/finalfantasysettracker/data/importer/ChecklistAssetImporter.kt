@@ -59,16 +59,29 @@ class ChecklistAssetImporter(
         checklistFiles.map { parseMtgJsonFile(it) }.sortedBy { it.displayOrder }
 
     private fun logImportDebug(items: List<CollectibleItemEntity>) {
-        val sample = items.take(8)
-        sample.forEach { item ->
-            Log.d(
-                TAG,
-                "Imported item name=${item.name}, checklistId=${item.checklistId}, scryfallId=${item.scryfallId}, generatedImageUrl=${item.imageUrlSmall}"
-            )
+        items.groupBy { it.setCode ?: "UNKNOWN" }
+            .toSortedMap()
+            .forEach { (setCode, setItems) ->
+                setItems.take(3).forEach { item ->
+                    Log.d(
+                        TAG,
+                        "[IMPORT] set=$setCode name=${item.name}, collector=${item.collectorNumber}, scryfallId=${item.scryfallId}"
+                    )
+                }
+            }
+
+        val bahamut = items.firstOrNull {
+            it.name.equals("Summon: Bahamut", ignoreCase = true) &&
+                it.setCode.equals("FIN", ignoreCase = true) &&
+                it.collectorNumber == "1"
         }
+        Log.d(
+            TAG,
+            "[IMPORT_SANITY] Summon: Bahamut set=FIN collector=1 scryfallId=${bahamut?.scryfallId}"
+        )
+
         val withScryfall = items.count { !it.scryfallId.isNullOrBlank() }
-        val withSmallImage = items.count { !it.imageUrlSmall.isNullOrBlank() }
-        Log.d(TAG, "Import totals: items=${items.size}, withScryfallId=$withScryfall, withSmallImageUrl=$withSmallImage")
+        Log.d(TAG, "[IMPORT] totals items=${items.size}, withScryfallId=$withScryfall")
     }
 
     private fun parseMtgJsonFile(path: String): ChecklistAssetPayload {
