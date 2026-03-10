@@ -37,8 +37,44 @@ class ChecklistAssetImporter(
         }
         logImportDebug(items)
         dao.insertItems(items)
+
+        val afinInserted = items.count { it.setCode.equals(CollectionPartType.AFIN.name, ignoreCase = true) }
+        val aficInserted = items.count { it.setCode.equals(CollectionPartType.AFIC.name, ignoreCase = true) }
+        Log.d(TAG, "[DB_INSERT] importIfEmpty inserted AFIN=$afinInserted AFIC=$aficInserted")
     }
 
+    suspend fun repairAfinAficIfNeeded() {
+        val payloads = loadPayloads()
+            .filter { it.partType == CollectionPartType.AFIN || it.partType == CollectionPartType.AFIC }
+
+        payloads.forEach { payload ->
+            val partId = dao.getPartIdByType(payload.partType) ?: return@forEach
+            val expectedItems = payload.items
+            val currentCount = dao.getItemCountForPart(partId)
+
+            if (currentCount == expectedItems.size) {
+                Log.d(TAG, "[AF_FIX] ${payload.partType.name} already aligned count=$currentCount")
+                return@forEach
+            }
+
+            val ownershipByKey = dao.getOwnershipSnapshotsForPart(partId)
+                .groupBy { "${it.setCode.orEmpty().uppercase()}::${it.collectorNumber.orEmpty()}" }
+                .mapValues { (_, rows) -> rows.any { it.owned } }
+
+            dao.deleteItemsForPart(partId)
+
+            val repairedItems = expectedItems.map { item ->
+                val key = "${item.setCode.orEmpty().uppercase()}::${item.collectorNumber.orEmpty()}"
+                item.copy(owned = ownershipByKey[key] == true).toEntity(partId)
+            }
+            dao.insertItems(repairedItems)
+
+            Log.d(
+                TAG,
+                "[AF_FIX] rebuilt ${payload.partType.name}: oldCount=$currentCount expected=${expectedItems.size} inserted=${repairedItems.size}"
+            )
+        }
+    }
 
     suspend fun backfillImageMetadata() {
         val payloads = loadPayloads()
@@ -96,6 +132,11 @@ class ChecklistAssetImporter(
         val partType = CollectionPartType.valueOf(setCode)
         val partName = data.optString("name", partType.displayName()).ifBlank { partType.displayName() }
         val partDescription = "Imported from $setCode MTGJSON"
+        val cardsCount = (data.optJSONArray("cards") ?: JSONArray()).length()
+        val tokensCount = (data.optJSONArray("tokens") ?: JSONArray()).length()
+        if (partType == CollectionPartType.AFIN || partType == CollectionPartType.AFIC) {
+            Log.d(TAG, "[PARSE_FILE] path=$path set=$setCode cards=$cardsCount tokens=$tokensCount")
+        }
         val entries = data.entryArrayFor(partType)
 
         return ChecklistAssetPayload(
@@ -120,7 +161,11 @@ class ChecklistAssetImporter(
     }
 
     private fun JSONArray.toItemPayloads(partType: CollectionPartType): List<ChecklistItemPayload> {
-        return (0 until length()).mapNotNull { index ->
+        if (partType == CollectionPartType.AFIN || partType == CollectionPartType.AFIC) {
+            Log.d(TAG, "[IMPORT_SELECT] ${partType.name} selectedBeforeDedupe=${length()}")
+        }
+
+        val mapped = (0 until length()).mapNotNull { index ->
             val obj = getJSONObject(index)
             if (!partType.shouldImportEntry(obj)) return@mapNotNull null
 
@@ -163,6 +208,12 @@ class ChecklistAssetImporter(
                 typeLine = typeLine
             )
         }
+
+        if (partType == CollectionPartType.AFIN || partType == CollectionPartType.AFIC) {
+            Log.d(TAG, "[DEDUPE] ${partType.name} afterDedupe=${mapped.size}")
+        }
+
+        return mapped
     }
 
     private fun String.toScryfallImageUrl(version: String): String =
