@@ -37,6 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -137,14 +138,18 @@ private fun ItemRow(item: CollectibleItemStatus, onOwnedToggle: (Boolean) -> Uni
 private fun ItemThumbnail(item: CollectibleItemStatus) {
     val shape = RoundedCornerShape(6.dp)
     val imageUrl = when {
-        item.itemType == com.chaos.finalfantasysettracker.model.ItemType.PRECON -> item.imageUrlNormal ?: item.imageUrlSmall
-        else -> item.imageUrlSmall ?: item.imageUrlNormal
+        item.itemType == com.chaos.finalfantasysettracker.model.ItemType.PRECON -> item.imageUrlNormal ?: item.imageUrlSmall ?: item.imageUrlLarge
+        else -> item.imageUrlSmall ?: item.imageUrlNormal ?: item.imageUrlLarge
     }
+    val placeholderPainter = ColorPainter(MaterialTheme.colorScheme.surfaceVariant)
 
     if (imageUrl != null) {
         AsyncImage(
             model = imageUrl,
             contentDescription = "${item.name} thumbnail",
+            placeholder = placeholderPainter,
+            error = placeholderPainter,
+            fallback = placeholderPainter,
             modifier = Modifier
                 .size(width = 52.dp, height = 72.dp)
                 .clip(shape),
@@ -174,4 +179,3 @@ private fun ItemThumbnail(item: CollectibleItemStatus) {
         )
     }
 }
-
