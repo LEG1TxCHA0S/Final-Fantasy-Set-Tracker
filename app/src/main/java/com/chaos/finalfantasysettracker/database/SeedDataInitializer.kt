@@ -14,9 +14,14 @@ class SeedDataInitializer(
         importer.importIfEmpty()
         importer.backfillImageMetadata()
 
-        val partCounts = CollectionPartType.entries.joinToString { partType ->
-            "$partType=${dao.getItemCountByPartType(partType)}"
+        val partCountsList = mutableListOf<String>()
+
+        for (partType in CollectionPartType.entries) {
+            val count = dao.getItemCountByPartType(partType)
+            partCountsList.add("$partType=$count")
         }
+
+        val partCounts = partCountsList.joinToString()
         Log.d(TAG, "[DB_READBACK] Room counts $partCounts")
 
         val rows = dao.getImageDebugRows(limit = 8)
