@@ -97,6 +97,13 @@ data class CollectibleItemStatus(
         }
 
     fun resolvedImageUrl(version: ScryfallImageVersion = ScryfallImageVersion.SMALL): String? {
+        val directUrl = when (version) {
+            ScryfallImageVersion.SMALL -> imageUrlSmall
+            ScryfallImageVersion.NORMAL -> imageUrlNormal
+            ScryfallImageVersion.LARGE -> imageUrlLarge
+        }?.takeIf { it.isNotBlank() }
+        if (directUrl != null) return directUrl
+
         val id = scryfallId?.trim().orEmpty()
         if (id.length < 2) return null
 
