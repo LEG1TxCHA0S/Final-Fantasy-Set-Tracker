@@ -70,7 +70,6 @@ class ChecklistAssetImporter(
         val normalizedSetCode = setCode.ifBlank { "UNK" }
         val normalizedName = name.ifBlank { printedName ?: "Unknown Card" }
         val normalizedCollectorNumber = number.ifBlank { null }
-        val resolvedImageUrl = imageUrl ?: scryfallId?.toScryfallImageUrl("normal")
 
         return ChecklistItemPayload(
             checklistId = id.ifBlank {
@@ -85,9 +84,9 @@ class ChecklistAssetImporter(
             promoSource = promoTypes?.joinToString(", "),
             owned = false,
             scryfallId = scryfallId,
-            imageUrlSmall = resolvedImageUrl,
-            imageUrlNormal = resolvedImageUrl,
-            imageUrlLarge = resolvedImageUrl,
+            imageUrlSmall = imageUrl,
+            imageUrlNormal = imageUrl,
+            imageUrlLarge = imageUrl,
             priceUsd = price?.toString(),
             priceUsdFoil = null,
             rarity = rarity,
@@ -104,9 +103,6 @@ class ChecklistAssetImporter(
         val withImages = items.count { !it.imageUrlNormal.isNullOrBlank() }
         Log.d(TAG, "[IMPORT] totals items=${items.size}, withScryfallId=$withScryfall, withImages=$withImages")
     }
-
-    private fun String.toScryfallImageUrl(version: String): String =
-        "https://api.scryfall.com/cards/$this?format=image&version=$version"
 
     private fun ChecklistAssetPayload.toPartEntity() = CollectionPartEntity(
         type = partType,
@@ -199,7 +195,7 @@ private fun SlimRoot.toCollectionCategories(): List<CollectionCategory> {
         CollectionCategory(
             code = CollectionPartType.COMMANDER,
             name = "Final Fantasy Commander",
-            cards = bySetCode.cardsOf("FIC")
+            cards = bySetCode.cardsOf("FIC", "CTFIC")
         ),
         CollectionCategory(
             code = CollectionPartType.ART_AND_SCENE,
@@ -228,7 +224,7 @@ private fun SlimRoot.toCollectionCategories(): List<CollectionCategory> {
 
 private fun Map<String, SlimSet>.cardsOf(vararg setCodes: String): List<SlimCard> =
     setCodes.flatMap { code ->
-        this[code.uppercase()]?.cards.orEmpty()
+        this[code.uppercase()]?.items.orEmpty()
     }
 
 data class CollectionCategory(
@@ -242,8 +238,7 @@ data class SlimCard(
     val name: String,
     val number: String,
     val setCode: String,
-    val setName: String,
-    val sourceKind: String?,
+    val setName: String?,
     val type: String?,
     val rarity: String?,
     val layout: String?,
@@ -252,17 +247,21 @@ data class SlimCard(
     val printedName: String?,
     val scryfallId: String?,
     val imageUrl: String?,
-    val price: Double?
+    val price: Double?,
+    val sourceKind: String?,
+    val group: String?
 )
 
 data class SlimSet(
     val setCode: String,
     val setName: String,
-    @SerializedName(value = "cards", alternate = ["items"])
-    val cards: List<SlimCard>
+    @SerializedName(value = "items", alternate = ["cards"])
+    val items: List<SlimCard>?
 )
 
 data class SlimRoot(
+    val schemaVersion: Int?,
+    val notes: String?,
     val sets: List<SlimSet>
 )
 
