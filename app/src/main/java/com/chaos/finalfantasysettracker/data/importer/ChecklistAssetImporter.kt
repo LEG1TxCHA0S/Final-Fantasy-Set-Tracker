@@ -261,7 +261,6 @@ data class SlimSet(
 
 data class SlimRoot(
     val schemaVersion: Int?,
-    val notes: String?,
     val sets: List<SlimSet>
 )
 
