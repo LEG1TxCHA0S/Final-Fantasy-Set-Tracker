@@ -24,14 +24,9 @@ class HomeViewModel(repository: CollectionRepository) : ViewModel() {
         repository.observeOverview(),
         repository.observePartProgress()
     ) { overview, parts ->
-        parts.filter {
-            it.name.contains("Art Series", ignoreCase = true) ||
-                it.name.contains("Scene Box", ignoreCase = true) ||
-                it.name.contains("WPN Promo Tokens", ignoreCase = true)
+        parts.forEach { part ->
+            Log.d(TAG, "[UI_CATEGORY] part=${part.name} owned=${part.ownedCount} total=${part.totalCount}")
         }
-            .forEach { part ->
-                Log.d(TAG, "[UI_CATEGORY] part=${part.name} owned=${part.ownedCount} total=${part.totalCount}")
-            }
 
         HomeUiState(overview = overview, parts = parts)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), HomeUiState())

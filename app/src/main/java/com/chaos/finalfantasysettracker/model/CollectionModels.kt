@@ -1,15 +1,13 @@
 package com.chaos.finalfantasysettracker.model
 
 enum class CollectionPartType {
-    FIN,
-    FCA,
-    FIC,
-    AFIN,
-    AFIC,
-    PFIN,
-    PSS5,
-    RFIN,
-    WFIN
+    MAIN_SET,
+    THROUGH_THE_AGES,
+    COMMANDER,
+    ART_AND_SCENE,
+    PROMOS,
+    SECRET_LAIR,
+    PROMO_TOKENS
 }
 
 enum class ItemType {
