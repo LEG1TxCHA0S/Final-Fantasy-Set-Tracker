@@ -1,15 +1,13 @@
 package com.chaos.finalfantasysettracker.model
 
 enum class CollectionPartType {
-    FIN,
-    FCA,
-    FIC,
-    AFIN,
-    AFIC,
-    PFIN,
-    PSS5,
-    RFIN,
-    WFIN
+    MAIN_SET,
+    THROUGH_THE_AGES,
+    COMMANDER,
+    ART_AND_SCENE,
+    PROMOS,
+    SECRET_LAIR,
+    PROMO_TOKENS
 }
 
 enum class ItemType {
@@ -97,6 +95,13 @@ data class CollectibleItemStatus(
         }
 
     fun resolvedImageUrl(version: ScryfallImageVersion = ScryfallImageVersion.SMALL): String? {
+        val directUrl = when (version) {
+            ScryfallImageVersion.SMALL -> imageUrlSmall
+            ScryfallImageVersion.NORMAL -> imageUrlNormal
+            ScryfallImageVersion.LARGE -> imageUrlLarge
+        }?.takeIf { it.isNotBlank() }
+        if (directUrl != null) return directUrl
+
         val id = scryfallId?.trim().orEmpty()
         if (id.length < 2) return null
 

@@ -9,8 +9,8 @@ import com.chaos.finalfantasysettracker.model.CollectionPartType
 import com.chaos.finalfantasysettracker.model.FinishRequirement
 import com.chaos.finalfantasysettracker.model.ItemType
 import com.chaos.finalfantasysettracker.model.VariantType
-import org.json.JSONArray
-import org.json.JSONObject
+import com.google.gson.Gson
+import com.google.gson.annotations.SerializedName
 
 class ChecklistAssetImporter(
     private val context: Context,
@@ -19,9 +19,6 @@ class ChecklistAssetImporter(
     companion object {
         private const val TAG = "ChecklistAssetImporter"
     }
-
-    private val checklistFiles = listOf("FIN", "FCA", "FIC", "AFIN", "AFIC", "PFIN", "PSS5", "RFIN", "WFIN")
-        .map { "checklists/$it.json" }
 
     suspend fun importIfEmpty() {
         if (dao.getPartCount() > 0) return
@@ -35,73 +32,9 @@ class ChecklistAssetImporter(
                 addAll(payload.items.map { it.toEntity(partId) })
             }
         }
-        logImportDebug(items)
+
+        logImportDebug(payloads, items)
         dao.insertItems(items)
-
-        val afinInserted = items.count { it.setCode.equals(CollectionPartType.AFIN.name, ignoreCase = true) }
-        val aficInserted = items.count { it.setCode.equals(CollectionPartType.AFIC.name, ignoreCase = true) }
-        val wfinInserted = items.count { it.setCode.equals(CollectionPartType.WFIN.name, ignoreCase = true) }
-        Log.d(TAG, "[DB_INSERT] importIfEmpty inserted AFIN=$afinInserted AFIC=$aficInserted WFIN=$wfinInserted")
-    }
-
-    suspend fun repairAfinAficIfNeeded() {
-        val payloads = loadPayloads()
-            .filter { it.partType == CollectionPartType.AFIN || it.partType == CollectionPartType.AFIC }
-
-        payloads.forEach { payload ->
-            val partId = dao.getPartIdByType(payload.partType) ?: return@forEach
-            val expectedItems = payload.items
-            val currentCount = dao.getItemCountForPart(partId)
-
-            if (currentCount == expectedItems.size) {
-                Log.d(TAG, "[AF_FIX] ${payload.partType.name} already aligned count=$currentCount")
-                return@forEach
-            }
-
-            val ownershipByKey = dao.getOwnershipSnapshotsForPart(partId)
-                .groupBy { "${it.setCode.orEmpty().uppercase()}::${it.collectorNumber.orEmpty()}" }
-                .mapValues { (_, rows) -> rows.any { it.owned } }
-
-            dao.deleteItemsForPart(partId)
-
-            val repairedItems = expectedItems.map { item ->
-                val key = "${item.setCode.orEmpty().uppercase()}::${item.collectorNumber.orEmpty()}"
-                item.copy(owned = ownershipByKey[key] == true).toEntity(partId)
-            }
-            dao.insertItems(repairedItems)
-
-            Log.d(
-                TAG,
-                "[AF_FIX] rebuilt ${payload.partType.name}: oldCount=$currentCount expected=${expectedItems.size} inserted=${repairedItems.size}"
-            )
-        }
-    }
-
-
-    suspend fun repairWfinIfNeeded() {
-        val payload = loadPayloads().firstOrNull { it.partType == CollectionPartType.WFIN } ?: return
-        val partId = dao.getPartIdByType(CollectionPartType.WFIN) ?: return
-        val expectedItems = payload.items
-        val currentCount = dao.getItemCountForPart(partId)
-
-        if (currentCount == expectedItems.size) {
-            Log.d(TAG, "[WF_FIX] WFIN already aligned count=$currentCount")
-            return
-        }
-
-        val ownershipByKey = dao.getOwnershipSnapshotsForPart(partId)
-            .groupBy { "${it.setCode.orEmpty().uppercase()}::${it.collectorNumber.orEmpty()}" }
-            .mapValues { (_, rows) -> rows.any { it.owned } }
-
-        dao.deleteItemsForPart(partId)
-
-        val repairedItems = expectedItems.map { item ->
-            val key = "${item.setCode.orEmpty().uppercase()}::${item.collectorNumber.orEmpty()}"
-            item.copy(owned = ownershipByKey[key] == true).toEntity(partId)
-        }
-        dao.insertItems(repairedItems)
-
-        Log.d(TAG, "[WF_FIX] rebuilt WFIN: oldCount=$currentCount expected=${expectedItems.size} inserted=${repairedItems.size}")
     }
 
     suspend fun backfillImageMetadata() {
@@ -119,142 +52,61 @@ class ChecklistAssetImporter(
         Log.d(TAG, "Backfilled image metadata from assets for ${entries.size} checklist entries")
     }
 
-    private fun loadPayloads(): List<ChecklistAssetPayload> =
-        checklistFiles.map { parseMtgJsonFile(it) }.sortedBy { it.displayOrder }
+    private fun loadPayloads(): List<ChecklistAssetPayload> {
+        val grouped = loadFinalFantasySets(context).toCollectionCategories()
 
-    private fun logImportDebug(items: List<CollectibleItemEntity>) {
-        items.groupBy { it.setCode ?: "UNKNOWN" }
-            .toSortedMap()
-            .forEach { (setCode, setItems) ->
-                setItems.take(3).forEach { item ->
-                    Log.d(
-                        TAG,
-                        "[IMPORT] set=$setCode name=${item.name}, collector=${item.collectorNumber}, scryfallId=${item.scryfallId}"
-                    )
-                }
-            }
-
-        val bahamut = items.firstOrNull {
-            it.name.equals("Summon: Bahamut", ignoreCase = true) &&
-                it.setCode.equals("FIN", ignoreCase = true) &&
-                it.collectorNumber == "1"
-        }
-        Log.d(
-            TAG,
-            "[IMPORT_SANITY] Summon: Bahamut set=FIN collector=1 scryfallId=${bahamut?.scryfallId}"
-        )
-
-        val withScryfall = items.count { !it.scryfallId.isNullOrBlank() }
-        Log.d(TAG, "[IMPORT] totals items=${items.size}, withScryfallId=$withScryfall")
-    }
-
-    private fun parseMtgJsonFile(path: String): ChecklistAssetPayload {
-        val json = context.assets.open(path).bufferedReader().use { it.readText() }
-        val root = JSONObject(json)
-        val data = root.optJSONObject("data")
-            ?: throw IllegalArgumentException("Invalid MTGJSON file $path: missing data object")
-
-        val setCode = data.optString("code", "").trim().ifBlank {
-            throw IllegalArgumentException("Invalid MTGJSON file $path: missing data.code")
-        }
-        val partType = CollectionPartType.valueOf(setCode)
-        val partName = data.optString("name", partType.displayName()).ifBlank { partType.displayName() }
-        val partDescription = "Imported from $setCode MTGJSON"
-        val cardsCount = (data.optJSONArray("cards") ?: JSONArray()).length()
-        val tokensCount = (data.optJSONArray("tokens") ?: JSONArray()).length()
-        if (partType == CollectionPartType.AFIN || partType == CollectionPartType.AFIC || partType == CollectionPartType.WFIN) {
-            Log.d(TAG, "[PARSE_FILE] path=$path set=$setCode cards=$cardsCount tokens=$tokensCount")
-        }
-        val entries = data.entryArrayFor(partType)
-
-        return ChecklistAssetPayload(
-            partType = partType,
-            partName = partName,
-            partDescription = partDescription,
-            displayOrder = partType.defaultDisplayOrder(),
-            items = entries.toItemPayloads(partType)
-        )
-    }
-
-    private fun JSONObject.entryArrayFor(partType: CollectionPartType): JSONArray {
-        val cards = optJSONArray("cards") ?: JSONArray()
-        val tokens = optJSONArray("tokens") ?: JSONArray()
-
-        return when (partType) {
-            CollectionPartType.AFIN,
-            CollectionPartType.AFIC,
-            CollectionPartType.WFIN -> if (tokens.length() > 0) tokens else cards
-            else -> if (cards.length() > 0) cards else tokens
-        }
-    }
-
-    private fun JSONArray.toItemPayloads(partType: CollectionPartType): List<ChecklistItemPayload> {
-        if (partType == CollectionPartType.AFIN || partType == CollectionPartType.AFIC || partType == CollectionPartType.WFIN) {
-            Log.d(TAG, "[IMPORT_SELECT] ${partType.name} selectedBeforeDedupe=${length()}")
-        }
-
-        val mapped = (0 until length()).mapNotNull { index ->
-            val obj = getJSONObject(index)
-            if (!partType.shouldImportEntry(obj)) return@mapNotNull null
-
-            val name = obj.optString("name", "").trim().ifBlank { "Unknown Card" }
-            val collectorNumber = obj.optString("number", "").trim().ifBlank { null }
-            val setCode = obj.optString("setCode", partType.name).trim().ifBlank { partType.name }
-            val owned = obj.optBoolean("owned", false)
-
-            val identifiers = obj.optJSONObject("identifiers")
-            val scryfallId = identifiers?.optString("scryfallId", null)?.ifBlank { null }
-
-            val imageUrlSmall = scryfallId?.toScryfallImageUrl("small")
-            val imageUrlNormal = scryfallId?.toScryfallImageUrl("normal")
-            val imageUrlLarge = scryfallId?.toScryfallImageUrl("large")
-
-            val rarity = obj.optString("rarity", null)
-            val manaCost = obj.optString("manaCost", null)
-            val typeLine = obj.optString("type", null)
-            val promoTypes = obj.optJSONArray("promoTypes")
-            val promoSource = promoTypes?.joinToStringSafe(", ")
-
-            ChecklistItemPayload(
-                checklistId = "${setCode.lowercase()}-${collectorNumber ?: "idx$index"}-${name.lowercase().replace(' ', '-')}",
-                name = name,
-                setCode = setCode,
-                collectorNumber = collectorNumber,
-                itemType = partType.inferItemType(typeLine, name),
-                finishRequirement = partType.defaultFinishRequirement(),
-                variantType = partType.defaultVariantType(),
-                promoSource = promoSource,
-                owned = owned,
-                scryfallId = scryfallId,
-                imageUrlSmall = imageUrlSmall,
-                imageUrlNormal = imageUrlNormal,
-                imageUrlLarge = imageUrlLarge,
-                priceUsd = null,
-                priceUsdFoil = null,
-                rarity = rarity,
-                manaCost = manaCost,
-                typeLine = typeLine
+        return grouped.map { category ->
+            ChecklistAssetPayload(
+                partType = category.code,
+                partName = category.name,
+                partDescription = "Imported from grouped slim checklist",
+                displayOrder = category.code.defaultDisplayOrder(),
+                items = category.cards.mapIndexed { index, card -> card.toChecklistItemPayload(category.code, index) }
             )
-        }
+        }.sortedBy { it.displayOrder }
+    }
 
-        if (partType == CollectionPartType.AFIN || partType == CollectionPartType.AFIC) {
-            Log.d(TAG, "[DEDUPE] ${partType.name} afterDedupe=${mapped.size}")
-        }
-        if (partType == CollectionPartType.WFIN) {
-            Log.d(TAG, "[WF_SELECT] WFIN selectedForImport=${mapped.size}")
-        }
+    private fun SlimCard.toChecklistItemPayload(partType: CollectionPartType, index: Int): ChecklistItemPayload {
+        val normalizedSetCode = setCode.ifBlank { "UNK" }
+        val normalizedName = name.ifBlank { printedName ?: "Unknown Card" }
+        val normalizedCollectorNumber = number.ifBlank { null }
+        val resolvedImageUrl = imageUrl ?: scryfallId?.toScryfallImageUrl("normal")
 
-        return mapped
+        return ChecklistItemPayload(
+            checklistId = id.ifBlank {
+                "${normalizedSetCode.lowercase()}-${normalizedCollectorNumber ?: "idx$index"}-${normalizedName.lowercase().replace(' ', '-')}"
+            },
+            name = normalizedName,
+            setCode = normalizedSetCode,
+            collectorNumber = normalizedCollectorNumber,
+            itemType = partType.inferItemType(type, sourceKind, normalizedSetCode),
+            finishRequirement = partType.defaultFinishRequirement(),
+            variantType = partType.defaultVariantType(),
+            promoSource = promoTypes?.joinToString(", "),
+            owned = false,
+            scryfallId = scryfallId,
+            imageUrlSmall = resolvedImageUrl,
+            imageUrlNormal = resolvedImageUrl,
+            imageUrlLarge = resolvedImageUrl,
+            priceUsd = price?.toString(),
+            priceUsdFoil = null,
+            rarity = rarity,
+            manaCost = null,
+            typeLine = type
+        )
+    }
+
+    private fun logImportDebug(payloads: List<ChecklistAssetPayload>, items: List<CollectibleItemEntity>) {
+        payloads.forEach { payload ->
+            Log.d(TAG, "[IMPORT_GROUP] ${payload.partType} name=${payload.partName} count=${payload.items.size}")
+        }
+        val withScryfall = items.count { !it.scryfallId.isNullOrBlank() }
+        val withImages = items.count { !it.imageUrlNormal.isNullOrBlank() }
+        Log.d(TAG, "[IMPORT] totals items=${items.size}, withScryfallId=$withScryfall, withImages=$withImages")
     }
 
     private fun String.toScryfallImageUrl(version: String): String =
         "https://api.scryfall.com/cards/$this?format=image&version=$version"
-
-    private fun JSONArray.joinToStringSafe(separator: String): String {
-        return (0 until length())
-            .mapNotNull { idx -> optString(idx).takeIf { it.isNotBlank() } }
-            .joinToString(separator)
-    }
 
     private fun ChecklistAssetPayload.toPartEntity() = CollectionPartEntity(
         type = partType,
@@ -286,62 +138,133 @@ class ChecklistAssetImporter(
     )
 
     private fun CollectionPartType.defaultDisplayOrder(): Int = when (this) {
-        CollectionPartType.FIN -> 1
-        CollectionPartType.FCA -> 2
-        CollectionPartType.FIC -> 3
-        CollectionPartType.AFIN -> 4
-        CollectionPartType.AFIC -> 5
-        CollectionPartType.PFIN -> 6
-        CollectionPartType.PSS5 -> 7
-        CollectionPartType.RFIN -> 8
-        CollectionPartType.WFIN -> 9
-    }
-
-    private fun CollectionPartType.displayName(): String = when (this) {
-        CollectionPartType.FIN -> "Final Fantasy"
-        CollectionPartType.FCA -> "Final Fantasy Through the Ages"
-        CollectionPartType.FIC -> "Final Fantasy Commander"
-        CollectionPartType.AFIN -> "Final Fantasy Art Series"
-        CollectionPartType.AFIC -> "Final Fantasy Scene Box"
-        CollectionPartType.PFIN -> "Final Fantasy Promos"
-        CollectionPartType.PSS5 -> "Final Fantasy Standard Showdown"
-        CollectionPartType.RFIN -> "Final Fantasy Regional Promos"
-        CollectionPartType.WFIN -> "FIN Asia WPN Promo Tokens"
+        CollectionPartType.MAIN_SET -> 1
+        CollectionPartType.THROUGH_THE_AGES -> 2
+        CollectionPartType.COMMANDER -> 3
+        CollectionPartType.ART_AND_SCENE -> 4
+        CollectionPartType.PROMOS -> 5
+        CollectionPartType.SECRET_LAIR -> 6
+        CollectionPartType.PROMO_TOKENS -> 7
     }
 
     private fun CollectionPartType.defaultFinishRequirement(): FinishRequirement = when (this) {
-        CollectionPartType.FIN, CollectionPartType.AFIN, CollectionPartType.AFIC, CollectionPartType.WFIN -> FinishRequirement.FOIL_ONLY
-        CollectionPartType.FIC -> FinishRequirement.SURGE_FOIL_ONLY
-        CollectionPartType.FCA, CollectionPartType.PFIN, CollectionPartType.PSS5, CollectionPartType.RFIN -> FinishRequirement.FOIL_OR_NONFOIL
+        CollectionPartType.MAIN_SET,
+        CollectionPartType.ART_AND_SCENE,
+        CollectionPartType.PROMO_TOKENS -> FinishRequirement.FOIL_ONLY
+
+        CollectionPartType.COMMANDER -> FinishRequirement.SURGE_FOIL_ONLY
+
+        CollectionPartType.THROUGH_THE_AGES,
+        CollectionPartType.PROMOS,
+        CollectionPartType.SECRET_LAIR -> FinishRequirement.FOIL_OR_NONFOIL
     }
 
     private fun CollectionPartType.defaultVariantType(): VariantType = when (this) {
-        CollectionPartType.AFIN -> VariantType.SIGNED
-        CollectionPartType.FIC -> VariantType.PRODUCT
-        CollectionPartType.PFIN, CollectionPartType.PSS5, CollectionPartType.RFIN -> VariantType.PROMO
+        CollectionPartType.ART_AND_SCENE -> VariantType.SIGNED
+        CollectionPartType.COMMANDER -> VariantType.PRODUCT
+        CollectionPartType.PROMOS, CollectionPartType.PROMO_TOKENS -> VariantType.PROMO
         else -> VariantType.STANDARD
     }
 
-    private fun CollectionPartType.shouldImportEntry(obj: JSONObject): Boolean {
-        if (this == CollectionPartType.WFIN) return true
-        if (this != CollectionPartType.AFIN && this != CollectionPartType.AFIC) return true
-
-        val layout = obj.optString("layout", "")
-        if (!layout.equals("art_series", ignoreCase = true)) return true
-
-        val side = obj.optString("side", "a")
-        return side.equals("a", ignoreCase = true)
-    }
-
-    private fun CollectionPartType.inferItemType(typeLine: String?, name: String): ItemType = when {
-        this == CollectionPartType.FIC -> ItemType.PRECON
-        this == CollectionPartType.AFIN -> ItemType.ART_CARD
-        this == CollectionPartType.WFIN || typeLine.orEmpty().contains("token", ignoreCase = true) -> ItemType.TOKEN
-        this == CollectionPartType.PFIN || this == CollectionPartType.PSS5 || this == CollectionPartType.RFIN -> ItemType.PROMO
-        name.contains("art", ignoreCase = true) -> ItemType.ART_CARD
+    private fun CollectionPartType.inferItemType(typeLine: String?, sourceKind: String?, setCode: String): ItemType = when {
+        this == CollectionPartType.COMMANDER -> ItemType.PRECON
+        this == CollectionPartType.ART_AND_SCENE -> ItemType.ART_CARD
+        this == CollectionPartType.PROMO_TOKENS || sourceKind.equals("tokens", ignoreCase = true) || typeLine.orEmpty().contains("token", ignoreCase = true) -> ItemType.TOKEN
+        this == CollectionPartType.PROMOS || setCode == "FFBONUS" -> ItemType.PROMO
         else -> ItemType.CARD
     }
 }
+
+fun loadFinalFantasySets(context: Context): SlimRoot {
+    val json = context.assets.open("final_fantasy_all_slim.json")
+        .bufferedReader()
+        .use { it.readText() }
+
+    return Gson().fromJson(json, SlimRoot::class.java)
+}
+
+private fun SlimRoot.toCollectionCategories(): List<CollectionCategory> {
+    val bySetCode = sets.associateBy { it.setCode.uppercase() }
+    val categories = listOf(
+        CollectionCategory(
+            code = CollectionPartType.MAIN_SET,
+            name = "Final Fantasy",
+            cards = bySetCode.cardsOf("FIN")
+        ),
+        CollectionCategory(
+            code = CollectionPartType.THROUGH_THE_AGES,
+            name = "Through the Ages",
+            cards = bySetCode.cardsOf("FCA")
+        ),
+        CollectionCategory(
+            code = CollectionPartType.COMMANDER,
+            name = "Final Fantasy Commander",
+            cards = bySetCode.cardsOf("FIC")
+        ),
+        CollectionCategory(
+            code = CollectionPartType.ART_AND_SCENE,
+            name = "Art & Scene Cards",
+            cards = bySetCode.cardsOf("AFIN", "AFIC")
+        ),
+        CollectionCategory(
+            code = CollectionPartType.PROMOS,
+            name = "Promos",
+            cards = bySetCode.cardsOf("PFIN", "PSS5", "RFIN", "FFBONUS")
+        ),
+        CollectionCategory(
+            code = CollectionPartType.SECRET_LAIR,
+            name = "Secret Lair",
+            cards = bySetCode.cardsOf("FFSLD")
+        ),
+        CollectionCategory(
+            code = CollectionPartType.PROMO_TOKENS,
+            name = "Promo Tokens",
+            cards = bySetCode.cardsOf("WFIN")
+        )
+    )
+
+    return categories.filter { it.cards.isNotEmpty() }
+}
+
+private fun Map<String, SlimSet>.cardsOf(vararg setCodes: String): List<SlimCard> =
+    setCodes.flatMap { code ->
+        this[code.uppercase()]?.cards.orEmpty()
+    }
+
+data class CollectionCategory(
+    val code: CollectionPartType,
+    val name: String,
+    val cards: List<SlimCard>
+)
+
+data class SlimCard(
+    val id: String,
+    val name: String,
+    val number: String,
+    val setCode: String,
+    val setName: String,
+    val sourceKind: String?,
+    val type: String?,
+    val rarity: String?,
+    val layout: String?,
+    val finishes: List<String>?,
+    val promoTypes: List<String>?,
+    val printedName: String?,
+    val scryfallId: String?,
+    val imageUrl: String?,
+    val price: Double?
+)
+
+data class SlimSet(
+    val setCode: String,
+    val setName: String,
+    @SerializedName(value = "cards", alternate = ["items"])
+    val cards: List<SlimCard>
+)
+
+data class SlimRoot(
+    val sets: List<SlimSet>
+)
 
 data class ChecklistAssetPayload(
     val partType: CollectionPartType,

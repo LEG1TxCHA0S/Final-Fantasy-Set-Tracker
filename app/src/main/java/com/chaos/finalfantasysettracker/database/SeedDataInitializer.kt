@@ -3,6 +3,7 @@ package com.chaos.finalfantasysettracker.database
 import android.content.Context
 import android.util.Log
 import com.chaos.finalfantasysettracker.data.importer.ChecklistAssetImporter
+import com.chaos.finalfantasysettracker.model.CollectionPartType
 
 class SeedDataInitializer(
     private val context: Context,
@@ -11,14 +12,17 @@ class SeedDataInitializer(
     suspend fun seedIfEmpty() {
         val importer = ChecklistAssetImporter(context, dao)
         importer.importIfEmpty()
-        importer.repairAfinAficIfNeeded()
-        importer.repairWfinIfNeeded()
         importer.backfillImageMetadata()
 
-        val afinCount = dao.getItemCountByPartType(com.chaos.finalfantasysettracker.model.CollectionPartType.AFIN)
-        val aficCount = dao.getItemCountByPartType(com.chaos.finalfantasysettracker.model.CollectionPartType.AFIC)
-        val wfinCount = dao.getItemCountByPartType(com.chaos.finalfantasysettracker.model.CollectionPartType.WFIN)
-        Log.d(TAG, "[DB_READBACK] Room counts AFIN=$afinCount AFIC=$aficCount WFIN=$wfinCount")
+        val partCountsList = mutableListOf<String>()
+
+        for (partType in CollectionPartType.entries) {
+            val count = dao.getItemCountByPartType(partType)
+            partCountsList.add("$partType=$count")
+        }
+
+        val partCounts = partCountsList.joinToString()
+        Log.d(TAG, "[DB_READBACK] Room counts $partCounts")
 
         val rows = dao.getImageDebugRows(limit = 8)
         rows.forEach { row ->
@@ -29,6 +33,5 @@ class SeedDataInitializer(
         }
     }
 }
-
 
 private const val TAG = "SeedDataInitializer"
