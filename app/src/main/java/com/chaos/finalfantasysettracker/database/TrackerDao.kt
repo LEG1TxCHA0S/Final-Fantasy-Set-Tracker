@@ -29,6 +29,7 @@ interface TrackerDao {
             imageUrlLarge = :imageUrlLarge,
             priceUsd = :priceUsd,
             priceUsdFoil = :priceUsdFoil,
+            priceLastUpdatedAt = :priceLastUpdatedAt,
             rarity = :rarity,
             manaCost = :manaCost,
             typeLine = :typeLine
@@ -43,11 +44,32 @@ interface TrackerDao {
         imageUrlLarge: String?,
         priceUsd: String?,
         priceUsdFoil: String?,
+        priceLastUpdatedAt: Long?,
         rarity: String?,
         manaCost: String?,
         typeLine: String?
     )
 
+    @Query(
+        """
+        SELECT id, scryfallId, finishRequirement, priceUsd, priceLastUpdatedAt
+        FROM collectible_items
+        WHERE scryfallId IS NOT NULL
+          AND TRIM(scryfallId) != ''
+          AND (priceLastUpdatedAt IS NULL OR priceLastUpdatedAt < :staleBefore)
+        """
+    )
+    suspend fun getPriceRefreshCandidates(staleBefore: Long): List<PriceRefreshCandidateRow>
+
+    @Query(
+        """
+        UPDATE collectible_items
+        SET priceUsd = COALESCE(:priceUsd, priceUsd),
+            priceLastUpdatedAt = :updatedAt
+        WHERE id = :itemId
+        """
+    )
+    suspend fun updatePriceForItem(itemId: Long, priceUsd: String?, updatedAt: Long)
 
     @Query(
         """
@@ -76,7 +98,6 @@ interface TrackerDao {
         imageUrlNormal: String?,
         imageUrlLarge: String?
     )
-
 
     @Query("SELECT id FROM collection_parts WHERE type = :partType LIMIT 1")
     suspend fun getPartIdByType(partType: com.chaos.finalfantasysettracker.model.CollectionPartType): Long?
@@ -153,7 +174,7 @@ interface TrackerDao {
         SELECT i.id, i.checklistId, i.partId, i.name, i.setCode, i.itemType, i.finishRequirement, i.variantType,
                i.collectorNumber, i.promoSource, i.owned,
                i.scryfallId, i.imageUrlSmall, i.imageUrlNormal, i.imageUrlLarge,
-               i.priceUsd, i.priceUsdFoil, i.rarity, i.manaCost, i.typeLine
+               i.priceUsd, i.priceUsdFoil, i.priceLastUpdatedAt, i.rarity, i.manaCost, i.typeLine
         FROM collectible_items i
         WHERE i.partId = :partId
         """
@@ -165,7 +186,7 @@ interface TrackerDao {
         SELECT i.id, i.checklistId, i.partId, i.name, i.setCode, i.itemType, i.finishRequirement, i.variantType,
                i.collectorNumber, i.promoSource, i.owned,
                i.scryfallId, i.imageUrlSmall, i.imageUrlNormal, i.imageUrlLarge,
-               i.priceUsd, i.priceUsdFoil, i.rarity, i.manaCost, i.typeLine,
+               i.priceUsd, i.priceUsdFoil, i.priceLastUpdatedAt, i.rarity, i.manaCost, i.typeLine,
                p.name AS partName
         FROM collectible_items i
         INNER JOIN collection_parts p ON p.id = i.partId
@@ -174,7 +195,6 @@ interface TrackerDao {
         """
     )
     fun observeItemById(itemId: Long): Flow<ItemDetailRow?>
-
 
     @Query(
         """
@@ -218,11 +238,11 @@ data class ItemStatusRow(
     val imageUrlLarge: String?,
     val priceUsd: String?,
     val priceUsdFoil: String?,
+    val priceLastUpdatedAt: Long?,
     val rarity: String?,
     val manaCost: String?,
     val typeLine: String?
 )
-
 
 data class ItemImageDebugRow(
     val id: Long,
@@ -233,13 +253,11 @@ data class ItemImageDebugRow(
     val imageUrlLarge: String?
 )
 
-
 data class OwnershipSnapshotRow(
     val setCode: String?,
     val collectorNumber: String?,
     val owned: Boolean
 )
-
 
 data class ItemDetailRow(
     val id: Long,
@@ -259,12 +277,12 @@ data class ItemDetailRow(
     val imageUrlLarge: String?,
     val priceUsd: String?,
     val priceUsdFoil: String?,
+    val priceLastUpdatedAt: Long?,
     val rarity: String?,
     val manaCost: String?,
     val typeLine: String?,
     val partName: String
 )
-
 
 data class HomeDashboardItemRow(
     val id: Long,
@@ -276,4 +294,12 @@ data class HomeDashboardItemRow(
     val scryfallId: String?,
     val partType: com.chaos.finalfantasysettracker.model.CollectionPartType,
     val partName: String
+)
+
+data class PriceRefreshCandidateRow(
+    val id: Long,
+    val scryfallId: String?,
+    val finishRequirement: FinishRequirement,
+    val priceUsd: String?,
+    val priceLastUpdatedAt: Long?
 )

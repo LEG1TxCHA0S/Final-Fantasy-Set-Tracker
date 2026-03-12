@@ -23,6 +23,7 @@ class AppContainer(context: Context) {
     init {
         appScope.launch {
             SeedDataInitializer(context, database.trackerDao()).seedIfEmpty()
+            repository.refreshAllCardPricesIfStale()
         }
     }
 }

@@ -6,11 +6,14 @@ import com.chaos.finalfantasysettracker.data.ScryfallService
 import com.chaos.finalfantasysettracker.database.HomeDashboardItemRow
 import com.chaos.finalfantasysettracker.database.ItemDetailRow
 import com.chaos.finalfantasysettracker.database.ItemStatusRow
+import com.chaos.finalfantasysettracker.database.PriceRefreshCandidateRow
 import com.chaos.finalfantasysettracker.database.TrackerDao
 import com.chaos.finalfantasysettracker.model.CollectionOverview
 import com.chaos.finalfantasysettracker.model.CollectionPartProgress
 import com.chaos.finalfantasysettracker.model.CollectionPartType
 import com.chaos.finalfantasysettracker.model.CollectibleItemStatus
+import com.chaos.finalfantasysettracker.model.FinishRequirement
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
@@ -95,7 +98,58 @@ class CollectionRepository(
     private val scryfallService: ScryfallService? = null
 ) {
     private val priceCacheTtlMs = 6 * 60 * 60 * 1000L
+    private val priceRefreshIntervalMs = 12 * 60 * 60 * 1000L
+    private val perRequestDelayMs = 75L
     private val livePriceCache = mutableMapOf<String, CachedPrice>()
+
+    suspend fun refreshAllCardPricesIfStale() {
+        val now = System.currentTimeMillis()
+        val staleBefore = now - priceRefreshIntervalMs
+        val candidates = dao.getPriceRefreshCandidates(staleBefore)
+        if (candidates.isEmpty()) {
+            Log.d(TAG, "[PRICE_REFRESH] no stale candidates")
+            return
+        }
+
+        Log.d(TAG, "[PRICE_REFRESH] start candidates=${candidates.size}")
+        var refreshed = 0
+        candidates.forEach { candidate ->
+            refreshCandidatePrice(candidate, now)?.let { refreshed++ }
+            delay(perRequestDelayMs)
+        }
+        Log.d(TAG, "[PRICE_REFRESH] complete refreshed=$refreshed total=${candidates.size}")
+    }
+
+    private suspend fun refreshCandidatePrice(candidate: PriceRefreshCandidateRow, now: Long): Double? {
+        val id = candidate.scryfallId?.trim().orEmpty()
+        if (id.isBlank()) return null
+
+        return try {
+            val preferFoil = candidate.finishRequirement == FinishRequirement.FOIL_ONLY ||
+                candidate.finishRequirement == FinishRequirement.SURGE_FOIL_ONLY
+            val fetched = scryfallService?.fetchCardPrice(id, preferFoil)
+            val valueToStore = fetched?.let { "%.2f".format(it) }
+            dao.updatePriceForItem(
+                itemId = candidate.id,
+                priceUsd = valueToStore,
+                updatedAt = now
+            )
+
+            livePriceCache[id] = CachedPrice(
+                price = fetched ?: candidate.priceUsd.parsePriceValue(),
+                fetchedAtMillis = now
+            )
+
+            Log.d(
+                TAG,
+                "[PRICE_REFRESH] itemId=${candidate.id} scryfallId=$id preferFoil=$preferFoil fetched=$fetched"
+            )
+            fetched
+        } catch (t: Throwable) {
+            Log.w(TAG, "[PRICE_REFRESH] failed itemId=${candidate.id} scryfallId=$id error=${t.message}")
+            null
+        }
+    }
 
     fun observePartProgress(): Flow<List<CollectionPartProgress>> = combine(
         dao.observePartProgress(),
@@ -273,6 +327,7 @@ class CollectionRepository(
             imageUrlLarge = metadata.imageUrlLarge,
             priceUsd = metadata.priceUsd,
             priceUsdFoil = metadata.priceUsdFoil,
+            priceLastUpdatedAt = System.currentTimeMillis(),
             rarity = metadata.rarity,
             manaCost = metadata.manaCost,
             typeLine = metadata.typeLine
