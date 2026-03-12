@@ -174,6 +174,17 @@ interface TrackerDao {
         """
     )
     fun observeItemById(itemId: Long): Flow<ItemDetailRow?>
+
+
+    @Query(
+        """
+        SELECT i.id, i.name, i.owned, i.priceUsd, i.rarity,
+               p.type AS partType, p.name AS partName
+        FROM collectible_items i
+        INNER JOIN collection_parts p ON p.id = i.partId
+        """
+    )
+    fun observeDashboardItems(): Flow<List<HomeDashboardItemRow>>
 }
 
 data class PartProgressRow(
@@ -251,5 +262,16 @@ data class ItemDetailRow(
     val rarity: String?,
     val manaCost: String?,
     val typeLine: String?,
+    val partName: String
+)
+
+
+data class HomeDashboardItemRow(
+    val id: Long,
+    val name: String,
+    val owned: Boolean,
+    val priceUsd: String?,
+    val rarity: String?,
+    val partType: com.chaos.finalfantasysettracker.model.CollectionPartType,
     val partName: String
 )

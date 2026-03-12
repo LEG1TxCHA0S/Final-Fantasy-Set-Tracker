@@ -3,11 +3,13 @@ package com.chaos.finalfantasysettracker.repository
 import android.util.Log
 import com.chaos.finalfantasysettracker.data.AssetCardMetadataDataSource
 import com.chaos.finalfantasysettracker.data.ScryfallService
+import com.chaos.finalfantasysettracker.database.HomeDashboardItemRow
 import com.chaos.finalfantasysettracker.database.ItemDetailRow
 import com.chaos.finalfantasysettracker.database.ItemStatusRow
 import com.chaos.finalfantasysettracker.database.TrackerDao
 import com.chaos.finalfantasysettracker.model.CollectionOverview
 import com.chaos.finalfantasysettracker.model.CollectionPartProgress
+import com.chaos.finalfantasysettracker.model.CollectionPartType
 import com.chaos.finalfantasysettracker.model.CollectibleItemStatus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -39,6 +41,37 @@ data class CachedPrice(
     val fetchedAtMillis: Long
 )
 
+data class RarityStat(
+    val label: String,
+    val owned: Int,
+    val total: Int
+)
+
+data class HomeStat(
+    val label: String,
+    val value: String
+)
+
+data class PriceDropItem(
+    val cardName: String,
+    val previousPrice: Double,
+    val currentPrice: Double,
+    val dropAmount: Double,
+    val dropPercent: Double
+)
+
+data class HomeDashboardData(
+    val totalOwned: Int,
+    val totalCards: Int,
+    val completionPercent: Float,
+    val totalMissing: Int,
+    val totalValue: Double?,
+    val rarityStats: List<RarityStat>,
+    val extraStats: List<HomeStat>,
+    val biggestPriceDrops: List<PriceDropItem>,
+    val priceDropMessage: String
+)
+
 data class CardDetailData(
     val item: CollectibleItemStatus,
     val categoryName: String,
@@ -68,6 +101,56 @@ class CollectionRepository(
 
     fun observeOverview(): Flow<CollectionOverview> = dao.observeOverviewProgress().map { row ->
         CollectionOverview(row.ownedCount, row.totalCount)
+    }
+
+    fun observeHomeDashboard(): Flow<HomeDashboardData> = dao.observeDashboardItems().map { rows ->
+        val totalCards = rows.size
+        val totalOwned = rows.count { it.owned }
+        val totalMissing = totalCards - totalOwned
+        val completionPercent = if (totalCards == 0) 0f else totalOwned.toFloat() / totalCards
+
+        val ownedPrices = rows.filter { it.owned }.mapNotNull { it.priceUsd.parsePriceValue() }
+        val totalValue = ownedPrices.takeIf { it.isNotEmpty() }?.sum()
+
+        val rarityStats = listOf("Mythic", "Rare", "Uncommon", "Common", "Special/Other").map { bucket ->
+            val bucketRows = rows.filter { it.rarity.toRarityBucket() == bucket }
+            RarityStat(
+                label = bucket,
+                owned = bucketRows.count { it.owned },
+                total = bucketRows.size
+            )
+        }.filter { it.total > 0 }
+
+        val promoRows = rows.filter { it.partType == CollectionPartType.PROMOS }
+        val secretRows = rows.filter { it.partType == CollectionPartType.SECRET_LAIR }
+        val artRows = rows.filter { it.partType == CollectionPartType.ART_SERIES || it.partType == CollectionPartType.SCENE_BOX }
+        val ownedWithPrice = rows.count { it.owned && it.priceUsd.parsePriceValue() != null }
+
+        val highestOwned = rows.filter { it.owned }
+            .mapNotNull { row -> row.priceUsd.parsePriceValue()?.let { price -> row.name to price } }
+            .maxByOrNull { it.second }
+
+        val extraStats = buildList {
+            add(HomeStat("Promos", "${promoRows.count { it.owned }} / ${promoRows.size}"))
+            add(HomeStat("Secret Lairs", "${secretRows.count { it.owned }} / ${secretRows.size}"))
+            add(HomeStat("Art Cards", "${artRows.count { it.owned }} / ${artRows.size}"))
+            add(HomeStat("Owned with price", "$ownedWithPrice"))
+            highestOwned?.let { (name, price) ->
+                add(HomeStat("Highest owned value", "$name (${formatCurrency(price)})"))
+            }
+        }
+
+        HomeDashboardData(
+            totalOwned = totalOwned,
+            totalCards = totalCards,
+            completionPercent = completionPercent,
+            totalMissing = totalMissing,
+            totalValue = totalValue,
+            rarityStats = rarityStats,
+            extraStats = extraStats,
+            biggestPriceDrops = emptyList(),
+            priceDropMessage = "Price drop tracking will appear after prices have been refreshed over time."
+        )
     }
 
     fun observeItemsForPart(partId: Long): Flow<List<CollectibleItemStatus>> = dao.observeItemsForPart(partId).map { rows ->
@@ -111,7 +194,6 @@ class CollectionRepository(
             )
         }
     }
-
 
     suspend fun fetchLiveCardPrice(scryfallId: String?, finishes: List<String>): Double? {
         val id = scryfallId?.trim().orEmpty()
@@ -169,6 +251,17 @@ class CollectionRepository(
         )
     }
 
+    private fun HomeDashboardItemRow.toRarityBucket(): String {
+        val normalized = rarity?.trim()?.lowercase().orEmpty()
+        return when {
+            normalized == "mythic" || normalized == "mythic rare" -> "Mythic"
+            normalized == "rare" -> "Rare"
+            normalized == "uncommon" -> "Uncommon"
+            normalized == "common" -> "Common"
+            else -> "Special/Other"
+        }
+    }
+
     private fun ItemStatusRow.toModel(): CollectibleItemStatus = CollectibleItemStatus(
         id = id,
         checklistId = checklistId,
@@ -191,6 +284,8 @@ class CollectionRepository(
         manaCost = manaCost,
         typeLine = typeLine
     )
+
+    private fun formatCurrency(value: Double): String = "$" + "%.2f".format(value)
 
     private fun String?.parsePriceValue(): Double? {
         val raw = this?.trim().orEmpty()
@@ -221,8 +316,6 @@ class CollectionRepository(
         manaCost = manaCost,
         typeLine = typeLine
     )
-
 }
-
 
 private const val TAG = "CollectionRepository"
