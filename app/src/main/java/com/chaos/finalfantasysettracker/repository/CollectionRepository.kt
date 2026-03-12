@@ -251,8 +251,8 @@ class CollectionRepository(
         )
     }
 
-    private fun HomeDashboardItemRow.toRarityBucket(): String {
-        val normalized = rarity?.trim()?.lowercase().orEmpty()
+    private fun String?.toRarityBucket(): String {
+        val normalized = this?.trim()?.lowercase().orEmpty()
         return when {
             normalized == "mythic" || normalized == "mythic rare" -> "Mythic"
             normalized == "rare" -> "Rare"
