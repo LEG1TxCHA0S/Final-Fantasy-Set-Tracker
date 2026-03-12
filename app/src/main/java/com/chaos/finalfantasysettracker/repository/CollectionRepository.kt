@@ -78,7 +78,14 @@ class CollectionRepository(
     fun observeCardDetail(itemId: Long): Flow<CardDetailData?> = dao.observeItemById(itemId).map { row ->
         row?.let {
             val item = it.toModel()
-            val extra = assetMetadataDataSource?.getByChecklistId(item.checklistId)
+            val extraById = assetMetadataDataSource?.getByChecklistId(item.checklistId)
+            val extra = extraById ?: assetMetadataDataSource?.getBySetAndCollectorNumber(item.setCode, item.collectorNumber)
+            val dbPrice = item.priceUsd.parsePriceValue()
+            val currentPrice = dbPrice ?: extra?.price
+            Log.d(
+                TAG,
+                "[DETAIL_PRICE] name=${item.name}, checklistId=${item.checklistId}, set=${item.setCode}, collector=${item.collectorNumber}, dbPrice=${item.priceUsd}, parsedDbPrice=$dbPrice, assetPrice=${extra?.price}, resolvedPrice=$currentPrice"
+            )
             CardDetailData(
                 item = item,
                 categoryName = it.partName,
@@ -89,7 +96,7 @@ class CollectionRepository(
                 promoTypes = extra?.promoTypes.orEmpty(),
                 sourceKind = extra?.sourceKind,
                 group = extra?.group,
-                currentPrice = item.priceUsd?.toDoubleOrNull() ?: extra?.price,
+                currentPrice = currentPrice,
                 priceHistory = emptyList()
             )
         }
@@ -144,6 +151,13 @@ class CollectionRepository(
         manaCost = manaCost,
         typeLine = typeLine
     )
+
+    private fun String?.parsePriceValue(): Double? {
+        val raw = this?.trim().orEmpty()
+        if (raw.isBlank()) return null
+        return raw.toDoubleOrNull()
+            ?: raw.replace("$", "").replace(",", "").toDoubleOrNull()
+    }
 
     private fun ItemDetailRow.toModel(): CollectibleItemStatus = CollectibleItemStatus(
         id = id,

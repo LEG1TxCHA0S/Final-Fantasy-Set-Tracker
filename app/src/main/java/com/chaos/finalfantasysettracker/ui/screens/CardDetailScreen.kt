@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import coil.compose.SubcomposeAsyncImageContent
 import coil.request.ImageRequest
+import java.text.NumberFormat
 import com.chaos.finalfantasysettracker.repository.CardPricePoint
 import com.chaos.finalfantasysettracker.ui.theme.ArcaneTeal
 import com.chaos.finalfantasysettracker.ui.theme.ElevatedCardColors
@@ -102,7 +103,7 @@ fun CardDetailScreen(
         item { SectionCard(title = "Pricing") {
             val p = detail.currentPrice
             Text(
-                text = if (p != null) "Current Price: $" + "%.2f".format(p) else "Current Price: Unavailable",
+                text = if (p != null) "Current Price: ${formatCurrency(p)}" else "Price unavailable",
                 style = MaterialTheme.typography.titleMedium,
                 color = SoftGold
             )
@@ -163,6 +164,8 @@ private fun StatRow(label: String, value: String?) {
     }
 }
 
+private fun formatCurrency(value: Double): String = NumberFormat.getCurrencyInstance().format(value)
+
 @Composable
 private fun PriceHistoryChart(points: List<CardPricePoint>) {
     Box(
@@ -174,7 +177,13 @@ private fun PriceHistoryChart(points: List<CardPricePoint>) {
             .padding(10.dp)
     ) {
         Canvas(modifier = Modifier.fillMaxSize()) {
-            if (points.size < 2) return@Canvas
+            if (points.isEmpty()) return@Canvas
+            if (points.size == 1) {
+                val cx = size.width / 2f
+                val cy = size.height / 2f
+                drawCircle(color = ArcaneTeal, radius = 6f, center = Offset(cx, cy))
+                return@Canvas
+            }
             val minY = points.minOf { it.value }
             val maxY = points.maxOf { it.value }
             val range = (maxY - minY).takeIf { it > 0 } ?: 1.0
