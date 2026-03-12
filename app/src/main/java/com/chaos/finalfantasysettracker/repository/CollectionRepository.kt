@@ -12,6 +12,7 @@ import com.chaos.finalfantasysettracker.model.CollectionPartProgress
 import com.chaos.finalfantasysettracker.model.CollectionPartType
 import com.chaos.finalfantasysettracker.model.CollectibleItemStatus
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 
 interface ScryfallMetadataDataSource {
@@ -66,6 +67,7 @@ data class HomeDashboardData(
     val completionPercent: Float,
     val totalMissing: Int,
     val totalValue: Double?,
+    val totalPriceToComplete: Double?,
     val rarityStats: List<RarityStat>,
     val extraStats: List<HomeStat>,
     val biggestPriceDrops: List<PriceDropItem>,
@@ -95,8 +97,28 @@ class CollectionRepository(
     private val priceCacheTtlMs = 6 * 60 * 60 * 1000L
     private val livePriceCache = mutableMapOf<String, CachedPrice>()
 
-    fun observePartProgress(): Flow<List<CollectionPartProgress>> = dao.observePartProgress().map { rows ->
-        rows.map { CollectionPartProgress(it.id, it.name, it.description, it.ownedCount, it.totalCount) }
+    fun observePartProgress(): Flow<List<CollectionPartProgress>> = combine(
+        dao.observePartProgress(),
+        dao.observeDashboardItems()
+    ) { rows, items ->
+        val valueByPart = items.groupBy { it.partId }.mapValues { (_, partItems) ->
+            val ownedValue = partItems.filter { it.owned }.sumOf { it.effectivePrice() ?: 0.0 }
+            val completionCost = partItems.filter { !it.owned }.sumOf { it.effectivePrice() ?: 0.0 }
+            ownedValue to completionCost
+        }
+
+        rows.map { row ->
+            val (ownedValueRaw, completionCostRaw) = valueByPart[row.id] ?: (0.0 to 0.0)
+            CollectionPartProgress(
+                id = row.id,
+                name = row.name,
+                description = row.description,
+                ownedCount = row.ownedCount,
+                totalCount = row.totalCount,
+                ownedValue = ownedValueRaw.takeIf { it > 0.0 },
+                completionCost = completionCostRaw.takeIf { it > 0.0 }
+            )
+        }
     }
 
     fun observeOverview(): Flow<CollectionOverview> = dao.observeOverviewProgress().map { row ->
@@ -109,8 +131,11 @@ class CollectionRepository(
         val totalMissing = totalCards - totalOwned
         val completionPercent = if (totalCards == 0) 0f else totalOwned.toFloat() / totalCards
 
-        val ownedPrices = rows.filter { it.owned }.mapNotNull { it.priceUsd.parsePriceValue() }
+        val ownedPrices = rows.filter { it.owned }.mapNotNull { it.effectivePrice() }
         val totalValue = ownedPrices.takeIf { it.isNotEmpty() }?.sum()
+
+        val missingPrices = rows.filter { !it.owned }.mapNotNull { it.effectivePrice() }
+        val totalPriceToComplete = missingPrices.takeIf { it.isNotEmpty() }?.sum()
 
         val rarityStats = listOf("Mythic", "Rare", "Uncommon", "Common", "Special/Other").map { bucket ->
             val bucketRows = rows.filter { it.rarity.toRarityBucket() == bucket }
@@ -124,11 +149,13 @@ class CollectionRepository(
         val promoRows = rows.filter { it.partType == CollectionPartType.PROMOS }
         val secretRows = rows.filter { it.partType == CollectionPartType.SECRET_LAIR }
         val artRows = rows.filter { it.partType == CollectionPartType.ART_SERIES || it.partType == CollectionPartType.SCENE_BOX }
-        val ownedWithPrice = rows.count { it.owned && it.priceUsd.parsePriceValue() != null }
+        val ownedWithPrice = rows.count { it.owned && it.effectivePrice() != null }
 
         val highestOwned = rows.filter { it.owned }
-            .mapNotNull { row -> row.priceUsd.parsePriceValue()?.let { price -> row.name to price } }
+            .mapNotNull { row -> row.effectivePrice()?.let { price -> row.name to price } }
             .maxByOrNull { it.second }
+
+        Log.d(TAG, "[VALUATION_HOME] ownedPriced=${ownedPrices.size} missingPriced=${missingPrices.size} totalValue=$totalValue toComplete=$totalPriceToComplete")
 
         val extraStats = buildList {
             add(HomeStat("Promos", "${promoRows.count { it.owned }} / ${promoRows.size}"))
@@ -146,6 +173,7 @@ class CollectionRepository(
             completionPercent = completionPercent,
             totalMissing = totalMissing,
             totalValue = totalValue,
+            totalPriceToComplete = totalPriceToComplete,
             rarityStats = rarityStats,
             extraStats = extraStats,
             biggestPriceDrops = emptyList(),
@@ -249,6 +277,11 @@ class CollectionRepository(
             manaCost = metadata.manaCost,
             typeLine = metadata.typeLine
         )
+    }
+
+    private fun HomeDashboardItemRow.effectivePrice(): Double? {
+        val cached = scryfallId?.let { livePriceCache[it]?.price }
+        return cached ?: priceUsd.parsePriceValue()
     }
 
     private fun String?.toRarityBucket(): String {

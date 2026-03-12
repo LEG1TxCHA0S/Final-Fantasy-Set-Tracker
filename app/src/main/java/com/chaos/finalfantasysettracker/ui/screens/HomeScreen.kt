@@ -69,7 +69,8 @@ fun HomeScreen(uiState: HomeUiState, onPartClick: (Long) -> Unit) {
         item {
             DashboardOverviewCard(
                 totalMissing = dashboard.totalMissing,
-                totalValue = dashboard.totalValue
+                totalValue = dashboard.totalValue,
+                totalPriceToComplete = dashboard.totalPriceToComplete
             )
         }
 
@@ -125,7 +126,7 @@ fun HomeScreen(uiState: HomeUiState, onPartClick: (Long) -> Unit) {
 }
 
 @Composable
-private fun DashboardOverviewCard(totalMissing: Int, totalValue: Double?) {
+private fun DashboardOverviewCard(totalMissing: Int, totalValue: Double?, totalPriceToComplete: Double?) {
     Card(colors = ElevatedCardColors) {
         Column(
             modifier = Modifier
@@ -138,6 +139,10 @@ private fun DashboardOverviewCard(totalMissing: Int, totalValue: Double?) {
             Text(
                 "Collection value: ${totalValue?.let { NumberFormat.getCurrencyInstance().format(it) } ?: "Unavailable"}",
                 color = SoftGold
+            )
+            Text(
+                "Price to complete: ${totalPriceToComplete?.let { NumberFormat.getCurrencyInstance().format(it) } ?: "Unavailable"}",
+                color = MaterialTheme.colorScheme.secondary
             )
         }
     }

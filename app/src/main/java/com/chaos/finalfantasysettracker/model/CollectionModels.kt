@@ -39,7 +39,9 @@ data class CollectionPartProgress(
     val name: String,
     val description: String,
     val ownedCount: Int,
-    val totalCount: Int
+    val totalCount: Int,
+    val ownedValue: Double? = null,
+    val completionCost: Double? = null
 ) {
     val completionPercentage: Float = if (totalCount == 0) 0f else ownedCount.toFloat() / totalCount
 }

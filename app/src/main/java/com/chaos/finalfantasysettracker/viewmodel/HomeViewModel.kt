@@ -19,6 +19,7 @@ data class HomeUiState(
         completionPercent = 0f,
         totalMissing = 0,
         totalValue = null,
+        totalPriceToComplete = null,
         rarityStats = emptyList(),
         extraStats = emptyList(),
         biggestPriceDrops = emptyList(),

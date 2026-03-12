@@ -178,7 +178,7 @@ interface TrackerDao {
 
     @Query(
         """
-        SELECT i.id, i.name, i.owned, i.priceUsd, i.rarity,
+        SELECT i.id, i.partId, i.name, i.owned, i.priceUsd, i.rarity, i.scryfallId,
                p.type AS partType, p.name AS partName
         FROM collectible_items i
         INNER JOIN collection_parts p ON p.id = i.partId
@@ -268,10 +268,12 @@ data class ItemDetailRow(
 
 data class HomeDashboardItemRow(
     val id: Long,
+    val partId: Long,
     val name: String,
     val owned: Boolean,
     val priceUsd: String?,
     val rarity: String?,
+    val scryfallId: String?,
     val partType: com.chaos.finalfantasysettracker.model.CollectionPartType,
     val partName: String
 )

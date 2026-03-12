@@ -23,6 +23,7 @@ import com.chaos.finalfantasysettracker.model.CollectionPartProgress
 import com.chaos.finalfantasysettracker.ui.theme.ArcaneTeal
 import com.chaos.finalfantasysettracker.ui.theme.ElevatedCardColors
 import com.chaos.finalfantasysettracker.ui.theme.SoftGold
+import java.text.NumberFormat
 
 @Composable
 fun PartProgressCard(
@@ -59,6 +60,18 @@ fun PartProgressCard(
                     Icon(Icons.Default.CheckCircle, contentDescription = null, tint = ArcaneTeal)
                     Text("$completionPercent%", style = MaterialTheme.typography.labelLarge)
                 }
+            }
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                Text(
+                    "Value: ${part.ownedValue?.let { NumberFormat.getCurrencyInstance().format(it) } ?: "Unavailable"}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = SoftGold
+                )
+                Text(
+                    "To Complete: ${part.completionCost?.let { NumberFormat.getCurrencyInstance().format(it) } ?: "Unavailable"}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.secondary
+                )
             }
             LinearProgressIndicator(
                 progress = { part.completionPercentage },
