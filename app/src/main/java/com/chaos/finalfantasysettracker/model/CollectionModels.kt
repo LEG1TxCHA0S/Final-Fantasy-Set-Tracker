@@ -1,13 +1,14 @@
 package com.chaos.finalfantasysettracker.model
 
 enum class CollectionPartType {
-    MAIN_SET,
+    SCENE_BOX,
+    ART_SERIES,
     THROUGH_THE_AGES,
     COMMANDER,
-    ART_AND_SCENE,
+    CHOCOBO_TRACK,
+    MAIN_SET,
     PROMOS,
-    SECRET_LAIR,
-    PROMO_TOKENS
+    SECRET_LAIR
 }
 
 enum class ItemType {
