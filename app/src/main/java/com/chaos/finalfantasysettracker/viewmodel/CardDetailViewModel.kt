@@ -1,14 +1,14 @@
 package com.chaos.finalfantasysettracker.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.chaos.finalfantasysettracker.repository.CardDetailData
 import com.chaos.finalfantasysettracker.repository.CollectionRepository
-import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 data class CardDetailUiState(
@@ -20,9 +20,38 @@ class CardDetailViewModel(
     itemId: Long,
     private val repository: CollectionRepository
 ) : ViewModel() {
-    val uiState: StateFlow<CardDetailUiState> = repository.observeCardDetail(itemId)
-        .map { detail -> CardDetailUiState(loading = false, detail = detail) }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), CardDetailUiState())
+    private val _uiState = MutableStateFlow(CardDetailUiState())
+    val uiState: StateFlow<CardDetailUiState> = _uiState.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            repository.observeCardDetail(itemId).collect { detail ->
+                if (detail == null) {
+                    _uiState.value = CardDetailUiState(loading = false, detail = null)
+                    return@collect
+                }
+
+                val livePrice = repository.fetchLiveCardPrice(
+                    scryfallId = detail.item.scryfallId,
+                    finishes = detail.finishes
+                )
+                val resolvedPrice = livePrice ?: detail.currentPrice
+                val resolvedHistory = repository.buildPlaceholderHistory(resolvedPrice)
+                Log.d(
+                    TAG,
+                    "[DETAIL_VM_PRICE] card=${detail.item.name}, scryfallId=${detail.item.scryfallId}, livePrice=$livePrice, fallbackPrice=${detail.currentPrice}, resolvedPrice=$resolvedPrice, historyPoints=${resolvedHistory.size}"
+                )
+
+                _uiState.value = CardDetailUiState(
+                    loading = false,
+                    detail = detail.copy(
+                        currentPrice = resolvedPrice,
+                        priceHistory = resolvedHistory
+                    )
+                )
+            }
+        }
+    }
 
     fun onOwnedToggled(owned: Boolean) {
         val item = uiState.value.detail?.item ?: return
@@ -42,3 +71,5 @@ class CardDetailViewModelFactory(
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
+
+private const val TAG = "CardDetailViewModel"

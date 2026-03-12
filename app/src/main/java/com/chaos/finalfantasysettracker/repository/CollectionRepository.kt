@@ -2,6 +2,7 @@ package com.chaos.finalfantasysettracker.repository
 
 import android.util.Log
 import com.chaos.finalfantasysettracker.data.AssetCardMetadataDataSource
+import com.chaos.finalfantasysettracker.data.ScryfallService
 import com.chaos.finalfantasysettracker.database.ItemDetailRow
 import com.chaos.finalfantasysettracker.database.ItemStatusRow
 import com.chaos.finalfantasysettracker.database.TrackerDao
@@ -33,6 +34,11 @@ data class CardPricePoint(
     val value: Double
 )
 
+data class CachedPrice(
+    val price: Double?,
+    val fetchedAtMillis: Long
+)
+
 data class CardDetailData(
     val item: CollectibleItemStatus,
     val categoryName: String,
@@ -50,8 +56,12 @@ data class CardDetailData(
 class CollectionRepository(
     private val dao: TrackerDao,
     private val scryfallDataSource: ScryfallMetadataDataSource? = null,
-    private val assetMetadataDataSource: AssetCardMetadataDataSource? = null
+    private val assetMetadataDataSource: AssetCardMetadataDataSource? = null,
+    private val scryfallService: ScryfallService? = null
 ) {
+    private val priceCacheTtlMs = 6 * 60 * 60 * 1000L
+    private val livePriceCache = mutableMapOf<String, CachedPrice>()
+
     fun observePartProgress(): Flow<List<CollectionPartProgress>> = dao.observePartProgress().map { rows ->
         rows.map { CollectionPartProgress(it.id, it.name, it.description, it.ownedCount, it.totalCount) }
     }
@@ -100,6 +110,36 @@ class CollectionRepository(
                 priceHistory = emptyList()
             )
         }
+    }
+
+
+    suspend fun fetchLiveCardPrice(scryfallId: String?, finishes: List<String>): Double? {
+        val id = scryfallId?.trim().orEmpty()
+        if (id.isBlank()) return null
+
+        val now = System.currentTimeMillis()
+        val cached = livePriceCache[id]
+        if (cached != null && now - cached.fetchedAtMillis <= priceCacheTtlMs) {
+            Log.d(TAG, "[LIVE_PRICE] cache hit id=$id price=${cached.price}")
+            return cached.price
+        }
+
+        val preferFoil = finishes.any { it.contains("foil", ignoreCase = true) }
+        val fetched = scryfallService?.fetchCardPrice(id, preferFoil)
+        livePriceCache[id] = CachedPrice(price = fetched, fetchedAtMillis = now)
+        Log.d(TAG, "[LIVE_PRICE] cache store id=$id price=$fetched preferFoil=$preferFoil")
+        return fetched
+    }
+
+    fun buildPlaceholderHistory(price: Double?): List<CardPricePoint> {
+        if (price == null) return emptyList()
+        return listOf(
+            CardPricePoint("D-4", price),
+            CardPricePoint("D-3", price),
+            CardPricePoint("D-2", price),
+            CardPricePoint("D-1", price),
+            CardPricePoint("Now", price)
+        )
     }
 
     suspend fun setOwned(item: CollectibleItemStatus, owned: Boolean) {
