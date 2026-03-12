@@ -67,7 +67,7 @@ class ChecklistAssetImporter(
     }
 
     private fun SlimCard.toChecklistItemPayload(partType: CollectionPartType, index: Int): ChecklistItemPayload {
-        val normalizedSetCode = setCode.ifBlank { "UNK" }
+        val normalizedSetCode = setCode.trim().uppercase().ifBlank { "UNK" }
         val normalizedName = name.ifBlank { printedName ?: "Unknown Card" }
         val normalizedCollectorNumber = number.ifBlank { null }
 
@@ -172,7 +172,7 @@ class ChecklistAssetImporter(
         this == CollectionPartType.COMMANDER || this == CollectionPartType.CHOCOBO_TRACK -> ItemType.PRECON
         this == CollectionPartType.SCENE_BOX || this == CollectionPartType.ART_SERIES -> ItemType.ART_CARD
         sourceKind.equals("tokens", ignoreCase = true) || typeLine.orEmpty().contains("token", ignoreCase = true) -> ItemType.TOKEN
-        this == CollectionPartType.PROMOS || setCode == "FFBONUS" -> ItemType.PROMO
+        this == CollectionPartType.PROMOS || setCode in promoSetCodes -> ItemType.PROMO
         else -> ItemType.CARD
     }
 }
@@ -221,7 +221,7 @@ private fun SlimRoot.toCollectionCategories(): List<CollectionCategory> {
         CollectionCategory(
             code = CollectionPartType.PROMOS,
             name = "Promos",
-            cards = bySetCode.cardsOf("PFIN", "RFIN", "WFIN", "FFBONUS")
+            cards = bySetCode.cardsOf("PFIN", "RFIN", "WFIN", "FFBONUS", "FINTK")
         ),
         CollectionCategory(
             code = CollectionPartType.SECRET_LAIR,
@@ -232,6 +232,8 @@ private fun SlimRoot.toCollectionCategories(): List<CollectionCategory> {
 
     return categories.filter { it.cards.isNotEmpty() }
 }
+
+private val promoSetCodes = setOf("PFIN", "RFIN", "WFIN", "FFBONUS", "FINTK")
 
 private fun Map<String, SlimSet>.cardsOf(vararg setCodes: String): List<SlimCard> =
     setCodes.flatMap { code ->
