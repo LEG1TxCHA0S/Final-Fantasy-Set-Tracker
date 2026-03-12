@@ -13,7 +13,10 @@ class AppContainer(context: Context) {
     private val database = AppDatabase.getInstance(context)
     private val appScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
-    val repository = CollectionRepository(database.trackerDao())
+    val repository = CollectionRepository(
+        dao = database.trackerDao(),
+        assetMetadataDataSource = AssetCardMetadataDataSource(context)
+    )
 
     init {
         appScope.launch {

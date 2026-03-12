@@ -19,6 +19,7 @@ import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.RadioButtonUnchecked
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Card
+import androidx.compose.foundation.clickable
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -61,7 +62,8 @@ fun PartDetailScreen(
     onQueryChanged: (String) -> Unit,
     onSortChanged: (ItemSortOption) -> Unit,
     onOwnershipFilterChanged: (OwnershipFilter) -> Unit,
-    onOwnedToggle: (CollectibleItemStatus, Boolean) -> Unit
+    onOwnedToggle: (CollectibleItemStatus, Boolean) -> Unit,
+    onItemClick: (CollectibleItemStatus) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -137,7 +139,7 @@ fun PartDetailScreen(
         } else {
             LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 items(uiState.items, key = { it.id }) { item ->
-                    ItemRow(item = item, onOwnedToggle = { onOwnedToggle(item, it) })
+                    ItemRow(item = item, onOwnedToggle = { onOwnedToggle(item, it) }, onClick = { onItemClick(item) })
                 }
             }
         }
@@ -145,7 +147,7 @@ fun PartDetailScreen(
 }
 
 @Composable
-private fun ItemRow(item: CollectibleItemStatus, onOwnedToggle: (Boolean) -> Unit) {
+private fun ItemRow(item: CollectibleItemStatus, onOwnedToggle: (Boolean) -> Unit, onClick: () -> Unit) {
     Log.d(TAG, "[UI_ROW] name=${item.name}, uiScryfallId=${item.scryfallId}, generatedImageUrl=${item.resolvedImageUrl()}")
     val statusColor = if (item.isOwned) ArcaneTeal else EmberRose
     Card(
@@ -155,6 +157,7 @@ private fun ItemRow(item: CollectibleItemStatus, onOwnedToggle: (Boolean) -> Uni
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .clickable { onClick() }
                 .padding(12.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalAlignment = Alignment.CenterVertically

@@ -32,6 +32,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.chaos.finalfantasysettracker.TrackerApplication
+import com.chaos.finalfantasysettracker.ui.screens.CardDetailScreen
 import com.chaos.finalfantasysettracker.ui.screens.CollectionPartsScreen
 import com.chaos.finalfantasysettracker.ui.screens.HomeScreen
 import com.chaos.finalfantasysettracker.ui.screens.PartDetailScreen
@@ -40,6 +41,8 @@ import com.chaos.finalfantasysettracker.ui.theme.CrystalBlue
 import com.chaos.finalfantasysettracker.ui.theme.CrystalNight
 import com.chaos.finalfantasysettracker.ui.theme.MidnightBlue
 import com.chaos.finalfantasysettracker.ui.theme.SoftGold
+import com.chaos.finalfantasysettracker.viewmodel.CardDetailViewModel
+import com.chaos.finalfantasysettracker.viewmodel.CardDetailViewModelFactory
 import com.chaos.finalfantasysettracker.viewmodel.CollectionPartsViewModel
 import com.chaos.finalfantasysettracker.viewmodel.HomeViewModel
 import com.chaos.finalfantasysettracker.viewmodel.PartDetailViewModel
@@ -50,6 +53,9 @@ sealed class Destination(val route: String, val label: String) {
     data object Parts : Destination("parts", "Parts")
     data object PartDetail : Destination("parts/{partId}", "Part Detail") {
         fun createRoute(partId: Long) = "parts/$partId"
+    }
+    data object CardDetail : Destination("card/{itemId}", "Card Detail") {
+        fun createRoute(itemId: Long) = "card/$itemId"
     }
 }
 
@@ -157,8 +163,19 @@ fun FinalFantasyTrackerApp() {
                     onQueryChanged = vm::onQueryChanged,
                     onSortChanged = vm::onSortChanged,
                     onOwnershipFilterChanged = vm::onOwnershipFilterChanged,
-                    onOwnedToggle = vm::onOwnedToggled
+                    onOwnedToggle = vm::onOwnedToggled,
+                    onItemClick = { navController.navigate(Destination.CardDetail.createRoute(it.id)) }
                 )
+            }
+            composable(
+                route = Destination.CardDetail.route,
+                arguments = listOf(navArgument("itemId") { type = NavType.LongType })
+            ) { entry ->
+                val app = LocalContext.current.applicationContext as TrackerApplication
+                val itemId = entry.arguments?.getLong("itemId") ?: 0L
+                val vm: CardDetailViewModel = viewModel(factory = CardDetailViewModelFactory(itemId, app.container.repository))
+                val state by vm.uiState.collectAsStateWithLifecycle()
+                CardDetailScreen(uiState = state, onOwnedToggled = vm::onOwnedToggled)
             }
         }
     }

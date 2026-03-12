@@ -1,6 +1,8 @@
 package com.chaos.finalfantasysettracker.repository
 
 import android.util.Log
+import com.chaos.finalfantasysettracker.data.AssetCardMetadataDataSource
+import com.chaos.finalfantasysettracker.database.ItemDetailRow
 import com.chaos.finalfantasysettracker.database.ItemStatusRow
 import com.chaos.finalfantasysettracker.database.TrackerDao
 import com.chaos.finalfantasysettracker.model.CollectionOverview
@@ -26,9 +28,29 @@ data class ScryfallMetadata(
     val typeLine: String?
 )
 
+data class CardPricePoint(
+    val label: String,
+    val value: Double
+)
+
+data class CardDetailData(
+    val item: CollectibleItemStatus,
+    val categoryName: String,
+    val setName: String?,
+    val printedName: String?,
+    val layout: String?,
+    val finishes: List<String>,
+    val promoTypes: List<String>,
+    val sourceKind: String?,
+    val group: String?,
+    val currentPrice: Double?,
+    val priceHistory: List<CardPricePoint>
+)
+
 class CollectionRepository(
     private val dao: TrackerDao,
-    private val scryfallDataSource: ScryfallMetadataDataSource? = null
+    private val scryfallDataSource: ScryfallMetadataDataSource? = null,
+    private val assetMetadataDataSource: AssetCardMetadataDataSource? = null
 ) {
     fun observePartProgress(): Flow<List<CollectionPartProgress>> = dao.observePartProgress().map { rows ->
         rows.map { CollectionPartProgress(it.id, it.name, it.description, it.ownedCount, it.totalCount) }
@@ -51,6 +73,26 @@ class CollectionRepository(
         }
 
         rows.map { it.toModel() }
+    }
+
+    fun observeCardDetail(itemId: Long): Flow<CardDetailData?> = dao.observeItemById(itemId).map { row ->
+        row?.let {
+            val item = it.toModel()
+            val extra = assetMetadataDataSource?.getByChecklistId(item.checklistId)
+            CardDetailData(
+                item = item,
+                categoryName = it.partName,
+                setName = extra?.setName,
+                printedName = extra?.printedName,
+                layout = extra?.layout,
+                finishes = extra?.finishes.orEmpty(),
+                promoTypes = extra?.promoTypes.orEmpty(),
+                sourceKind = extra?.sourceKind,
+                group = extra?.group,
+                currentPrice = item.priceUsd?.toDoubleOrNull() ?: extra?.price,
+                priceHistory = emptyList()
+            )
+        }
     }
 
     suspend fun setOwned(item: CollectibleItemStatus, owned: Boolean) {
@@ -102,6 +144,30 @@ class CollectionRepository(
         manaCost = manaCost,
         typeLine = typeLine
     )
+
+    private fun ItemDetailRow.toModel(): CollectibleItemStatus = CollectibleItemStatus(
+        id = id,
+        checklistId = checklistId,
+        partId = partId,
+        name = name,
+        setCode = setCode,
+        itemType = itemType,
+        finishRequirement = finishRequirement,
+        variantType = variantType,
+        collectorNumber = collectorNumber,
+        promoSource = promoSource,
+        owned = owned,
+        scryfallId = scryfallId,
+        imageUrlSmall = imageUrlSmall,
+        imageUrlNormal = imageUrlNormal,
+        imageUrlLarge = imageUrlLarge,
+        priceUsd = priceUsd,
+        priceUsdFoil = priceUsdFoil,
+        rarity = rarity,
+        manaCost = manaCost,
+        typeLine = typeLine
+    )
+
 }
 
 

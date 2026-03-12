@@ -159,6 +159,21 @@ interface TrackerDao {
         """
     )
     fun observeItemsForPart(partId: Long): Flow<List<ItemStatusRow>>
+
+    @Query(
+        """
+        SELECT i.id, i.checklistId, i.partId, i.name, i.setCode, i.itemType, i.finishRequirement, i.variantType,
+               i.collectorNumber, i.promoSource, i.owned,
+               i.scryfallId, i.imageUrlSmall, i.imageUrlNormal, i.imageUrlLarge,
+               i.priceUsd, i.priceUsdFoil, i.rarity, i.manaCost, i.typeLine,
+               p.name AS partName
+        FROM collectible_items i
+        INNER JOIN collection_parts p ON p.id = i.partId
+        WHERE i.id = :itemId
+        LIMIT 1
+        """
+    )
+    fun observeItemById(itemId: Long): Flow<ItemDetailRow?>
 }
 
 data class PartProgressRow(
@@ -212,4 +227,29 @@ data class OwnershipSnapshotRow(
     val setCode: String?,
     val collectorNumber: String?,
     val owned: Boolean
+)
+
+
+data class ItemDetailRow(
+    val id: Long,
+    val checklistId: String,
+    val partId: Long,
+    val name: String,
+    val setCode: String?,
+    val itemType: ItemType,
+    val finishRequirement: FinishRequirement,
+    val variantType: VariantType,
+    val collectorNumber: String?,
+    val promoSource: String?,
+    val owned: Boolean,
+    val scryfallId: String?,
+    val imageUrlSmall: String?,
+    val imageUrlNormal: String?,
+    val imageUrlLarge: String?,
+    val priceUsd: String?,
+    val priceUsdFoil: String?,
+    val rarity: String?,
+    val manaCost: String?,
+    val typeLine: String?,
+    val partName: String
 )
