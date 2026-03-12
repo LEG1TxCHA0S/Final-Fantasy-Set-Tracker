@@ -221,7 +221,7 @@ private fun SlimRoot.toCollectionCategories(): List<CollectionCategory> {
         CollectionCategory(
             code = CollectionPartType.PROMOS,
             name = "Promos",
-            cards = bySetCode.cardsOf("PFIN", "RFIN", "WFIN", "FFBONUS", "FINTK")
+            cards = bySetCode.cardsOf("PFIN", "RFIN", "WFIN", "FFBONUS", "FINTK", "FICTK")
         ),
         CollectionCategory(
             code = CollectionPartType.SECRET_LAIR,
@@ -233,7 +233,7 @@ private fun SlimRoot.toCollectionCategories(): List<CollectionCategory> {
     return categories.filter { it.cards.isNotEmpty() }
 }
 
-private val promoSetCodes = setOf("PFIN", "RFIN", "WFIN", "FFBONUS", "FINTK")
+private val promoSetCodes = setOf("PFIN", "RFIN", "WFIN", "FFBONUS", "FINTK", "FICTK")
 
 private fun Map<String, SlimSet>.cardsOf(vararg setCodes: String): List<SlimCard> =
     setCodes.flatMap { code ->
