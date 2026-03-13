@@ -238,7 +238,10 @@ private val promoSetCodes = setOf("PFIN", "RFIN", "WFIN", "FFBONUS", "FINTK", "F
 private fun Map<String, SlimSet>.cardsOf(vararg setCodes: String): List<SlimCard> =
     setCodes.flatMap { code ->
         this[code.uppercase()]?.items.orEmpty()
-    }
+    }.filterNot { it.isDateStampedPromo() }
+
+private fun SlimCard.isDateStampedPromo(): Boolean =
+    promoTypes?.any { it.equals("datestamped", ignoreCase = true) } == true
 
 data class CollectionCategory(
     val code: CollectionPartType,

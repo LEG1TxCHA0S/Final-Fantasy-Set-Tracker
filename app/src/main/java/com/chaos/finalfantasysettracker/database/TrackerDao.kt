@@ -132,13 +132,19 @@ interface TrackerDao {
 
     @Query(
         """
+        SELECT COUNT(*)
+        FROM collectible_items
+        WHERE itemType = 'PROMO'
+          AND LOWER(IFNULL(promoSource, '')) LIKE '%datestamped%'
+        """
+    )
+    suspend fun getDateStampedPromoCount(): Int
+
+    @Query(
+        """
         DELETE FROM collectible_items
         WHERE itemType = 'PROMO'
-          AND (
-            LOWER(IFNULL(promoSource, '')) IN ('date-stamped', 'date stamped')
-            OR LOWER(name) LIKE '%date-stamped%'
-            OR LOWER(name) LIKE '%date stamped%'
-          )
+          AND LOWER(IFNULL(promoSource, '')) LIKE '%datestamped%'
         """
     )
     suspend fun deleteDateStampedPromos()
