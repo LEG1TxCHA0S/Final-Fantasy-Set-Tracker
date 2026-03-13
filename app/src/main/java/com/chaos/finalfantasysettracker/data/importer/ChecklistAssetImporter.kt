@@ -67,10 +67,9 @@ class ChecklistAssetImporter(
     }
 
     private fun SlimCard.toChecklistItemPayload(partType: CollectionPartType, index: Int): ChecklistItemPayload {
-        val normalizedSetCode = setCode.ifBlank { "UNK" }
+        val normalizedSetCode = setCode.trim().uppercase().ifBlank { "UNK" }
         val normalizedName = name.ifBlank { printedName ?: "Unknown Card" }
         val normalizedCollectorNumber = number.ifBlank { null }
-        val resolvedImageUrl = imageUrl ?: scryfallId?.toScryfallImageUrl("normal")
 
         return ChecklistItemPayload(
             checklistId = id.ifBlank {
@@ -85,9 +84,9 @@ class ChecklistAssetImporter(
             promoSource = promoTypes?.joinToString(", "),
             owned = false,
             scryfallId = scryfallId,
-            imageUrlSmall = resolvedImageUrl,
-            imageUrlNormal = resolvedImageUrl,
-            imageUrlLarge = resolvedImageUrl,
+            imageUrlSmall = imageUrl,
+            imageUrlNormal = imageUrl,
+            imageUrlLarge = imageUrl,
             priceUsd = price?.toString(),
             priceUsdFoil = null,
             rarity = rarity,
@@ -104,9 +103,6 @@ class ChecklistAssetImporter(
         val withImages = items.count { !it.imageUrlNormal.isNullOrBlank() }
         Log.d(TAG, "[IMPORT] totals items=${items.size}, withScryfallId=$withScryfall, withImages=$withImages")
     }
-
-    private fun String.toScryfallImageUrl(version: String): String =
-        "https://api.scryfall.com/cards/$this?format=image&version=$version"
 
     private fun ChecklistAssetPayload.toPartEntity() = CollectionPartEntity(
         type = partType,
@@ -138,21 +134,23 @@ class ChecklistAssetImporter(
     )
 
     private fun CollectionPartType.defaultDisplayOrder(): Int = when (this) {
-        CollectionPartType.MAIN_SET -> 1
-        CollectionPartType.THROUGH_THE_AGES -> 2
-        CollectionPartType.COMMANDER -> 3
-        CollectionPartType.ART_AND_SCENE -> 4
-        CollectionPartType.PROMOS -> 5
-        CollectionPartType.SECRET_LAIR -> 6
-        CollectionPartType.PROMO_TOKENS -> 7
+        CollectionPartType.SCENE_BOX -> 1
+        CollectionPartType.ART_SERIES -> 2
+        CollectionPartType.THROUGH_THE_AGES -> 3
+        CollectionPartType.COMMANDER -> 4
+        CollectionPartType.CHOCOBO_TRACK -> 5
+        CollectionPartType.MAIN_SET -> 6
+        CollectionPartType.PROMOS -> 7
+        CollectionPartType.SECRET_LAIR -> 8
     }
 
     private fun CollectionPartType.defaultFinishRequirement(): FinishRequirement = when (this) {
-        CollectionPartType.MAIN_SET,
-        CollectionPartType.ART_AND_SCENE,
-        CollectionPartType.PROMO_TOKENS -> FinishRequirement.FOIL_ONLY
+        CollectionPartType.SCENE_BOX,
+        CollectionPartType.ART_SERIES,
+        CollectionPartType.MAIN_SET -> FinishRequirement.FOIL_ONLY
 
-        CollectionPartType.COMMANDER -> FinishRequirement.SURGE_FOIL_ONLY
+        CollectionPartType.COMMANDER,
+        CollectionPartType.CHOCOBO_TRACK -> FinishRequirement.SURGE_FOIL_ONLY
 
         CollectionPartType.THROUGH_THE_AGES,
         CollectionPartType.PROMOS,
@@ -160,17 +158,21 @@ class ChecklistAssetImporter(
     }
 
     private fun CollectionPartType.defaultVariantType(): VariantType = when (this) {
-        CollectionPartType.ART_AND_SCENE -> VariantType.SIGNED
-        CollectionPartType.COMMANDER -> VariantType.PRODUCT
-        CollectionPartType.PROMOS, CollectionPartType.PROMO_TOKENS -> VariantType.PROMO
+        CollectionPartType.SCENE_BOX,
+        CollectionPartType.ART_SERIES -> VariantType.SIGNED
+
+        CollectionPartType.COMMANDER,
+        CollectionPartType.CHOCOBO_TRACK -> VariantType.PRODUCT
+
+        CollectionPartType.PROMOS -> VariantType.PROMO
         else -> VariantType.STANDARD
     }
 
     private fun CollectionPartType.inferItemType(typeLine: String?, sourceKind: String?, setCode: String): ItemType = when {
-        this == CollectionPartType.COMMANDER -> ItemType.PRECON
-        this == CollectionPartType.ART_AND_SCENE -> ItemType.ART_CARD
-        this == CollectionPartType.PROMO_TOKENS || sourceKind.equals("tokens", ignoreCase = true) || typeLine.orEmpty().contains("token", ignoreCase = true) -> ItemType.TOKEN
-        this == CollectionPartType.PROMOS || setCode == "FFBONUS" -> ItemType.PROMO
+        this == CollectionPartType.COMMANDER || this == CollectionPartType.CHOCOBO_TRACK -> ItemType.PRECON
+        this == CollectionPartType.SCENE_BOX || this == CollectionPartType.ART_SERIES -> ItemType.ART_CARD
+        sourceKind.equals("tokens", ignoreCase = true) || typeLine.orEmpty().contains("token", ignoreCase = true) -> ItemType.TOKEN
+        this == CollectionPartType.PROMOS || setCode in promoSetCodes -> ItemType.PROMO
         else -> ItemType.CARD
     }
 }
@@ -187,9 +189,14 @@ private fun SlimRoot.toCollectionCategories(): List<CollectionCategory> {
     val bySetCode = sets.associateBy { it.setCode.uppercase() }
     val categories = listOf(
         CollectionCategory(
-            code = CollectionPartType.MAIN_SET,
-            name = "Final Fantasy",
-            cards = bySetCode.cardsOf("FIN")
+            code = CollectionPartType.SCENE_BOX,
+            name = "Scene Box",
+            cards = bySetCode.cardsOf("AFIC")
+        ),
+        CollectionCategory(
+            code = CollectionPartType.ART_SERIES,
+            name = "Art Series",
+            cards = bySetCode.cardsOf("AFIN")
         ),
         CollectionCategory(
             code = CollectionPartType.THROUGH_THE_AGES,
@@ -198,38 +205,43 @@ private fun SlimRoot.toCollectionCategories(): List<CollectionCategory> {
         ),
         CollectionCategory(
             code = CollectionPartType.COMMANDER,
-            name = "Final Fantasy Commander",
+            name = "Commander",
             cards = bySetCode.cardsOf("FIC")
         ),
         CollectionCategory(
-            code = CollectionPartType.ART_AND_SCENE,
-            name = "Art & Scene Cards",
-            cards = bySetCode.cardsOf("AFIN", "AFIC")
+            code = CollectionPartType.CHOCOBO_TRACK,
+            name = "Chocobo Track",
+            cards = bySetCode.cardsOf("CTFIC")
+        ),
+        CollectionCategory(
+            code = CollectionPartType.MAIN_SET,
+            name = "Final Fantasy",
+            cards = bySetCode.cardsOf("FIN")
         ),
         CollectionCategory(
             code = CollectionPartType.PROMOS,
             name = "Promos",
-            cards = bySetCode.cardsOf("PFIN", "PSS5", "RFIN", "FFBONUS")
+            cards = bySetCode.cardsOf("PFIN", "RFIN", "WFIN", "FFBONUS", "FINTK", "FICTK")
         ),
         CollectionCategory(
             code = CollectionPartType.SECRET_LAIR,
-            name = "Secret Lair",
+            name = "Secret Lairs",
             cards = bySetCode.cardsOf("FFSLD")
-        ),
-        CollectionCategory(
-            code = CollectionPartType.PROMO_TOKENS,
-            name = "Promo Tokens",
-            cards = bySetCode.cardsOf("WFIN")
         )
     )
 
     return categories.filter { it.cards.isNotEmpty() }
 }
 
+private val promoSetCodes = setOf("PFIN", "RFIN", "WFIN", "FFBONUS", "FINTK", "FICTK")
+
 private fun Map<String, SlimSet>.cardsOf(vararg setCodes: String): List<SlimCard> =
     setCodes.flatMap { code ->
-        this[code.uppercase()]?.cards.orEmpty()
-    }
+        this[code.uppercase()]?.items.orEmpty()
+    }.filterNot { it.isDateStampedPromo() }
+
+private fun SlimCard.isDateStampedPromo(): Boolean =
+    promoTypes?.any { it.equals("datestamped", ignoreCase = true) } == true
 
 data class CollectionCategory(
     val code: CollectionPartType,
@@ -242,8 +254,7 @@ data class SlimCard(
     val name: String,
     val number: String,
     val setCode: String,
-    val setName: String,
-    val sourceKind: String?,
+    val setName: String?,
     val type: String?,
     val rarity: String?,
     val layout: String?,
@@ -252,17 +263,20 @@ data class SlimCard(
     val printedName: String?,
     val scryfallId: String?,
     val imageUrl: String?,
-    val price: Double?
+    val price: Double?,
+    val sourceKind: String?,
+    val group: String?
 )
 
 data class SlimSet(
     val setCode: String,
     val setName: String,
-    @SerializedName(value = "cards", alternate = ["items"])
-    val cards: List<SlimCard>
+    @SerializedName(value = "items", alternate = ["cards"])
+    val items: List<SlimCard>?
 )
 
 data class SlimRoot(
+    val schemaVersion: Int?,
     val sets: List<SlimSet>
 )
 

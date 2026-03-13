@@ -1,13 +1,14 @@
 package com.chaos.finalfantasysettracker.model
 
 enum class CollectionPartType {
-    MAIN_SET,
+    SCENE_BOX,
+    ART_SERIES,
     THROUGH_THE_AGES,
     COMMANDER,
-    ART_AND_SCENE,
+    CHOCOBO_TRACK,
+    MAIN_SET,
     PROMOS,
-    SECRET_LAIR,
-    PROMO_TOKENS
+    SECRET_LAIR
 }
 
 enum class ItemType {
@@ -38,7 +39,9 @@ data class CollectionPartProgress(
     val name: String,
     val description: String,
     val ownedCount: Int,
-    val totalCount: Int
+    val totalCount: Int,
+    val ownedValue: Double? = null,
+    val completionCost: Double? = null
 ) {
     val completionPercentage: Float = if (totalCount == 0) 0f else ownedCount.toFloat() / totalCount
 }

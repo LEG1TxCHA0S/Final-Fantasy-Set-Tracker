@@ -14,6 +14,13 @@ class SeedDataInitializer(
         importer.importIfEmpty()
         importer.backfillImageMetadata()
 
+        val dateStampedBefore = dao.getDateStampedPromoCount()
+        dao.deleteDateStampedPromos()
+        val dateStampedAfter = dao.getDateStampedPromoCount()
+        if (dateStampedBefore != dateStampedAfter) {
+            Log.d(TAG, "Removed date-stamped promos: before=$dateStampedBefore after=$dateStampedAfter")
+        }
+
         val partCountsList = mutableListOf<String>()
 
         for (partType in CollectionPartType.entries) {

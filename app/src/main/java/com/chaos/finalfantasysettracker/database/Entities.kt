@@ -49,6 +49,7 @@ data class CollectibleItemEntity(
     val imageUrlLarge: String? = null,
     val priceUsd: String? = null,
     val priceUsdFoil: String? = null,
+    val priceLastUpdatedAt: Long? = null,
     val rarity: String? = null,
     val manaCost: String? = null,
     val typeLine: String? = null

@@ -1,18 +1,25 @@
 package com.chaos.finalfantasysettracker.ui.screens
 
 import android.util.Log
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.RadioButtonUnchecked
+import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Card
+import androidx.compose.foundation.clickable
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -33,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
@@ -41,6 +49,10 @@ import coil.request.ImageRequest
 import com.chaos.finalfantasysettracker.model.CollectibleItemStatus
 import com.chaos.finalfantasysettracker.model.ItemSortOption
 import com.chaos.finalfantasysettracker.model.OwnershipFilter
+import com.chaos.finalfantasysettracker.ui.theme.ArcaneTeal
+import com.chaos.finalfantasysettracker.ui.theme.ElevatedCardColors
+import com.chaos.finalfantasysettracker.ui.theme.EmberRose
+import com.chaos.finalfantasysettracker.ui.theme.SoftGold
 import com.chaos.finalfantasysettracker.viewmodel.PartDetailUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,17 +62,24 @@ fun PartDetailScreen(
     onQueryChanged: (String) -> Unit,
     onSortChanged: (ItemSortOption) -> Unit,
     onOwnershipFilterChanged: (OwnershipFilter) -> Unit,
-    onOwnedToggle: (CollectibleItemStatus, Boolean) -> Unit
+    onOwnedToggle: (CollectibleItemStatus, Boolean) -> Unit,
+    onItemClick: (CollectibleItemStatus) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
 
-    Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = uiState.query,
             onValueChange = onQueryChanged,
-            label = { Text("Search") },
-            singleLine = true
+            label = { Text("Search cards") },
+            singleLine = true,
+            shape = RoundedCornerShape(14.dp)
         )
 
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -80,11 +99,14 @@ fun PartDetailScreen(
 
         ExposedDropdownMenuBox(expanded = expanded, onExpandedChange = { expanded = it }) {
             OutlinedTextField(
-                modifier = Modifier.menuAnchor().fillMaxWidth(),
+                modifier = Modifier
+                    .menuAnchor()
+                    .fillMaxWidth(),
                 value = uiState.sortOption.label,
                 onValueChange = {},
                 readOnly = true,
                 label = { Text("Sort") },
+                shape = RoundedCornerShape(14.dp),
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) }
             )
             DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
@@ -100,41 +122,93 @@ fun PartDetailScreen(
             }
         }
 
-        LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            items(uiState.items, key = { it.id }) { item ->
-                ItemRow(item = item, onOwnedToggle = { onOwnedToggle(item, it) })
+        if (uiState.items.isEmpty()) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .background(
+                        MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.35f),
+                        shape = RoundedCornerShape(18.dp)
+                    )
+                    .padding(20.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text("No cards match your filters.", style = MaterialTheme.typography.titleMedium)
+            }
+        } else {
+            LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                items(uiState.items, key = { it.id }) { item ->
+                    ItemRow(item = item, onOwnedToggle = { onOwnedToggle(item, it) }, onClick = { onItemClick(item) })
+                }
             }
         }
     }
 }
 
 @Composable
-private fun ItemRow(item: CollectibleItemStatus, onOwnedToggle: (Boolean) -> Unit) {
+private fun ItemRow(item: CollectibleItemStatus, onOwnedToggle: (Boolean) -> Unit, onClick: () -> Unit) {
     Log.d(TAG, "[UI_ROW] name=${item.name}, uiScryfallId=${item.scryfallId}, generatedImageUrl=${item.resolvedImageUrl()}")
-    Card {
+    val statusColor = if (item.isOwned) ArcaneTeal else EmberRose
+    Card(
+        colors = ElevatedCardColors,
+        border = BorderStroke(1.dp, statusColor.copy(alpha = 0.35f))
+    ) {
         Row(
-            modifier = Modifier.fillMaxWidth().padding(12.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { onClick() }
+                .padding(12.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             ItemThumbnail(item = item)
 
-            Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+            Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 Text(item.name, style = MaterialTheme.typography.titleSmall, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 if (item.details.isNotBlank()) {
-                    Text(item.details, style = MaterialTheme.typography.bodySmall)
+                    Text(item.details, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
-                Text(item.ruleLabel, style = MaterialTheme.typography.bodySmall)
+                Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        item.ruleLabel,
+                        style = MaterialTheme.typography.bodySmall,
+                        fontWeight = FontWeight.Medium,
+                        color = statusColor
+                    )
+                    item.rarity?.takeIf { it.isNotBlank() }?.let {
+                        AssistChip(
+                            onClick = {},
+                            enabled = false,
+                            label = { Text(it.uppercase(), style = MaterialTheme.typography.labelSmall) }
+                        )
+                    }
+                }
             }
 
-            Checkbox(checked = item.isOwned, onCheckedChange = onOwnedToggle)
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Checkbox(checked = item.isOwned, onCheckedChange = onOwnedToggle)
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                    androidx.compose.material3.Icon(
+                        imageVector = if (item.isOwned) Icons.Default.CheckCircle else Icons.Default.RadioButtonUnchecked,
+                        contentDescription = null,
+                        tint = statusColor,
+                        modifier = Modifier.size(14.dp)
+                    )
+                    Text(
+                        if (item.isOwned) "Owned" else "Missing",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = statusColor
+                    )
+                }
+            }
         }
     }
 }
 
 @Composable
 private fun ItemThumbnail(item: CollectibleItemStatus) {
-    val shape = RoundedCornerShape(6.dp)
+    val shape = RoundedCornerShape(8.dp)
     val context = LocalContext.current
     val imageUrl = item.resolvedImageUrl()
 
@@ -158,7 +232,7 @@ private fun ItemThumbnail(item: CollectibleItemStatus) {
             model = request,
             contentDescription = "${item.name} thumbnail",
             modifier = Modifier
-                .size(width = 52.dp, height = 72.dp)
+                .size(width = 58.dp, height = 80.dp)
                 .clip(shape)
                 .background(MaterialTheme.colorScheme.surfaceVariant),
             contentScale = ContentScale.Crop,
@@ -169,7 +243,7 @@ private fun ItemThumbnail(item: CollectibleItemStatus) {
                         .background(MaterialTheme.colorScheme.surfaceVariant),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text("Loading", style = MaterialTheme.typography.labelSmall)
+                    Text("Loading", style = MaterialTheme.typography.labelSmall, color = SoftGold)
                 }
             },
             error = {
@@ -191,7 +265,7 @@ private fun ItemThumbnail(item: CollectibleItemStatus) {
 
     Box(
         modifier = Modifier
-            .size(width = 52.dp, height = 72.dp)
+            .size(width = 58.dp, height = 80.dp)
             .clip(shape)
             .background(MaterialTheme.colorScheme.surfaceVariant),
         contentAlignment = Alignment.Center
@@ -199,6 +273,5 @@ private fun ItemThumbnail(item: CollectibleItemStatus) {
         Text("No image", style = MaterialTheme.typography.labelSmall)
     }
 }
-
 
 private const val TAG = "PartDetailScreen"
